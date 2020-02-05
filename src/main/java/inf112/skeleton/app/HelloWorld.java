@@ -6,16 +6,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class HelloWorld implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
+    private TiledMap tiledMap;
+    private TiledMapTileLayer board;
+    private TiledMapTileLayer hole;
+    private TiledMapTileLayer flag;
+    private TiledMapTileLayer player;
+    
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
+        tiledMap = new TiledMap();
     }
 
     @Override
