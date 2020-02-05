@@ -4,28 +4,40 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class HelloWorld implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
     private TiledMap tiledMap;
-    private TiledMapTileLayer board;
-    private TiledMapTileLayer hole;
-    private TiledMapTileLayer flag;
-    private TiledMapTileLayer player;
+    private TiledMapTileLayer boardLayer;
+    private TiledMapTileLayer holeLayer;
+    private TiledMapTileLayer flagLayer;
+    private TiledMapTileLayer playerLayer;
+    private TmxMapLoader maploader;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private OrthographicCamera mapCamera;
     
 
     @Override
     public void create() {
+    	
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
-        tiledMap = new TiledMap();
+        tiledMap = maploader.load("src\\assets\\example.tmx");
+        boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Board");
+        holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
+        flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
+        playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
+        mapCamera = new OrthographicCamera();
+        
     }
 
     @Override
