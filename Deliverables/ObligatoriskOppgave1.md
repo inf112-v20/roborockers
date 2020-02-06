@@ -52,6 +52,8 @@ Funksjonene som er viktige er: et spillbrett, en bevegelig spillkarakter, ruter 
 
 ## Deloppgave 3 - Velg og tilpass en prosess for laget
 
+(Møtereferat fra hvert møte ligger i Wiki)
+
 Vi har valgt å bruke en blanding av Kanban og parprogrammering fordi vi mener at Kanban blir den mest oversiktlige metoden å gå frem med. Grunnen til at vi har valgt Kanban som prosjektmetodikk er fordi det er en enkelt representasjon av hva som skal bli gjort, hvordan man ligger ann og hva som er ferdig. Her går man ut fra hvordan man ligger ann i prosjektet, og gjør litt og litt om gangen. Parprogrammering kommer nok til å skje på en eller annen måte uansett, og vi ser på dette som viktig fordi dette bidrar til best mulig samarbeid hvor alle lærer av hverandre. 
 
 Vi har som plan å ha minst ett møte hver uke i tillegg til gruppetimene. Når vi ser at det er mer behov avtaler vi dette nærmere. Vi bruker Slack for å kommunikasjon dersom det er noe vi lurer på, slik at vi er best mulig forberedt fremfor møtene, og dersom vi har planlagt å gjøre ting individuelt eller i mindre grupper mellom møtene. Arbeidsfordelingen har Peter hovedansvaret å tildele medlemmene i teamet, men alle har også et ansvar for å sette seg inn i hva de andre gjør og dersom man har kommentarer utover dette. Oppfølging av arbeid har Anna hovedansvar for, men dette er også et felt alle har et ansvar for å oppdatere seg på, slik at man får en felles forståelse av hva som skal gjøres og hvordan vi ligger ann i prosjektet. Deling og oppbevaring av felles dokument, diagram og kodebase vil pushes til git, slik at alle har tilgang til dette til enhver tid. 
