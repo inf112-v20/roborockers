@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import java.util.Vector;
+
 public class HelloWorld implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
@@ -20,7 +22,7 @@ public class HelloWorld implements ApplicationListener {
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer playerLayer;
-    private TmxMapLoader maploader;
+    private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera mapCamera;
     
@@ -31,12 +33,15 @@ public class HelloWorld implements ApplicationListener {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
-        tiledMap = maploader.load("src\\assets\\example.tmx");
+        tiledMap = mapLoader.load("src\\assets\\example.tmx");
         boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Board");
         holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
         playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
         mapCamera = new OrthographicCamera();
+        mapCamera.setToOrtho(false, 5, 5);
+        mapCamera.position() = new Vector3(2.5,0,0);
+        mapCamera.update();
         
     }
 
