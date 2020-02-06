@@ -29,11 +29,11 @@ public class HelloWorld implements ApplicationListener {
 
     @Override
     public void create() {
-    	
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
         tiledMap = mapLoader.load("src\\assets\\example.tmx");
+
         boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Board");
         holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
@@ -55,10 +55,11 @@ public class HelloWorld implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        font.draw(batch, "Hello World", 200, 200);
-        batch.end();
+        mapRenderer.render();
+        
+        //batch.begin();
+        //font.draw(batch, "Hello World", 200, 200);
+        //batch.end();
     }
 
     @Override
