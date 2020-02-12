@@ -11,7 +11,7 @@ when the java version used is >8. This has no effect on function or performance,
 
 ## For kunne kjøre koden
 For å kunne kjøre koden trenger du:
-1. Java 11 
-2. Et program for å åpne koden med Maven, vi bruker IntelliJ IDEA CE. 
+1. Java 11 (Kan tenkes at det fungerer med andre versjoner)
+2. Et Java IDEA program for å åpne koden med Maven, for eksempel IntelliJ IDEA CE eller Eclipse IDE. 
 
 
