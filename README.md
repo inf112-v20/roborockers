@@ -8,3 +8,10 @@ when the java version used is >8. This has no effect on function or performance,
 
 
 [![Build Status](https://travis-ci.com/inf112-v20/roborockers.svg?branch=master)](https://travis-ci.com/inf112-v20/roborockers)
+
+## For kunne kjøre koden
+For å kunne kjøre koden trenger du:
+1. Java 11 
+2. Et program for å åpne koden med Maven, vi bruker IntelliJ IDEA CE. 
+
+
