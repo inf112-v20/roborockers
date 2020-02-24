@@ -15,3 +15,9 @@ For å kunne kjøre koden trenger du:
 2. Et Java IDEA program for å åpne koden med Maven, for eksempel IntelliJ IDEA CE eller Eclipse IDE. 
 
 
+## Teamet
+* Peter Kolbeinsen Klingenberg - Team leder 
+* Johan Fredrik Svendsen - Kundekontakt
+* Vegard Kjørberg - Møtereferat ansvarlig
+* Øystein Ulvestad Karlsen - Coach
+* Anna Halvorsen Nilsen - Kodestruktur ansvarlig
