@@ -1,15 +1,21 @@
-import Direction;
+
+package inf112.skeleton.app;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+
 public class Player{
+
     public static int xPosition;
     public static int yPosition;
-    public static heading;
+    public static Direction heading;
     public static Vector2 checkpoint;
     public static int remainingLives;
     public static int healthPoints = 9;
     public static  String name;
     public static MoveCard[] programCard;
-    public static selectableCards;
-    public int powerdownStatus;
+    public static ArrayList<MoveCard> selectableCards;
+    public static int powerdownStatus;
     public ArrayList<MoveCard> hand;
 
     public Player(int x, int y, String name, int amountOfLives){
@@ -22,21 +28,32 @@ public class Player{
     }
 
     public void announcePowerdown (){
-        /*When a player announces they would like to powerdown the powerdown variable has a value of 1 - ONE the player
-        is in powerdown mode, upon the start of each round, this variable is deincremented by one (unless already at 0)
-        this way
-         */
         powerdownStatus = 3;
     }
-    public void
-
-    public void receiveCards(int numberOfCardsToBeDealt){
-
+    public void powerdown(){
+        healthPoints = 9;
     }
 
-    public boolean attemptToMove(Game game, int steps){
+    public void receiveCards(ArrayList<MoveCard> dealtCards){
+        hand = dealtCards;
+    }
+/*
+    public boolean attemptToMoveForward(Game game, int steps){
 
     }
+    public boolean attemptToMoveWest(Game game, int steps){
+
+    }
+    public boolean attemptToMoveNorth(Game game, int steps){
+
+    }
+    public boolean attemptToMoveSouth(Game game, int steps){
+
+    }
+    public boolean attemptToMoveEast(Game game, int steps){
+
+    }
+*/
 
     public static void rotateClockWise(int numberOf90Degrees){
         if(numberOf90Degrees < 0 || numberOf90Degrees > 3){
@@ -45,7 +62,7 @@ public class Player{
         else{
             //figure out how to make enum that makes sense, with heading/directions in the 4 capital directions
             //NB: PLACEHOLDER until we figure out functionality
-            heading = heading + numberOf90Degrees;
+            //heading = heading + numberOf90Degrees;
         }
     }
 
@@ -64,8 +81,8 @@ public class Player{
             healthPoints = 9;
             //må man gi spilledriveren en tilbakemelding når det skjer noe med instansene eller hodler det at de vet
             //?
-            xPosition = checkpoint.x;
-            yPosition = checkpoint.y;
+            xPosition = (int)checkpoint.x;
+            yPosition = (int)checkpoint.y;
         }
         else{
             /*
