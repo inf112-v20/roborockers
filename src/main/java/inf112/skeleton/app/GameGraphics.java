@@ -29,6 +29,9 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer playerLayer;
+    private TiledMapTileLayer startPosition;
+    private TiledMapTileLayer converbelt;
+    private TiledMapTileLayer wall;
     private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera mapCamera;
@@ -51,8 +54,11 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
         playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
+        startPosition = (TiledMapTileLayer) tiledMap.getLayers().get("StartPosition");
+        converbelt = (TiledMapTileLayer) tiledMap.getLayers().get("Converbelt");
+        wall = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
         mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, 5, 5);
+        mapCamera.setToOrtho(false, 10, 13);
         mapCamera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/300);
         mapRenderer.setView(mapCamera);
