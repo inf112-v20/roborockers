@@ -11,10 +11,10 @@ public class deckTests {
 
     @Test
     public void testDeckBeingShuffled(){
-        Deck deckOfCards = new Deck();
-        Deck copyDeck = new Deck(deckOfCards.listOfMoveCards);
+        Deck deckOfCards = new Deck(null);
+        Deck copyDeck = new Deck(new ArrayList<MoveCard>(deckOfCards.listOfMoveCards));
         copyDeck.shuffle();
-        assertTrue(deckOfCards.listOfMoveCards == copyDeck.listOfMoveCards);
+        assertFalse(deckOfCards.listOfMoveCards.equals(copyDeck.listOfMoveCards));
     }
 
 

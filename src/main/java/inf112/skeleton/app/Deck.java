@@ -6,11 +6,13 @@ import java.util.Random;
 public class Deck {
     public ArrayList<MoveCard> listOfMoveCards;
 
-    public Deck() {
-        this.listOfMoveCards = makeNewDeck();
-    }
     public Deck(ArrayList<MoveCard> list){
-        this.listOfMoveCards = list;
+        if(list == null){
+            this.listOfMoveCards = makeNewDeck();
+        }
+        else{
+            this.listOfMoveCards = list;
+        }
     }
 
     private ArrayList<MoveCard> makeNewDeck(){
@@ -40,7 +42,6 @@ public class Deck {
             swap(i, random.nextInt(list.size()), list);
         }
         this.listOfMoveCards = list;
-        //return list;
     }
 
 
