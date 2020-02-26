@@ -116,28 +116,28 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         int y = (int)playerPosition.y;
         switch (keyCode){
             case Input.Keys.UP:
-                if(y+1 <0 || y+1 >= 5){
+                if(y+1 <0 || y+1 >= 13){
                     return false;
                 }
                 else{
                     playerPosition.set(x, y+1); return true;
                 }
             case Input.Keys.DOWN:
-                if(y-1 < 0 || y-1 >= 5){
+                if(y-1 < 0 || y-1 >= 13){
                     return false;
                 }
                 else{
                     playerPosition.set(x, y-1); return true;
                 }
             case Input.Keys.LEFT:
-                if(x-1 <0 || x-1 >= 5){
+                if(x-1 <0 || x-1 >= 10){
                     return false;
                 }
                 else{
                     playerPosition.set(x-1, y); return true;
                 }
             case Input.Keys.RIGHT:
-                if(x+1 <0 || x+1 >= 5){
+                if(x+1 <0 || x+1 >= 10){
                     return false;
                 }
                 else{
