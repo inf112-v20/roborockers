@@ -1,14 +1,16 @@
 
 package inf112.skeleton.app;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
 public class Player{
 
+    public static Texture playerTexture;
     public static int xPosition;
     public static int yPosition;
-    public static Direction heading;
+    public Direction heading;
     public static Vector2 checkpoint;
     public static int remainingLives;
     public static int healthPoints = 9;
@@ -18,44 +20,86 @@ public class Player{
     public static int powerdownStatus;
     public ArrayList<MoveCard> hand;
 
-    public Player(int x, int y, String name, int amountOfLives){
+    public Player(int x, int y, String name, int amountOfLives, int playerNumber){
         this.xPosition = x;
         this.yPosition = y;
         this.name = name;
         this.remainingLives = amountOfLives;
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
+        this.heading = new Direction();
+        //this.playerTexture = new Texture("player"+ playerNumber +".png");
     }
 
     public void announcePowerdown (){
         powerdownStatus = 3;
     }
-    public void powerdown(){
+    public void fullHeal(){
         healthPoints = 9;
     }
-
     public void receiveCards(ArrayList<MoveCard> dealtCards){
         hand = dealtCards;
     }
 /*
-    public boolean attemptToMoveForward(Game game, int steps){
-
+    public void attemptToMoveForward(Game game, int steps){
+        if(heading.heading == Direction.NominalDirection.NORTH){
+            attemptToMoveNorth(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.EAST){
+            attemptToMoveEast(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.SOUTH){
+            attemptToMoveSouth(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.WEST){
+            attemptToMoveWest(game);
+        }
+        //Recusively call to move as far as possible
+        if(steps > 1){
+            attemptToMoveForward(game, steps - 1);
+        }
     }
-    public boolean attemptToMoveWest(Game game, int steps){
 
+    public boolean attemptToMoveBackward(Game game, int steps){
+        if(heading.heading == Direction.NominalDirection.NORTH){
+            attemptToMoveSouth(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.EAST){
+            attemptToMoveWest(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.SOUTH){
+            attemptToMoveSouth(game);
+        }
+        else if(heading.heading == Direction.NominalDirection.WEST){
+            attemptToMoveEast(game);
+        }
+        if(steps > 1){
+            attemptToMoveBackward(game, steps - 1);
+        }
     }
-    public boolean attemptToMoveNorth(Game game, int steps){
 
+    public boolean attemptToMoveWest(Game game){
+
+        int newX = xPosition - 1;
+        //Has hole, has corresponding wall,
+        //walls: 22, 15, 7, 45
+        if(position to the west is valid)yPosition -= 1;
     }
-    public boolean attemptToMoveSouth(Game game, int steps){
-
+    public boolean attemptToMoveNorth(Game game){
+        //walls: 7, 31, 28, 36
+        int newY = yPosition + 1;
     }
-    public boolean attemptToMoveEast(Game game, int steps){
-
+    public boolean attemptToMoveSouth(Game game){
+        //walls: 23, 15, 30, 44
+        int newY = yPosition - 1;
+    }
+    public boolean attemptToMoveEast(Game game){
+        //walls: 31, 29, 23, 37
+        int newX = xPosition + 1;
     }
 */
 
-    public static void rotateClockWise(int numberOf90Degrees){
+    public void rotateClockWise(int numberOf90Degrees){
         if(numberOf90Degrees < 0 || numberOf90Degrees > 3){
             throw new IllegalArgumentException("This amount of clock wise rotations dont make sense game wise");
         }
@@ -63,6 +107,13 @@ public class Player{
             //figure out how to make enum that makes sense, with heading/directions in the 4 capital directions
             //NB: PLACEHOLDER until we figure out functionality
             //heading = heading + numberOf90Degrees;
+            if(numberOf90Degrees == 1){
+                heading.heading = heading.rotate90(heading.heading);
+            }
+            else if(numberOf90Degrees == 2){
+                heading.heading = heading.rotate180(heading.heading);
+            }
+            else heading.heading = heading.rotate270(heading.heading);
         }
     }
 
