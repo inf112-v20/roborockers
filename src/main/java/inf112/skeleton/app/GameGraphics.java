@@ -29,6 +29,9 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer playerLayer;
+    private TiledMapTileLayer startPosition;
+    private TiledMapTileLayer converbelt;
+    private TiledMapTileLayer wall;
     private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera mapCamera;
@@ -51,8 +54,11 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
         playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
+        startPosition = (TiledMapTileLayer) tiledMap.getLayers().get("StartPosition");
+        converbelt = (TiledMapTileLayer) tiledMap.getLayers().get("Converbelt");
+        wall = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
         mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, 5, 5);
+        mapCamera.setToOrtho(false, 10, 13);
         mapCamera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/300);
         mapRenderer.setView(mapCamera);
@@ -110,28 +116,28 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         int y = (int)playerPosition.y;
         switch (keyCode){
             case Input.Keys.UP:
-                if(y+1 <0 || y+1 >= 5){
+                if(y+1 <0 || y+1 >= 13){
                     return false;
                 }
                 else{
                     playerPosition.set(x, y+1); return true;
                 }
             case Input.Keys.DOWN:
-                if(y-1 < 0 || y-1 >= 5){
+                if(y-1 < 0 || y-1 >= 13){
                     return false;
                 }
                 else{
                     playerPosition.set(x, y-1); return true;
                 }
             case Input.Keys.LEFT:
-                if(x-1 <0 || x-1 >= 5){
+                if(x-1 <0 || x-1 >= 10){
                     return false;
                 }
                 else{
                     playerPosition.set(x-1, y); return true;
                 }
             case Input.Keys.RIGHT:
-                if(x+1 <0 || x+1 >= 5){
+                if(x+1 <0 || x+1 >= 10){
                     return false;
                 }
                 else{
