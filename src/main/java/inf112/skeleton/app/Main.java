@@ -11,6 +11,6 @@ public class Main {
         cfg.width = 700;
         cfg.height = 800;
 
-        new LwjglApplication(new GameGraphics(), cfg);
+        new LwjglApplication(new RoboGame(), cfg);
     }
 }
