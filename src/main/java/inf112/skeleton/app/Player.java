@@ -28,11 +28,12 @@ public class Player{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
-        //this.playerTexture = new Texture("player"+ playerNumber +".png");
+        this.playerTexture = new Texture("player"+ playerNumber +".png");
     }
-    //public void startOfRound(Game game){
-        //Functionality that starts round and prompts the user to program their robot
-    //}
+    /*public void startOfRound(Game game){
+        functionality that starts round and prompts the user to program their robot
+    }
+     */
     public void announcePowerdown (){
         powerdownStatus = 3;
     }
