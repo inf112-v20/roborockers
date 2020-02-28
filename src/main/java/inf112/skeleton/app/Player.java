@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Player{
 
     public static Texture playerTexture;
-    public static int xPosition;
-    public static int yPosition;
+    public int xPosition;
+    public int yPosition;
     public Direction heading;
-    public static Vector2 checkpoint;
-    public static int remainingLives;
-    public static int healthPoints = 9;
+    public Vector2 checkpoint;
+    public int remainingLives;
+    public int healthPoints = 9;
     public static  String name;
     public static MoveCard[] programCard;
     public static ArrayList<MoveCard> selectableCards;
@@ -30,7 +30,9 @@ public class Player{
         this.heading = new Direction();
         //this.playerTexture = new Texture("player"+ playerNumber +".png");
     }
-
+    //public void startOfRound(Game game){
+        //Functionality that starts round and prompts the user to program their robot
+    //}
     public void announcePowerdown (){
         powerdownStatus = 3;
     }
@@ -104,9 +106,6 @@ public class Player{
             throw new IllegalArgumentException("This amount of clock wise rotations dont make sense game wise");
         }
         else{
-            //figure out how to make enum that makes sense, with heading/directions in the 4 capital directions
-            //NB: PLACEHOLDER until we figure out functionality
-            //heading = heading + numberOf90Degrees;
             if(numberOf90Degrees == 1){
                 heading.heading = heading.rotate90(heading.heading);
             }
@@ -130,8 +129,6 @@ public class Player{
         if(remainingLives > 1){
             remainingLives -= 1;
             healthPoints = 9;
-            //må man gi spilledriveren en tilbakemelding når det skjer noe med instansene eller hodler det at de vet
-            //?
             xPosition = (int)checkpoint.x;
             yPosition = (int)checkpoint.y;
         }
@@ -142,8 +139,4 @@ public class Player{
             remainingLives = 0;
         }
     }
-
-
-
-
 }

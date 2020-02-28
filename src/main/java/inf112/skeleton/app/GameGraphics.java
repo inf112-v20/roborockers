@@ -19,9 +19,11 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import java.util.ArrayList;
 
 
 public class GameGraphics extends InputAdapter implements ApplicationListener {
+    private ArrayList<Player> playerList;
     private SpriteBatch batch;
     private BitmapFont font;
     private TiledMap tiledMap;
@@ -66,6 +68,7 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         Texture texture = new Texture("player.png");
         TextureRegion[][] playerTxRegion = TextureRegion.split(texture, 300, 300);
 
+        Player player = new Player(2, 2, "Something", 3, 1);
         playerCell = new Cell();
         playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
         playerDeadCell = new Cell();
@@ -73,7 +76,10 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         playerWon = new Cell();
         playerWon.setTile(new StaticTiledMapTile(playerTxRegion[0][2]));
 
-        playerPosition = new Vector2(0, 0);
+        playerList = new ArrayList<Player>();
+        playerList.add(player);
+
+        playerPosition = new Vector2(player.xPosition, player.yPosition);
         Gdx.input.setInputProcessor(this);
     }
 
