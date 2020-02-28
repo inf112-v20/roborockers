@@ -3,12 +3,8 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
 
 
 
@@ -24,15 +20,15 @@ public class MenuScreen extends InputAdapter implements Screen {
     Texture exitButtonActive;
     Texture exitButtonInactive;
 
-    RoboGame game;
+    RallyGame game;
     Texture img;
 
 
-    public MenuScreen(RoboGame game) {
+    public MenuScreen(RallyGame game) {
         this.game = game;
         this.img = new Texture("background.png");
         playButtonActive = new Texture("playButton.png");
-        playButtonInactive = new Texture("playIN.png");
+      //  playButtonInactive = new Texture("playIN.png");
         exitButtonActive  = new Texture("exit.png");
         exitButtonInactive = new Texture("exit.png");
 
@@ -41,7 +37,7 @@ public class MenuScreen extends InputAdapter implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
+//        Gdx.input.setInputProcessor(this);
 
 
     }
@@ -55,19 +51,17 @@ public class MenuScreen extends InputAdapter implements Screen {
         game.batch.begin();
         game.batch.draw(img, 200, 200);
 
-
+        // denne knappen skal åpne spillet, ikke helt funksjonell enda
+        // kartet vil ikke åpne seg
         game.batch.draw(playButtonActive, 500 - PLAY_BUTTON_WIDTH / 2, 100, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
         if(Gdx.input.isTouched()) {
-            showGame();
+            game.setScreen(new GameScree(game));
             System.out.print("hei");
 
         }
 
 
-
-
-
-
+        // knapp for å lukke siden/ spiller
         game.batch.draw(exitButtonActive, 200 - EXIT_BUTTON_WIDTH / 2, 100, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         if(Gdx.input.isTouched()) {
             Gdx.app.exit();
@@ -101,12 +95,9 @@ public class MenuScreen extends InputAdapter implements Screen {
     }
 
     @Override
-    public void dispose() {
+    public void dispose() {   // lukke skjermen, eller siden
 
     }
 
-    public void showGame() {
-        game.setScreen(new GameScree(game));
-    }
 
 }

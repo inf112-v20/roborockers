@@ -8,26 +8,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 public class GameScree extends InputAdapter implements Screen {
-    RoboGame game;
+    RallyGame game;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private Viewport gridPort;
     private final int MAP_WIDTH = 12;
     private final int TILE_WIDTH = 300;
-    private final int MAP_WITDTH = MAP_WIDTH * TILE_WIDTH;
     private TmxMapLoader mapLoader;
 
-    public GameScree(RoboGame game) {
+    public GameScree(RallyGame game) {
         this.game = game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("tiles.tmx");
         camera = new OrthographicCamera();
-        gridPort = new StretchViewport(MAP_WITDTH, MAP_WITDTH, camera);
         camera.setToOrtho(false, MAP_WIDTH, MAP_WIDTH);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(map, (float) 1 / TILE_WIDTH);
@@ -37,7 +33,7 @@ public class GameScree extends InputAdapter implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(this);   // tror denne må til for å åpne map
 
     }
 
@@ -46,11 +42,8 @@ public class GameScree extends InputAdapter implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.setView(camera);
-        update();
+        camera.update();
         mapRenderer.render();
-    }
-
-    public void update() {
     }
 
 
@@ -75,7 +68,6 @@ public class GameScree extends InputAdapter implements Screen {
 
     }
 
-    //TODO understand and implement dispose
     @Override
     public void dispose() {
 
