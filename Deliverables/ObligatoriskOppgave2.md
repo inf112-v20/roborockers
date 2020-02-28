@@ -83,27 +83,27 @@ Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det 
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
 
 ## Deloppgave 3 - Kode 
-Dere må dokumentere hvordan prosjektet bygger, testes og kjøres, slik at det er lett for gruppelederne å bygge, teste og kjøre koden deres. Under vurdering kommer koden også til å brukertestes.
-	
-Prosjektet skal kunne bygge, testes og kjøres på Linux, Windows og OSX.
-	Siden dette prosjektet går ut på å kode i Java vil dette uansett fungere på alle de nevne platformene. 
-Kodekvalitet og testdekning vektlegges. Merk at testene dere skriver skal brukes i produktet. Det kan være smart å skrive manuelle tester for å teste det som er grafisk.
-	Løsningen for retning er på ingen måte ideell. Det ser ut til at det fungerer som ønsket, men det burde være mulig å gjøre implementasjonen adskillig penere med en bedre implementasjon av enum. Det er noe vi har til hensikt å komme tilbake til.
-Playerkonstruktøren har en linje kommentert ut da den per nå forsøker å tilegne en spiller en Texture som peker på en fil som vi ikke har opprettet ennå.
-Utførte oppgaver skal være ferdige
+
+
+**Kodekvalitet og testdekning vektlegges. Merk at testene dere skriver skal brukes i produktet. Det kan være smart å skrive manuelle tester for å teste det som er grafisk.**
+
+Løsningen for retning er på ingen måte ideell. Det ser ut til at det fungerer som ønsket, men det burde være mulig å gjøre implementasjonen adskillig penere med en bedre implementasjon av enum. Det er noe vi har til hensikt å komme tilbake til.
+
+
+Playerkonstruktøren har en linje som forsøker å tilegne en spiller en Texture som peker på en fil denne vil feile om man prøver å opprette en player med playernummer som ikke samsvarer med en bildefil vi har opprettet og lagret i assetsmappen.
+
 Det er opprettet metoder for at spilleren skal kunne bevege seg på brettet, men ettersom vi fremdeles ikke har implementert en klasse og struktur som formidler informasjon om brettets tilstand til spilleren når spiller forsøker å bevege seg så er ikke disse ferdigstilt.
 
-Lever klassediagram. (Hvis det er veldig mange klasser, lager dere for de viktigste.)
-	Ligger i deliverables mappen, som en png fil ved navnet klassediagram.
-Hvis dere tester manuelt: lever beskrivelser av hvordan testen foregår, slik at gruppeleder kan utføre testen selv.
+
+Klassediagram (work in progress) ligger i deliverables mappen, som en png fil med navn klassediagram.
 
 
+**Hva vi ønsker å lage til spillet vårt**
 
-Hva vi ønsker å lage til spillet vårt
-Klassestruktur som kan interagere med hverandre og basis spillstruktur på en måte som vi tror kan videreutvikles til å fungere som multiplayer spill
-Lage en startscreen for spillet (LibGDX med sprite) som lag en velge parametre for spillet, som antall spillere, muligens sette antall startliv per spiller og slike ting.
-Tildele og lage kort
-Player for å lage en deltager
-Lasere, både på spillere og på brettet har en posisjon og kan  og vil angripe/skade i en rett linje helt til den stopper i en robot/vegg/går ut av brettet.
+- Klassestruktur som kan interagere med hverandre og basis spillstruktur på en måte som vi tror kan videreutvikles til å fungere som multiplayer spill
+- Lage en startscreen for spillet (LibGDX med sprite) som lag en velge parametre for spillet, som antall spillere, muligens sette antall startliv per spiller og slike ting.
+- Tildele og lage kort
+- Player for å lage en deltager
+- Lasere, både på spillere og på brettet har en posisjon og kan  og vil angripe/skade i en rett linje helt til den stopper i en robot/vegg/går ut av brettet.
 
 
