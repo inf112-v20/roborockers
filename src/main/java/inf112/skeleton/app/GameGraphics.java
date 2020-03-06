@@ -65,7 +65,7 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/300);
         mapRenderer.setView(mapCamera);
 
-        Texture texture = new Texture("player.png");
+        Texture texture = new Texture("player1.png");
         TextureRegion[][] playerTxRegion = TextureRegion.split(texture, 300, 300);
 
         Player player = new Player(2, 2, "Something", 3, 1);
