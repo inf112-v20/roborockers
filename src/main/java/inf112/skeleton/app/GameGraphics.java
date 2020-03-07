@@ -37,12 +37,7 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
     private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera mapCamera;
-
-
-    private Vector2 playerPosition;
-    private Cell playerCell;
-    private Cell playerDeadCell;
-    private Cell playerWon;
+    private Player player;
     
 
     @Override
@@ -65,21 +60,9 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/300);
         mapRenderer.setView(mapCamera);
 
-        Texture texture = new Texture("player.png");
-        TextureRegion[][] playerTxRegion = TextureRegion.split(texture, 300, 300);
-
-        Player player = new Player(2, 2, "Something", 3, 1);
-        playerCell = new Cell();
-        playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
-        playerDeadCell = new Cell();
-        playerDeadCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
-        playerWon = new Cell();
-        playerWon.setTile(new StaticTiledMapTile(playerTxRegion[0][2]));
-
+        player = new Player(2, 2, "Something", 3, 1, 1);
         playerList = new ArrayList<Player>();
         playerList.add(player);
-
-        playerPosition = new Vector2(player.xPosition, player.yPosition);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -94,9 +77,7 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         mapRenderer.render();
-        playerLayer.setCell((int)playerPosition.x,(int)playerPosition.y, playerCell);
-
-
+        playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
 
         //batch.begin();
         //font.draw(batch, "Hello World", 200, 200);
@@ -117,43 +98,55 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
 
     @Override
     public boolean keyUp(int keyCode){
-        playerLayer.setCell((int)playerPosition.x, (int)playerPosition.y, null);
-        int x = (int)playerPosition.x;
-        int y = (int)playerPosition.y;
+        playerLayer.setCell(player.xPosition, player.yPosition, null);
+        int x = player.xPosition;
+        int y = player.yPosition;
         switch (keyCode){
             case Input.Keys.UP:
                 if(y+1 <0 || y+1 >= 13){
                     return false;
                 }
                 else{
-                    playerPosition.set(x, y+1); return true;
+                    player.yPosition += 1;
+                    return true;
                 }
             case Input.Keys.DOWN:
                 if(y-1 < 0 || y-1 >= 13){
                     return false;
                 }
                 else{
-                    playerPosition.set(x, y-1); return true;
+                    player.yPosition -= 1;
+                    return true;
                 }
             case Input.Keys.LEFT:
                 if(x-1 <0 || x-1 >= 10){
                     return false;
                 }
                 else{
-                    playerPosition.set(x-1, y); return true;
+                    player.xPosition -= 1;
+                    return true;
                 }
             case Input.Keys.RIGHT:
                 if(x+1 <0 || x+1 >= 10){
                     return false;
                 }
                 else{
-                    playerPosition.set(x+1, y); return true;
+                    player.xPosition += 1;
+                    return true;
                 }
+            case Input.Keys.NUM_1:
+                player.rotateClockWise(1);
+                return true;
+            case Input.Keys.NUM_2:
+                player.rotateClockWise(2);
+                return true;
+            case Input.Keys.NUM_3:
+                player.rotateClockWise(3);
+                return true;
+
             default:
                 return false;
         }
-
-
     }
 
 }

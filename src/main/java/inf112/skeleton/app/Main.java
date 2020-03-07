@@ -12,6 +12,6 @@ public class Main {
         cfg.height = 720;
         cfg.resizable = false;
 
-        new LwjglApplication(new RallyGame( ), cfg);
+        new LwjglApplication(new GameGraphics( ), cfg);
     }
 }

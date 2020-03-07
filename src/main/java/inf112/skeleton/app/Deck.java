@@ -44,6 +44,4 @@ public class Deck {
         this.listOfMoveCards = list;
     }
 
-
-
 }
