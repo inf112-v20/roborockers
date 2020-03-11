@@ -13,20 +13,20 @@ public class PlayerTests {
 
     @Before
     public void setUp(){
-        Player player = new Player(2, 2, "Spillers navn", 3, 1);
+        Player player = new Player(2, 2, "Spillers navn", 3, 1, 1);
     }
 
 
     @Test
     public void testRotate90(){
-        Player player = new Player(2, 2, "", 3, 1);
+        Player player = new Player(2, 2, "", 3, 1, 1);
         player.rotateClockWise(1);
         assertEquals(player.heading.heading, Direction.NominalDirection.EAST);
     }
 
     @Test
     public void playerCanTakeNonLethalDamage() {
-        Player player = new Player(2, 2, "", 3, 1);
+        Player player = new Player(2, 2, "", 3, 1, 1);
         int initialHP = player.healthPoints;
         player.takeDamage(1);
         assertTrue(player.healthPoints != initialHP);
@@ -34,7 +34,7 @@ public class PlayerTests {
 
     @Test
     public void playerCanTakeLethalDamageAndLoseLife() {
-        Player player = new Player(2, 2, "", 3, 1);
+        Player player = new Player(2, 2, "", 3, 1, 1);
         player.checkpoint = new Vector2(3,3);
         int initialX = player.xPosition, initialY = player.yPosition;
         int initialLives = player.remainingLives;
@@ -46,7 +46,7 @@ public class PlayerTests {
 
     @Test
     public void playerCanFullHealInEventOfPowerdown() {
-        Player player = new Player(2, 2, "", 3, 1);
+        Player player = new Player(2, 2, "", 3, 1, 1);
         player.takeDamage(5);
         player.fullHeal();
         assertEquals(player.healthPoints, 9);

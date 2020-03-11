@@ -1,6 +1,6 @@
 package inf112.skeleton.app;
 
-public class MoveCard {
+public class MoveCard implements Comparable<MoveCard> {
     public boolean isRotator;
     //public boolean isReverse;
     public int priorityValue;
@@ -26,5 +26,10 @@ public class MoveCard {
             }
         }
 
+    }
+
+    @Override
+    public int compareTo(MoveCard mc) {
+        return (priorityValue < mc.priorityValue) ? -1 : ((priorityValue == mc.priorityValue) ? 0 : 1);
     }
 }
