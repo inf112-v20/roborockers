@@ -1,101 +1,78 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 
 
 
 
-public class MenuScreen extends InputAdapter implements Screen {
+public class MenuScreen extends ScreenAdapter  {
 
     private static final int PLAY_BUTTON_WIDTH = 300;
     private static final int PLAY_BUTTON_HEIGHT = 150;
     private static final int EXIT_BUTTON_WIDTH = 200;
-    private static final int EXIT_BUTTON_HEIGHT = 120;
+    private static final int EXIT_BUTTON_HEIGHT = 100;
+    private static final int PLAY_Y = 200;
 
-    Texture playButtonActive;
-    Texture playButtonInactive;
-    Texture exitButtonActive;
-    Texture exitButtonInactive;
+    private Texture playButtonActive;
+    private Texture playButtonInactive;
+    private Texture exitButtonActive;
+    private Texture exitButtonInactive;
 
-    RallyGame game;
-    Texture img;
+    private RallyGame game;
+    private Texture img;
 
 
     public MenuScreen(RallyGame game) {
         this.game = game;
-        this.img = new Texture("background.png");
-        playButtonActive = new Texture("playButton.png");
-      //  playButtonInactive = new Texture("playIN.png");
-        exitButtonActive  = new Texture("exit.png");
-        exitButtonInactive = new Texture("exit.png");
+        this.img = new Texture("BAKGRUNN.png");
+        playButtonActive = new Texture("PlaybuttonActive.png");
+        playButtonInactive = new Texture("PlayButtonIn.png");
+        exitButtonActive  = new Texture("ExitButtonAct.png");
+        exitButtonInactive = new Texture("ExitIna.png");
 
     }
 
-
-    @Override
-    public void show() {
-//        Gdx.input.setInputProcessor(this);
-
-
-    }
 
     @Override
     public void render(float v) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-
-
         game.batch.begin();
-        game.batch.draw(img, 200, 200);
+        game.batch.draw(img,0, 0,game.SCREEN_WIDTH , game.SCREEN_HEIGHT);
 
-        // denne knappen skal åpne spillet, ikke helt funksjonell enda
-        // kartet vil ikke åpne seg
-        game.batch.draw(playButtonActive, 500 - PLAY_BUTTON_WIDTH / 2, 100, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-        if(Gdx.input.isTouched()) {
-            game.setScreen(new GameScree(game));
-            System.out.print("hei");
+        int x = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
 
+        // tallene for å justere hvor den skal kutte X aksen og Y aksen
+        if(Gdx.input.getX() < x + PLAY_BUTTON_WIDTH && Gdx.input.getX() > x && RallyGame.SCREEN_HEIGHT - Gdx.input.getY() < PLAY_BUTTON_HEIGHT + 200  && RallyGame.SCREEN_HEIGHT - Gdx.input.getY() - 100  > PLAY_Y ) {
+            game.batch.draw(playButtonActive, x, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
+            if(Gdx.input.isTouched()) {
+                dispose();
+                game.setScreen(new GameScree());
+            }
+        } else {
+            game.batch.draw(playButtonInactive, x, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
         }
-
-
-        // knapp for å lukke siden/ spiller
-        game.batch.draw(exitButtonActive, 200 - EXIT_BUTTON_WIDTH / 2, 100, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
-        if(Gdx.input.isTouched()) {
-            Gdx.app.exit();
+        // tallene for å justere hvor den skal kutte X aksen og Y aksen
+        if(Gdx.input.getX() < x + 50 + EXIT_BUTTON_WIDTH && Gdx.input.getX() > x + 50 && RallyGame.SCREEN_HEIGHT - Gdx.input.getY() < EXIT_BUTTON_HEIGHT + 100 && RallyGame.SCREEN_HEIGHT - Gdx.input.getY() + 100 > 50 ) {
+            game.batch.draw(exitButtonActive, x + 50, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
+            if(Gdx.input.isTouched()) {
+                Gdx.app.exit();
+            }
+        } else {
+            game.batch.draw(exitButtonInactive, x + 50, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         }
 
         game.batch.end();
 
 
-
     }
 
     @Override
-    public void resize(int i, int i1) {
-
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {   // lukke skjermen, eller siden
+    public void dispose() {
+        img.dispose();
+        playButtonActive.dispose();
+        // lukke skjermen, eller siden
 
     }
 

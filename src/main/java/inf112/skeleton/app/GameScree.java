@@ -19,8 +19,8 @@ public class GameScree extends InputAdapter implements Screen {
     private final int TILE_WIDTH = 300;
     private TmxMapLoader mapLoader;
 
-    public GameScree(RallyGame game) {
-        this.game = game;
+    public GameScree() {
+        //  this.game = game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("tiles.tmx");
         camera = new OrthographicCamera();
@@ -73,9 +73,5 @@ public class GameScree extends InputAdapter implements Screen {
 
     }
 }
-
-
-
-
 
 
