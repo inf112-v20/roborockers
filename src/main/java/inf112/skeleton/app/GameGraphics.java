@@ -38,7 +38,9 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera mapCamera;
     private Player player;
-    
+    private MoveCard card;
+
+
 
     @Override
     public void create() {
@@ -55,14 +57,15 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         converbelt = (TiledMapTileLayer) tiledMap.getLayers().get("Converbelt");
         wall = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
         mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, 10, 13);
+        mapCamera.setToOrtho(false, 10, 11);
         mapCamera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/300);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/400);
         mapRenderer.setView(mapCamera);
 
         player = new Player(2, 2, "Something", 3, 1, 1);
         playerList = new ArrayList<Player>();
         playerList.add(player);
+        card = new MoveCard(20, 2, false);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -79,9 +82,10 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
         playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
 
-        //batch.begin();
-        //font.draw(batch, "Hello World", 200, 200);
-        //batch.end();
+        batch.begin();
+        font.draw(batch, "Hello World", 200, 200);
+        batch.draw(card.texture, 200, 200);
+        batch.end();
     }
 
     @Override
@@ -150,5 +154,3 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
     }
 
 }
-
-

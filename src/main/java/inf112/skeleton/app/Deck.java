@@ -21,9 +21,8 @@ public class Deck {
 
         for(int i = 0; i < 100; i++){
             boolean isRotatorCard = random.nextBoolean();
-            int amountOfMoves = random.nextInt(7) - 3;
-            if(amountOfMoves == 0) amountOfMoves += 1;
-            if(amountOfMoves < 0 && isRotatorCard == true) amountOfMoves *= -1;
+            int amountOfMoves = random.nextInt(4);
+            if(amountOfMoves == 0 && isRotatorCard == true) amountOfMoves = random.nextInt(4-1) + 1;
             newDeck.add(new MoveCard(i, amountOfMoves, isRotatorCard));
         }
         return newDeck;
