@@ -118,6 +118,7 @@ public class Player{
         if(steps > 1){
             attemptToMoveBackward(game, steps - 1);
         }
+        return true;
     }
 
     public boolean attemptToMoveWest(Game game){
@@ -126,18 +127,22 @@ public class Player{
         //Has hole, has corresponding wall,
         //walls: 22, 15, 7, 45
         //if(position to west is valid)yPosition -= 1;
+        return true;
     }
     public boolean attemptToMoveNorth(Game game){
         //walls: 7, 31, 28, 36
         int newY = yPosition + 1;
+        return true;
     }
     public boolean attemptToMoveSouth(Game game){
         //walls: 23, 15, 30, 44
         int newY = yPosition - 1;
+        return true;
     }
     public boolean attemptToMoveEast(Game game){
         //walls: 31, 29, 23, 37
         int newX = xPosition + 1;
+        return true;
     }
 
     public void rotateClockWise(int numberOf90Degrees){
