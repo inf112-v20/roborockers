@@ -40,7 +40,7 @@ public class MenuScreen extends ScreenAdapter  {
     @Override
     public void render(float v) {
 
-        // Unproject the coordinates. Because the input.getY does not work as normal
+        // Unproject kordinatene, de funker ikke som normalt, men ved å lage en vector så blir det enklere å justere 
         Vector3 vec=new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
         camera.unproject(vec);
 
@@ -49,26 +49,30 @@ public class MenuScreen extends ScreenAdapter  {
         game.batch.begin();
         game.batch.draw(img,0, 0,game.SCREEN_WIDTH , game.SCREEN_HEIGHT);
 
-        int x = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
+        int PLAYBUTTONx = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
+        int PLAYBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - PLAY_BUTTON_HEIGHT / 2 - 50;
+        int EXITBUTTONx = (RallyGame.SCREEN_WIDTH / 2  - EXIT_BUTTON_WIDTH / 2);
+        // 250 er forskjellen fra PLAY button ned til EXIT
+        int EXITBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - EXIT_BUTTON_HEIGHT / 2 - 250;
 
         // tallene for å justere hvor den skal kutte X aksen og Y aksen
-        if(vec.x < (RallyGame.SCREEN_WIDTH / 2) - (PLAY_BUTTON_WIDTH / 2) + PLAY_BUTTON_WIDTH && vec.x > (RallyGame.SCREEN_WIDTH / 2) - (PLAY_BUTTON_WIDTH / 2) && vec.y < (RallyGame.SCREEN_HEIGHT / 2) - (PLAY_BUTTON_HEIGHT/ 2) + PLAY_BUTTON_HEIGHT && vec.y > (RallyGame.SCREEN_HEIGHT / 2) - (PLAY_BUTTON_HEIGHT) ) {
-            game.batch.draw(playButtonActive, x, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
+        if(vec.x < PLAYBUTTONx + PLAY_BUTTON_WIDTH && vec.x > PLAYBUTTONx && vec.y < PLAYBUTTONy + PLAY_BUTTON_HEIGHT && vec.y > PLAYBUTTONy) {
+            game.batch.draw(playButtonActive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
                 dispose();
                 game.setScreen(new GameScree());
             }
         } else {
-            game.batch.draw(playButtonInactive, x, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
+            game.batch.draw(playButtonInactive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
         }
-        // tallene for å justere hvor den skal kutte X aksen og Y aksen
-        if(vec.x < (RallyGame.SCREEN_WIDTH / 2) - (EXIT_BUTTON_WIDTH / 2) + EXIT_BUTTON_WIDTH  && vec.x > (RallyGame.SCREEN_WIDTH / 2) - (EXIT_BUTTON_WIDTH / 2) && vec.y < (RallyGame.SCREEN_HEIGHT / 2) - (EXIT_BUTTON_HEIGHT / 2) + EXIT_BUTTON_HEIGHT - 250 && vec.y > (RallyGame.SCREEN_HEIGHT / 2) - (EXIT_BUTTON_HEIGHT) - 250) {
-            game.batch.draw(exitButtonActive, x + 50, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
+
+        if(vec.x < EXITBUTTONx + EXIT_BUTTON_WIDTH  && vec.x > EXITBUTTONx && vec.y < EXITBUTTONy + EXIT_BUTTON_HEIGHT && vec.y > EXITBUTTONy) {
+            game.batch.draw(exitButtonActive, EXITBUTTONx , 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
         } else {
-            game.batch.draw(exitButtonInactive, x + 50, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
+            game.batch.draw(exitButtonInactive, EXITBUTTONx, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         }
 
         game.batch.end();
