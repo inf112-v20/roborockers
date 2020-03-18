@@ -34,9 +34,23 @@ public class Player{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
-        this.playerTexture = new Texture("player"+ playerNumber +".png");
+        this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
         this.playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
+        this.flagWinCondition = new boolean[nmrOfFlags];
+    }
+    /*
+        For testing purposes the LibGDX and all texture classes will fail if the LibGDX library has not yet been
+        Instantiated, therefore this constructor will allow testing on game functionality by foregoing texture
+        implementation.
+    */
+    public Player(int x, int y, int amountOfLives, int nmrOfFlags){
+        this.xPosition = x;
+        this.yPosition = y;
+        this.remainingLives = amountOfLives;
+        this.checkpoint = new Vector2(x, y);
+        this.powerdownStatus = 0;
+        this.heading = new Direction();
         this.flagWinCondition = new boolean[nmrOfFlags];
     }
 
@@ -57,7 +71,7 @@ public class Player{
                 rotateClockWise(nextMove.amountOfMoves);
             }
             else{
-                if(nextMove.amountOfMoves<0){
+                if(nextMove.amountOfMoves < 0){
                     attemptToMoveForward(game, nextMove.amountOfMoves);
                 }
                 else attemptToMoveBackward(game, nextMove.amountOfMoves);

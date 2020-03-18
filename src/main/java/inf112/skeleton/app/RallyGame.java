@@ -23,12 +23,4 @@ public class RallyGame extends Game {
         this.setScreen(new MenuScreen(this));
 
     }
-
-    /*public void updatePlayer() {
-        board.getBoardLayers()
-                .get("player")
-                .setCell(player.getPos().getX(), player.getPos().getY(), player.setImage());
-    }
-*/
-
 }

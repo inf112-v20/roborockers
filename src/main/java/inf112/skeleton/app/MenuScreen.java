@@ -39,9 +39,8 @@ public class MenuScreen extends ScreenAdapter  {
 
     @Override
     public void render(float v) {
-
         // Unproject kordinatene, de funker ikke som normalt, men ved å lage en vector så blir det enklere å justere 
-        Vector3 vec=new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+        Vector3 vec = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
         camera.unproject(vec);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -60,7 +59,7 @@ public class MenuScreen extends ScreenAdapter  {
             game.batch.draw(playButtonActive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
                 dispose();
-                game.setScreen(new GameScree());
+                game.setScreen(new GameScreen());
             }
         } else {
             game.batch.draw(playButtonInactive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);

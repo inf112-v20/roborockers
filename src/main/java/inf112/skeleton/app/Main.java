@@ -9,8 +9,8 @@ public class Main {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Robo Rally - The Game";
         cfg.width = 700;
-        cfg.height = 700;
-        cfg.resizable = false;
+        cfg.height = 1000;
+        cfg.resizable = true;
 
         new LwjglApplication(new RallyGame( ), cfg);
     }

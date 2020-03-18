@@ -1,103 +1,93 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-
-import java.util.ArrayList;
 
 
-public class GameGraphics extends InputAdapter implements ApplicationListener {
-    private ArrayList<Player> playerList;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private TiledMap tiledMap;
+public class GameScreen extends InputAdapter implements Screen {
+    RallyGame game;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private OrthographicCamera camera;
+    private final int MAP_WIDTH = 10;
+    private final int MAP_HEIGHT = 18;
+    private final int TILE_WIDTH = 300;
+    private TmxMapLoader mapLoader;
+    private Player player;
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer playerLayer;
     private TiledMapTileLayer startPosition;
-    private TiledMapTileLayer converbelt;
+    private TiledMapTileLayer conveyorBelt;
     private TiledMapTileLayer wall;
-    private TmxMapLoader mapLoader;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private OrthographicCamera mapCamera;
-    private Player player;
-    private MoveCard card;
 
-
+    public GameScreen() {
+        //  this.game = game;
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("tiles.tmx");
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, MAP_WIDTH, MAP_HEIGHT);
+        camera.update();
+        mapRenderer = new OrthogonalTiledMapRenderer(map, (float) 1 / TILE_WIDTH);
+        player = new Player(2, 2, "Name", 3, 1, 4);
+        boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
+        holeLayer = (TiledMapTileLayer) map.getLayers().get("Hole");
+        flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag");
+        playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
+        startPosition = (TiledMapTileLayer) map.getLayers().get("StartPosition");
+        conveyorBelt = (TiledMapTileLayer) map.getLayers().get("ConveyorBelt");
+        wall = (TiledMapTileLayer) map.getLayers().get("Wall");
+    }
 
     @Override
-    public void create() {
-        //Show board
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-        font.setColor(Color.RED);
-        tiledMap = new TmxMapLoader().load("tiles.tmx");
-        boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Board");
-        holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
-        flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
-        playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
-        startPosition = (TiledMapTileLayer) tiledMap.getLayers().get("StartPosition");
-        converbelt = (TiledMapTileLayer) tiledMap.getLayers().get("Converbelt");
-        wall = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
-        mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, 10, 11);
-        mapCamera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/400);
-        mapRenderer.setView(mapCamera);
-
-        player = new Player(2, 2, "Something", 3, 1, 1);
-        playerList = new ArrayList<Player>();
-        playerList.add(player);
-        card = new MoveCard(20, 2, false);
+    public void show() {
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
-    public void dispose() {
-        batch.dispose();
-        font.dispose();
-    }
-
-    @Override
-    public void render() {
+    public void render(float v) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        mapRenderer.setView(camera);
+        camera.update();
         mapRenderer.render();
         playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
-
-        batch.begin();
-        //font.draw(batch, "Hello World", 200, 200);
-        batch.draw(card.texture, 200, 200);
-        batch.end();
     }
 
+
+
     @Override
-    public void resize(int width, int height) {
+    public void resize(int i, int i1) {
+
     }
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     @Override
@@ -152,5 +142,6 @@ public class GameGraphics extends InputAdapter implements ApplicationListener {
                 return false;
         }
     }
-
 }
+
+
