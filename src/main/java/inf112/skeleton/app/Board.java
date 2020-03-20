@@ -12,11 +12,23 @@ public class Board {
 
     private int boardWidth;
     private int boardHeight;
+    private int tileSize;
+
+    public Player player;
+    public TiledMapTileLayer boardLayer;
+    public TiledMapTileLayer holeLayer;
+    public TiledMapTileLayer flagLayer;
+    public TiledMapTileLayer playerLayer;
+    public TiledMapTileLayer startPosition;
+    public TiledMapTileLayer conveyorBelt;
+    public TiledMapTileLayer wall;
+    public TiledMapTileLayer wallObjects;
 
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
 
     public Board(String boardName) {
+        tileSize = 300;
         board = new TmxMapLoader().load(boardName);
         //board = new TmxMapLoader().load("assets/Test_Board.tmx");
         boardLayers = new HashMap<>();
@@ -28,6 +40,20 @@ public class Board {
 
         boardWidth = board.getProperties().get("width", Integer.class);
         boardHeight = board.getProperties().get("height", Integer.class);
+
+        boardLayer = (TiledMapTileLayer) board.getLayers().get("Board");
+        holeLayer = (TiledMapTileLayer) board.getLayers().get("Hole");
+        flagLayer = (TiledMapTileLayer) board.getLayers().get("Flag");
+        playerLayer = (TiledMapTileLayer) board.getLayers().get("Player");
+        startPosition = (TiledMapTileLayer) board.getLayers().get("StartPosition");
+        conveyorBelt = (TiledMapTileLayer) board.getLayers().get("ConveyorBelt");
+        wall = (TiledMapTileLayer) board.getLayers().get("Wall");
+        for (int x = 0; x < boardWidth; x++) {
+            for (int y = 0; y < boardHeight; y++) {
+
+            }
+        }
+
     }
 
     /**
@@ -72,4 +98,5 @@ public class Board {
     public TiledMap getBoard() {
         return board;
     }
+    public int getTileSize(){return tileSize;}
 }

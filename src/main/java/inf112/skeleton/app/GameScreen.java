@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 
 
 public class GameScreen extends InputAdapter implements Screen {
@@ -17,35 +18,22 @@ public class GameScreen extends InputAdapter implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private final int MAP_WIDTH = 10;
-    private final int MAP_HEIGHT = 18;
-    private final int TILE_WIDTH = 300;
     private TmxMapLoader mapLoader;
     private Player player;
-    private TiledMapTileLayer boardLayer;
-    private TiledMapTileLayer holeLayer;
-    private TiledMapTileLayer flagLayer;
-    private TiledMapTileLayer playerLayer;
-    private TiledMapTileLayer startPosition;
-    private TiledMapTileLayer conveyorBelt;
-    private TiledMapTileLayer wall;
+    private Board board;
 
-    public GameScreen() {
+
+    public GameScreen(Board board) {
         //  this.game = game;
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("tiles.tmx");
+        this.board = board;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, MAP_WIDTH, MAP_HEIGHT);
+        camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(map, (float) 1 / TILE_WIDTH);
+        mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = new Player(2, 2, "Name", 3, 1, 4);
-        boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
-        holeLayer = (TiledMapTileLayer) map.getLayers().get("Hole");
-        flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag");
-        playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
-        startPosition = (TiledMapTileLayer) map.getLayers().get("StartPosition");
-        conveyorBelt = (TiledMapTileLayer) map.getLayers().get("ConveyorBelt");
-        wall = (TiledMapTileLayer) map.getLayers().get("Wall");
+
+        System.out.println(board.getBoardHeight());
+
     }
 
     @Override
@@ -60,7 +48,7 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer.setView(camera);
         camera.update();
         mapRenderer.render();
-        playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
+        board.playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
     }
 
 
@@ -92,11 +80,15 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public boolean keyUp(int keyCode){
-        playerLayer.setCell(player.xPosition, player.yPosition, null);
+        Wall w = new Wall(8,0, 23);
+        board.wall.setCell((int)w.getPosition().x,(int)w.getPosition().y,w.getCell());
+
+        board.playerLayer.setCell(player.xPosition, player.yPosition, null);
         int x = player.xPosition;
         int y = player.yPosition;
         switch (keyCode){
             case Input.Keys.UP:
+
                 if(y+1 <0 || y+1 >= 13){
                     return false;
                 }

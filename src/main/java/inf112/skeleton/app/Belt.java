@@ -5,13 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Belt {
     private Vector2 position;
     private Direction.NominalDirection direction;
     private Vector2 pushingTo;
-    private boolean willBeOccupied;
     private ArrayList<Integer> oneUp = new ArrayList<>(Arrays.asList(42, 43, 49, 57, 65, 69));
     private ArrayList<Integer> oneRight = new ArrayList<>(Arrays.asList(35, 41, 52, 58, 61, 66));
     private ArrayList<Integer> oneDown = new ArrayList<>(Arrays.asList(33, 36, 50, 59, 62, 67));
@@ -56,6 +54,10 @@ public class Belt {
         else {
             System.out.println("Invalid ID for creating a conveyorbelt");
         }
-
     }
+
+    public Vector2 pushPlayerTo(){
+        return pushingTo;
+    }
+
 }

@@ -20,7 +20,7 @@ public class RallyGame extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        this.setScreen(new MenuScreen(this));
-
+        board = new Board("tiles.tmx");
+        this.setScreen(new MenuScreen(this, board));
     }
 }

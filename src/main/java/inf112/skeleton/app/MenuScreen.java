@@ -22,10 +22,12 @@ public class MenuScreen extends ScreenAdapter  {
 
     private RallyGame game;
     private Texture img;
+    private Board board;
 
 
-    public MenuScreen(RallyGame game) {
+    public MenuScreen(RallyGame game, Board board) {
         this.game = game;
+        this.board = board;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, RallyGame.SCREEN_WIDTH,RallyGame.SCREEN_HEIGHT);
         this.img = new Texture("BAKGRUNN.png");
@@ -59,7 +61,7 @@ public class MenuScreen extends ScreenAdapter  {
             game.batch.draw(playButtonActive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
                 dispose();
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(board));
             }
         } else {
             game.batch.draw(playButtonInactive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
