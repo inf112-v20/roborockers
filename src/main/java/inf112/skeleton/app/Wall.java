@@ -35,7 +35,7 @@ public class Wall {
         }
     }
 
-    public boolean block(Direction.NominalDirection dir){
+    public boolean blocksMovementTowards(Direction.NominalDirection dir){
         if(dir == Direction.NominalDirection.NORTH){
             return blockActionUp;
         }

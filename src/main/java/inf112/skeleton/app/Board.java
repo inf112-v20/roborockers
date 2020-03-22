@@ -1,8 +1,11 @@
 package inf112.skeleton.app;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +17,7 @@ public class Board {
     private int boardHeight;
     private int tileSize;
 
-    public Player player;
+    //public Player player;
     public TiledMapTileLayer boardLayer;
     public TiledMapTileLayer holeLayer;
     public TiledMapTileLayer flagLayer;
@@ -22,7 +25,7 @@ public class Board {
     public TiledMapTileLayer startPosition;
     public TiledMapTileLayer conveyorBelt;
     public TiledMapTileLayer wall;
-    public TiledMapTileLayer wallObjects;
+    public Wall[][] wallObjects;
 
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
@@ -48,12 +51,16 @@ public class Board {
         startPosition = (TiledMapTileLayer) board.getLayers().get("StartPosition");
         conveyorBelt = (TiledMapTileLayer) board.getLayers().get("ConveyorBelt");
         wall = (TiledMapTileLayer) board.getLayers().get("Wall");
+        wallObjects = new Wall[boardWidth][boardHeight];
         for (int x = 0; x < boardWidth; x++) {
             for (int y = 0; y < boardHeight; y++) {
-
+                if (wall.getCell(x, y) != null) {
+                    TiledMapTile tile = wall.getCell(x, y).getTile();
+                    Wall w = new Wall(x, y, tile.getId());
+                    wallObjects[x][y] = w;
+                }
             }
         }
-
     }
 
     /**
@@ -99,4 +106,38 @@ public class Board {
         return board;
     }
     public int getTileSize(){return tileSize;}
+
+    public boolean willCollideWithWall(int x, int y, Direction dir){
+        Vector2 position = dir.getPositionInDirection(x,y,dir.heading);
+        try {
+            if (wallObjects[x][y].blocksMovementTowards(dir.heading) == true) {
+                return true;
+            } else if (wallObjects[(int) position.x][(int) position.y].blocksMovementTowards(dir.rotate180(dir.heading)) == true) {
+                return true;
+            }
+        }
+        catch (NullPointerException e){
+            //There are no walls stored in any of the cells therefore we will not collide with anything
+        }
+        return false;
+    }
+
+    public boolean willGoOutOfTheMap(int x, int y, Direction dir){
+        Vector2 position = dir.getPositionInDirection(x,y,dir.heading);
+        if(position.x > boardWidth || position.x < 0) return true;
+        else if(position.y > boardHeight || position.y < 0) return true;
+        return false;
+    }
+
+    public boolean willGoIntoHole(int x, int y, Direction dir){
+        Vector2 position = dir.getPositionInDirection(x,y,dir.heading);
+        if(holeLayer.getCell((int)position.x,(int)position.y) != null)return true;
+        return false;
+    }
+    public boolean willCollideWithPlayer(int x, int y, Direction dir){
+        Vector2 position = dir.getPositionInDirection(x,y,dir.heading);
+        if(playerLayer.getCell((int)position.x,(int)position.y) != null) return true;
+        return false;
+    }
+
 }

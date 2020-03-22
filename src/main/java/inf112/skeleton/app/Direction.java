@@ -1,4 +1,7 @@
 package inf112.skeleton.app;
+
+import com.badlogic.gdx.math.Vector2;
+
 public class Direction{
     public NominalDirection heading;
 
@@ -31,5 +34,14 @@ public class Direction{
         if(dir == NominalDirection.SOUTH) return NominalDirection.EAST;
         else return NominalDirection.SOUTH;
     }
+    public Vector2 getPositionInDirection(int x, int y, NominalDirection dir){
+        Vector2 position = new Vector2(x,y);
+        if(dir == NominalDirection.NORTH){ position.y += 1; }
+        else if(dir == NominalDirection.EAST){ position.x += 1; }
+        else if(dir == NominalDirection.SOUTH){ position.y -= 1; }
+        else{ position.x -= 1;}
+        return position;
+    }
+
 
 }

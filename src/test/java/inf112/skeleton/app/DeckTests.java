@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class deckTests {
+public class DeckTests {
 
     @Test
     public void testDeckBeingShuffled(){

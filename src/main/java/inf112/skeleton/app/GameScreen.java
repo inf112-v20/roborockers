@@ -6,19 +6,19 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 
 
 public class GameScreen extends InputAdapter implements Screen {
     RallyGame game;
-    private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private TmxMapLoader mapLoader;
     private Player player;
     private Board board;
 
@@ -30,7 +30,7 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(2, 2, "Name", 3, 1, 4);
+        player = new Player(5, 3, "Name", 3, 1, 4);
 
         System.out.println(board.getBoardHeight());
 
@@ -80,16 +80,18 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public boolean keyUp(int keyCode){
-        Wall w = new Wall(8,0, 23);
-        board.wall.setCell((int)w.getPosition().x,(int)w.getPosition().y,w.getCell());
-
+        Direction direction = new Direction();
+        board.wallObjects[8][0].blocksMovementTowards(Direction.NominalDirection.EAST);
         board.playerLayer.setCell(player.xPosition, player.yPosition, null);
         int x = player.xPosition;
         int y = player.yPosition;
         switch (keyCode){
             case Input.Keys.UP:
-
-                if(y+1 <0 || y+1 >= 13){
+                direction.heading = Direction.NominalDirection.NORTH;
+                if(board.willGoOutOfTheMap(x,y,direction) == true) return false;
+                if(board.willCollideWithWall(x,y,direction) == true) return false;
+                if(board.willGoIntoHole(x,y,direction) == true){
+                    player.loseALife();
                     return false;
                 }
                 else{

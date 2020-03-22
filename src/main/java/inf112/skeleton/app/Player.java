@@ -211,6 +211,7 @@ public class Player{
             Notify server that this player has died and does not have any more lives
              */
             remainingLives = 0;
+            playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
         }
     }
     public void updateTxRegion(){
