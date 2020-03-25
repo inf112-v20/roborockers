@@ -32,11 +32,11 @@ Kommunikasjon vil fremover nå foregå via discord. Her kommer vi til å ha møt
 ## Deloppgave 2: Krav
 **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.** 
 Til denne iterasjonen har vi prioritert disse kravene:
-Legge til vegger, og at de har en funksjon 	 [#Issue 5](https://github.com/inf112-v20/roborockers/issues/5)
-Dytte andre roboter [#Issue 11](https://github.com/inf112-v20/roborockers/issues/11)
-Implementere fungerende converybelt	 [#Issue 8](https://github.com/inf112-v20/roborockers/issues/8)
-Gå ut av brettet eller gå i et hull og “reboote” til start location 	[#Issue 12](https://github.com/inf112-v20/roborockers/issues/12) og [#Issue 13](https://github.com/inf112-v20/roborockers/issues/13) 
-En spiller kan dø  [#Issue 14](https://github.com/inf112-v20/roborockers/issues/14)
+* Legge til vegger, og at de har en funksjon 	 [#Issue 5](https://github.com/inf112-v20/roborockers/issues/5)
+* Dytte andre roboter [#Issue 11](https://github.com/inf112-v20/roborockers/issues/11)
+* Implementere fungerende converybelt	 [#Issue 8](https://github.com/inf112-v20/roborockers/issues/8)
+* Gå ut av brettet eller gå i et hull og “reboote” til start location 	[#Issue 12](https://github.com/inf112-v20/roborockers/issues/12) og [#Issue 13](https://github.com/inf112-v20/roborockers/issues/13) 
+* En spiller kan dø  [#Issue 14](https://github.com/inf112-v20/roborockers/issues/14)
 
 Brukerhistorie, akseptansekriterier og arbeidsoppgaver finner du på hvert issue (gitt ovenfor) på project boardet vårt. 
  
