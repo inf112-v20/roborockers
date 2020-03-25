@@ -8,11 +8,13 @@ public class Direction{
     public Direction(){
         this.heading = NominalDirection.NORTH;
     }
+    public Direction(NominalDirection nominalDirection){
+        this.heading = nominalDirection;
+    }
 
     public enum NominalDirection{
         NORTH, EAST, SOUTH, WEST
     }
-
 
     public NominalDirection rotate90(NominalDirection dir){
         if(dir == NominalDirection.NORTH) return NominalDirection.EAST;
@@ -42,6 +44,4 @@ public class Direction{
         else{ position.x -= 1;}
         return position;
     }
-
-
 }

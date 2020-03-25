@@ -43,7 +43,7 @@ public class Game {
             }
             while(!mcQueue.isEmpty()){
                 int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                playerQueue.get(nextPlayerToMove).doMove(this, i);
+                //playerQueue.get(nextPlayerToMove).doMove(board, i);
                 playerQueue.remove(nextPlayerToMove);
                 mcQueue.remove(nextPlayerToMove);
             }

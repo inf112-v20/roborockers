@@ -16,6 +16,4 @@ public class DeckTests {
         copyDeck.shuffle();
         assertFalse(deckOfCards.listOfMoveCards.equals(copyDeck.listOfMoveCards));
     }
-
-
 }

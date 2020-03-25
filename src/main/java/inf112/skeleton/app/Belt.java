@@ -1,12 +1,10 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Belt {
+public class Belt implements BoardObject {
     private Vector2 position;
     private Direction.NominalDirection direction;
     private Vector2 pushingTo;
@@ -52,12 +50,15 @@ public class Belt {
             pushingTo = new Vector2(position.x - 2, position.y);
         }
         else {
-            System.out.println("Invalid ID for creating a conveyorbelt");
+            //object is not a belt, therefor do not set pushing to variable
         }
     }
-
-    public Vector2 pushPlayerTo(){
-        return pushingTo;
+    @Override
+    public void updateBoard(Player player){
+        player.xPosition = (int)pushingTo.x;
+        player.yPosition = (int)pushingTo.y;
     }
+
+    public Vector2 getPushingTo(){ return pushingTo;}
 
 }

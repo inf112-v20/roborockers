@@ -47,14 +47,4 @@ public class PlayerTests {
         player.fullHeal();
         assertEquals(player.healthPoints, 9);
     }
-
-    /*
-    Other tests to implement when further along:
-        Move functionality
-        Handling when player is out of the game
-        Handling when player is starting powerdown and should not be dealt cards/or play them
-
-
-     */
-
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 
 public class Player{
@@ -16,7 +17,7 @@ public class Player{
     public Vector2 checkpoint;
     public int remainingLives;
     public int healthPoints = 9;
-    public static  String name;
+    private static String name;
     public static MoveCard[] programCard;
     public ArrayList<MoveCard> selectableCards;
     public int powerdownStatus;
@@ -64,7 +65,7 @@ public class Player{
         programRobot();
     }
 
-    public void doMove(Game game, int phaseNumber){
+    public void doMove(Board board, int phaseNumber){
         if(healthPoints > 0){
             MoveCard nextMove = programCard[phaseNumber];
             if(nextMove.isRotator){
@@ -72,16 +73,15 @@ public class Player{
             }
             else{
                 if(nextMove.amountOfMoves < 0){
-                    attemptToMoveForward(game, nextMove.amountOfMoves);
+                    attemptToMoveForward(board, nextMove.amountOfMoves);
                 }
-                else attemptToMoveBackward(game, nextMove.amountOfMoves);
+                else attemptToMoveBackward(board, nextMove.amountOfMoves);
             }
         }
 
     }
 
     public void programRobot(){
-
     }
 
     public void announcePowerdown (){
@@ -97,65 +97,36 @@ public class Player{
         }
     }
 
-    public void attemptToMoveForward(Game game, int steps){
-        if(heading.heading == Direction.NominalDirection.NORTH){
-            attemptToMoveNorth(game);
-        }
-        else if(heading.heading == Direction.NominalDirection.EAST){
-            attemptToMoveEast(game);
-        }
-        else if(heading.heading == Direction.NominalDirection.SOUTH){
-            attemptToMoveSouth(game);
-        }
-        else if(heading.heading == Direction.NominalDirection.WEST){
-            attemptToMoveWest(game);
-        }
+    public void attemptToMoveForward(Board board, int steps){
+        if(attemptToMoveInDirection(board, heading.heading) == false) return;
         //Recusively call to move as far as possible
+        if(steps > 1) attemptToMoveForward(board, steps - 1);
+    }
+
+    public void attemptToMoveBackward(Board board, int steps){
+        if(attemptToMoveInDirection(board, heading.rotate180(heading.heading)) == false) return;
+
         if(steps > 1){
-            attemptToMoveForward(game, steps - 1);
+            attemptToMoveBackward(board, steps - 1);
         }
     }
 
-    public boolean attemptToMoveBackward(Game game, int steps){
-        if(heading.heading == Direction.NominalDirection.NORTH){
-            attemptToMoveSouth(game);
+    public boolean attemptToMoveInDirection(Board board, Direction.NominalDirection nominalDirection){
+        if(board.willCollideWithWall(xPosition,yPosition,nominalDirection)) return false;
+        if(board.willGoIntoHole(xPosition,yPosition,nominalDirection) || board.willGoOutOfTheMap(xPosition,yPosition,nominalDirection)){
+            loseALife();
+            return false;
         }
-        else if(heading.heading == Direction.NominalDirection.EAST){
-            attemptToMoveWest(game);
+        if(board.willCollideWithPlayer(xPosition,yPosition,nominalDirection)){
+            //push player if possible, update yPosition and return true
+            // otherwise return false
         }
-        else if(heading.heading == Direction.NominalDirection.SOUTH){
-            attemptToMoveSouth(game);
+        else{
+            if(nominalDirection == Direction.NominalDirection.NORTH) yPosition += 1;
+            else if(nominalDirection == Direction.NominalDirection.EAST) xPosition += 1;
+            else if(nominalDirection == Direction.NominalDirection.SOUTH) yPosition -= 1;
+            else xPosition -= 1;
         }
-        else if(heading.heading == Direction.NominalDirection.WEST){
-            attemptToMoveEast(game);
-        }
-        if(steps > 1){
-            attemptToMoveBackward(game, steps - 1);
-        }
-        return true;
-    }
-
-    public boolean attemptToMoveWest(Game game){
-
-        int newX = xPosition - 1;
-        //Has hole, has corresponding wall,
-        //walls: 22, 15, 7, 45
-        //if(position to west is valid)yPosition -= 1;
-        return true;
-    }
-    public boolean attemptToMoveNorth(Game game){
-        //walls: 7, 31, 28, 36
-        int newY = yPosition + 1;
-        return true;
-    }
-    public boolean attemptToMoveSouth(Game game){
-        //walls: 23, 15, 30, 44
-        int newY = yPosition - 1;
-        return true;
-    }
-    public boolean attemptToMoveEast(Game game){
-        //walls: 31, 29, 23, 37
-        int newX = xPosition + 1;
         return true;
     }
 
@@ -212,6 +183,7 @@ public class Player{
              */
             remainingLives = 0;
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
+            System.out.println(Player.name + " has died");
         }
     }
     public void updateTxRegion(){
@@ -221,5 +193,8 @@ public class Player{
         else if(healthPoints > 0 ){
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
         }
+    }
+    public String getName(){
+        return name;
     }
 }

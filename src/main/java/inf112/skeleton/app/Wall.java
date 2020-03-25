@@ -47,7 +47,7 @@ public class Wall {
             return blockActionDown;
         }
         else{
-            return blockActionRight;
+            return blockActionLeft;
         }
     }
 
