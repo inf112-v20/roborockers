@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,8 @@ public class Board {
     public TiledMapTileLayer wallLayer;
     public Wall[][] wallObjects;
     public BoardObject[][] playerAdjuster;
-
+    public ArrayList<Laser> lasers = new ArrayList<Laser>();
+    public ArrayList<Player> playerObjects;
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
 
@@ -52,6 +54,7 @@ public class Board {
         wallLayer = (TiledMapTileLayer) board.getLayers().get("Wall");
         wallObjects = new Wall[boardWidth][boardHeight];
         playerAdjuster = new BoardObject[boardWidth][boardHeight];
+        playerObjects = new ArrayList<Player>();
 
         //Fills the 2D arrays with the objects needed to implement the functionality required
         for (int x = 0; x < boardWidth; x++) {
@@ -60,6 +63,8 @@ public class Board {
                     TiledMapTile tile = wallLayer.getCell(x, y).getTile();
                     Wall w = new Wall(x, y, tile.getId());
                     wallObjects[x][y] = w;
+                    Laser laser = new Laser(tile.getId(),x,y);
+                    if(laser.getDamage() != 0) lasers.add(laser);
                 }
                 if(playerAdjusterLayer.getCell(x,y) != null){
                     TiledMapTile tile = playerAdjusterLayer.getCell(x,y).getTile();
@@ -179,6 +184,27 @@ public class Board {
         if(position.x < 0 || position.x >= boardWidth) return true;
         if(position.y < 0 || position.y >= boardHeight) return true;
         return false;
+    }
+
+    public void fireLasers(){
+        Map<Vector2, Integer> positionsToHit = new HashMap<>();
+        for (Laser laser: lasers) {
+            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+        }
+        //
+        for (Player player: playerObjects) {
+            Laser laser = player.getPlayerLaser();
+            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+        }
+        for(Map.Entry<Vector2, Integer> positionToHit : positionsToHit.entrySet()){
+            if(positionToHit != null){
+                for (Player player: playerObjects) {
+                    if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
+                        player.takeDamage(positionToHit.getValue());
+                    }
+                }
+            }
+        }
     }
 
 }

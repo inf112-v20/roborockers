@@ -32,6 +32,8 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = new Player(2, 3, "Name", 3, 1, 4);
         player2 = new Player(2,4, "Player 2",3,2,4);
+        board.playerObjects.add(player);
+        board.playerObjects.add(player2);
         card = new MoveCard(20, 2, false);
 
     }
@@ -96,6 +98,7 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
+        System.out.println(player.healthPoints);
 
         board.playerLayer.setCell(player.xPosition, player.yPosition, null);
         int x = player.xPosition;
@@ -138,10 +141,14 @@ public class GameScreen extends InputAdapter implements Screen {
                 return true;
 
             case Input.Keys.U:
-                if(board.playerAdjuster[player.xPosition][player.yPosition] != null){
-                    BoardObject boardObject = board.playerAdjuster[player.xPosition][player.yPosition];
-                    boardObject.updateBoard(player);
+                for (Player p : board.playerObjects) {
+                    if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
+                        BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
+                        boardObject.updateBoard(player);
+                    }
+                    board.fireLasers();
                 }
+
 
             default:
                 return false;

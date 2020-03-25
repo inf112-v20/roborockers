@@ -26,6 +26,7 @@ public class Player{
     public Cell playerCell = new Cell();
     public TextureRegion[][] playerTxRegion;
     public boolean[] flagWinCondition;
+    private Laser playerLaser;
 
     public Player(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
         this.xPosition = x;
@@ -35,6 +36,7 @@ public class Player{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
+        this.playerLaser = new Laser(37,x,y);
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
         this.playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
@@ -196,5 +198,12 @@ public class Player{
     }
     public String getName(){
         return name;
+    }
+
+    public Laser getPlayerLaser(){
+        Vector2 laserStart = heading.getPositionInDirection(xPosition,yPosition,heading.heading);
+        playerLaser.position.x = laserStart.x;
+        playerLaser.position.y = laserStart.y;
+        return playerLaser;
     }
 }

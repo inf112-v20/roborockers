@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class boardTests {
+public class BoardTests {
     private Board board;
     private Vector2 position;
 
