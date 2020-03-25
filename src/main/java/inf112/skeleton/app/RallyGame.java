@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class RallyGame extends Game {
 
     public static int SCREEN_WIDTH = 700;
-    public static int SCREEN_HEIGHT = 700;
+    public static int SCREEN_HEIGHT = 1000;
     public static final float TILE_SIZE = 300;
 
 
