@@ -1,9 +1,11 @@
 
 ## Deloppgave 1: Team og prosjekt
 **Referat fra møter siden forrige leveranse skal legges ved.** 
+
 Du finner møtereferatene våres på Wiki siden på prosjektet. -> https://github.com/inf112-v20/roborockers/wiki
 
 **Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?** 
+
 Rollene fungerer fortsatt bra, selv om Peter er teamlead så bidrar alle til at jobben blir gjort. Da Johan er kundekontakt er han flink til å stille spørsmål til gruppeleder da han har sjansen, til tross for at vi ikke har hatt et kundemøte enda. Nå som omstendigheten er endret og vi vil kun kunne jobbe hjemmefra, så er det best at rollene forblir som de er. Men gruppen er åpen for forslag om noen ønsker å endre roller i løpet av denne iterasjonen.  
 
 
@@ -11,6 +13,7 @@ Rollene fungerer fortsatt bra, selv om Peter er teamlead så bidrar alle til at 
 Vi er fornøyd med Kanban metoden, men det var først forrige gang vi lærte oss og bruke det skikkelig. Nå føler vi at vi får brukt det på en fornuftig måte. Vi har ikke vært veldig flinke til å holde project board oppdatert, vi glemte å flytte ferdige oppgaver frå in progress til done. Dette har vi rettet på og vi er bedre til å oppdatere project board fortløpende.
 
 **Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.** 
+
 På grunn av koronaviruset har prosjektstrukturen blitt litt endret i forhold til at folk er på forskjellige steder i landet og nå må vi sitte på discord og arbeide med prosjektet. Det fungerer egentlig ganske bra å jobbe sammen via discord. Skjermdeling funksjonen gjør at vi kan samarbeide om koden på en god måte. Vi klarer å avtale når vi skal møtes på discord for å jobbe og det har ikke hemmet evnen vår til å jobbe i lag veldig mye.
 
 
@@ -21,8 +24,9 @@ Mer effektivitet
 Rette opp i skjev fordeling av commits. Noe av det vi har gjort hittil har blitt gjort på noen få personers pc, selv om andre gruppemedlemmer har vært med på å gjøre selve deloppgaven. 
 
 **Forklar kort hvordan dere har prioritert oppgavene fremover. Legg ved skjermdump av project board ved innlevering** 
+
 Vi har i denne iterasjonen prioritert å jobbe med mulig med koding. Vi tok en titt på project boardet og valgte ut hvilke oppgaver vi ville begynne med. Vi prøvde å ikke velge så mange oppgaver i starten, og heller velge ut flere om vi rekker å bli ferdig med de vi allerede har valgt.  
-[![Project board](https://i.postimg.cc/d02g2KCR/Skjermbilde-2020-03-25-kl-14-42-03.png)
+![Project board](https://i.postimg.cc/d02g2KCR/Skjermbilde-2020-03-25-kl-14-42-03.png)
 
 
 
