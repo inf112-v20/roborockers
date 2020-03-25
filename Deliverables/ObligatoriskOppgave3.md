@@ -22,7 +22,7 @@ Rette opp i skjev fordeling av commits. Noe av det vi har gjort hittil har blitt
 
 **Forklar kort hvordan dere har prioritert oppgavene fremover. Legg ved skjermdump av project board ved innlevering** 
 Vi har i denne iterasjonen prioritert å jobbe med mulig med koding. Vi tok en titt på project boardet og valgte ut hvilke oppgaver vi ville begynne med. Vi prøvde å ikke velge så mange oppgaver i starten, og heller velge ut flere om vi rekker å bli ferdig med de vi allerede har valgt.  
-[![hei](https://postimg.cc/XZv2WmQX)
+[![Project board](https://i.postimg.cc/d02g2KCR/Skjermbilde-2020-03-25-kl-14-42-03.png)
 
 
 
