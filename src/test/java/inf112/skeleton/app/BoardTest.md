@@ -1,9 +1,4 @@
 #BoardTest
-Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spillet fungerer. 
-Ikke alle ting er like enkelt å få testet med denne metoden, 
-som for eksempel LibGdx og derfor har vi valgt å bruke manuelle tester.
-Dette går ut på at vi kjører programmet og klikker oss gjennom menyskjermen og deretter styrer spilleren manuelt
-og observerer at forventet oppførsel forekommer avhengig av hvilke kommandoer vi gir.
 
 Noen av de reglene vi har laget, som vi tester manuelt er: 
 
