@@ -26,7 +26,7 @@ Rette opp i skjev fordeling av commits. Noe av det vi har gjort hittil har blitt
 **Forklar kort hvordan dere har prioritert oppgavene fremover. Legg ved skjermdump av project board ved innlevering** 
 
 Vi har i denne iterasjonen prioritert å jobbe med mulig med koding. Vi tok en titt på project boardet og valgte ut hvilke oppgaver vi ville begynne med. Vi prøvde å ikke velge så mange oppgaver i starten, og heller velge ut flere om vi rekker å bli ferdig med de vi allerede har valgt.  
-![Project board](https://i.postimg.cc/d02g2KCR/Skjermbilde-2020-03-25-kl-14-42-03.png)
+![Project board](https://i.postimg.cc/zvDQJ736/Skjermbilde-2020-03-26-kl-13-40-49.png)
 
 
 
@@ -41,6 +41,8 @@ Til denne iterasjonen har vi prioritert disse kravene:
 * Implementere fungerende converybelt	 [#Issue 8](https://github.com/inf112-v20/roborockers/issues/8)
 * Gå ut av brettet eller gå i et hull og “reboote” til start location 	[#Issue 12](https://github.com/inf112-v20/roborockers/issues/12) og [#Issue 13](https://github.com/inf112-v20/roborockers/issues/13) 
 * En spiller kan dø  [#Issue 14](https://github.com/inf112-v20/roborockers/issues/14)
+* Implementere et fungerende tannhjul [#Issue 16](https://github.com/inf112-v20/roborockers/issues/16)
+* Implementere fungerende laser [#Issue 17](https://github.com/inf112-v20/roborockers/issues/17)
 
 Brukerhistorie, akseptansekriterier og arbeidsoppgaver finner du på hvert issue (gitt ovenfor) på project boardet vårt. 
  
@@ -48,6 +50,11 @@ Brukerhistorie, akseptansekriterier og arbeidsoppgaver finner du på hvert issue
 **Forklar kort hvilke hovedkrav dere anser som en del av MVP(Minimum Viable Product) og hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?**   
 
 Kravene for MVP er å kunne bevege roboten og at roboten kan interagere med brettet. Roboten må  ikke kunne gå gjennom vegger og den må “dø” og bli rebootet når den faller ned i et hull eller går ut av brettet. Dette er viktig fordi det er grunnlaget for at spillet kan spilles. 
+
+**Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
+
+* Laserklassen fungerer ikke som den skal. Vi begynte sent med denne i forhold til denne innleveringen, men tenkte at vi kunne begynne nå og fortsette med dette til neste iterasjon. Det som ikke fungerer er at den ikke skyter til den blir stoppet av noe, men heller bare skader en celle fra der den starter. I tillegg så gjør laserne enten to eller fire damage uten at vi helt forstår hvorfor. 
+* I updateBoard metoden så dytter beltene riktig, men de tar ikke hensyn til om de dytter spillere oppå andre spillere eller om de dytter en spiller slik at en annen spiller også skal skyves. 
 
 
 

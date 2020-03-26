@@ -30,6 +30,7 @@ public class Board {
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
 
+
     /**
      * Constructor for creating and setting up a playing board
      * @param boardName  filename of the board to be started up
@@ -81,15 +82,14 @@ public class Board {
 
     /**
      * Constructor for testing certain methods
-     * @param width  testWidth
-     * @param height testHeight
+     * @param width  Width
+     * @param height Height
      */
     public Board(int width, int height) {
         boardWidth = width;
         boardHeight = height;
     }
 
-    public Map<String, TiledMapTileLayer> getBoardLayers() { return boardLayers; }
 
     /**
      * Returns the width of the board

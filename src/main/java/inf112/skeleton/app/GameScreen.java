@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 
 public class GameScreen extends InputAdapter implements Screen {
-    RallyGame game;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Player player;
@@ -22,9 +21,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public GameScreen(Board board) {
-        //  this.game = game;
         batch = new SpriteBatch();
-
         this.board = board;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
