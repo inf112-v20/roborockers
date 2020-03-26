@@ -50,13 +50,13 @@ public class MenuScreen extends ScreenAdapter  {
         game.batch.begin();
         game.batch.draw(img,0, 0,game.SCREEN_WIDTH , game.SCREEN_HEIGHT);
 
+        // -150 og -400 er for å justere knappen til høyden
+        // hvordan få knappen til å justere seg ved forskjellige høyder?
         int PLAYBUTTONx = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
         int PLAYBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - PLAY_BUTTON_HEIGHT / 2 - 150;
         int EXITBUTTONx = (RallyGame.SCREEN_WIDTH / 2  - EXIT_BUTTON_WIDTH / 2);
-        // 250 er forskjellen fra PLAY button ned til EXIT
         int EXITBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - EXIT_BUTTON_HEIGHT / 2 - 400;
 
-        // tallene for å justere hvor den skal kutte X aksen og Y aksen
         if(vec.x < PLAYBUTTONx + PLAY_BUTTON_WIDTH && vec.x > PLAYBUTTONx && vec.y < PLAYBUTTONy + PLAY_BUTTON_HEIGHT && vec.y > PLAYBUTTONy) {
             game.batch.draw(playButtonActive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
