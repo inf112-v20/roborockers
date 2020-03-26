@@ -49,7 +49,7 @@ Brukerhistorie, akseptansekriterier og arbeidsoppgaver finner du på hvert issue
 
 Kravene for MVP er å kunne bevege roboten og at roboten kan interagere med brettet. Roboten må  ikke kunne gå gjennom vegger og den må “dø” og bli rebootet når den faller ned i et hull eller går ut av brettet. Dette er viktig fordi det er grunnlaget for at spillet kan spilles. 
 
-**Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs). 
+**Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
 
 * Laserklassen fungerer ikke som den skal. Vi begynte sent med denne i forhold til denne innleveringen, men tenkte at vi kunne begynne nå og fortsette med dette til neste iterasjon. Det som ikke fungerer er at den ikke skyter til den blir stoppet av noe, men heller bare skader en celle fra der den starter. I tillegg så gjør laserne enten to eller fire damage uten at vi helt forstår hvorfor. 
 
