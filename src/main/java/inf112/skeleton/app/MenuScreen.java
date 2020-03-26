@@ -51,7 +51,7 @@ public class MenuScreen extends ScreenAdapter  {
         game.batch.draw(img,0, 0,game.SCREEN_WIDTH , game.SCREEN_HEIGHT);
 
         int PLAYBUTTONx = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
-        int PLAYBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - PLAY_BUTTON_HEIGHT / 2 - 150;
+        int PLAYBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - PLAY_BUTTON_HEIGHT / 2 - 220;
         int EXITBUTTONx = (RallyGame.SCREEN_WIDTH / 2  - EXIT_BUTTON_WIDTH / 2);
         // 250 er forskjellen fra PLAY button ned til EXIT
         int EXITBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - EXIT_BUTTON_HEIGHT / 2 - 400;

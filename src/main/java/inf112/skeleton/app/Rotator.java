@@ -31,7 +31,7 @@ public class Rotator implements BoardObject {
     }
 
     @Override
-    public void updateBoard(Player player) {
+    public void update(Player player) {
         if(isClockwiseRotator) player.rotateClockWise(1);
         else player.rotateClockWise(3);
     }

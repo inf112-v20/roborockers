@@ -41,8 +41,12 @@ public class Laser {
             case 95:
                 direction = new Direction(Direction.NominalDirection.WEST);
                 this.damage = 2;
-
         }
+    }
+
+    public Laser(int x, int y, Direction.NominalDirection nominalDirection){
+        position = new Vector2(x,y);
+        damage = 1;
     }
 
     public Vector2 laserHit(Board board){
@@ -61,4 +65,8 @@ public class Laser {
         }
 
     public int getDamage() { return damage; }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 }

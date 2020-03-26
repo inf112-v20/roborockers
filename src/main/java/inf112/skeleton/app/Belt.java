@@ -54,7 +54,7 @@ public class Belt implements BoardObject {
         }
     }
     @Override
-    public void updateBoard(Player player){
+    public void update(Player player){
         player.xPosition = (int)pushingTo.x;
         player.yPosition = (int)pushingTo.y;
     }

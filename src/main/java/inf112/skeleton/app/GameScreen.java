@@ -30,11 +30,11 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(2, 3, "Name", 3, 1, 4);
+        player = new Player(1, 1, "Name", 3, 1, 4);
         player2 = new Player(2,4, "Player 2",3,2,4);
         board.playerObjects.add(player);
         board.playerObjects.add(player2);
-        card = new MoveCard(20, 2, false);
+        card = new MoveCard(20, 0, false);
 
     }
 
@@ -101,33 +101,41 @@ public class GameScreen extends InputAdapter implements Screen {
         System.out.println(player.healthPoints);
 
         board.playerLayer.setCell(player.xPosition, player.yPosition, null);
-        int x = player.xPosition;
-        int y = player.yPosition;
+        board.playerLayer.setCell(player2.xPosition, player2.yPosition, null);
 
         switch (keyCode){
             case Input.Keys.UP:
                 direction.heading = Direction.NominalDirection.NORTH;
-                return player.attemptToMoveInDirection(board,direction.heading);
+                player.attemptToMoveInDirection(board,direction.heading);
+                board.updateBoard();
+                return true;
 
             case Input.Keys.DOWN:
                 direction.heading = Direction.NominalDirection.SOUTH;
-                return player.attemptToMoveInDirection(board,direction.heading);
+                player.attemptToMoveInDirection(board,direction.heading);
+                board.updateBoard();
+                return true;
 
             case Input.Keys.LEFT:
                 direction.heading = Direction.NominalDirection.WEST;
-                return player.attemptToMoveInDirection(board,direction.heading);
+                player.attemptToMoveInDirection(board,direction.heading);
+                board.updateBoard();
+                return true;
 
             case Input.Keys.RIGHT:
                 direction.heading = Direction.NominalDirection.EAST;
-                return player.attemptToMoveInDirection(board,direction.heading);
-            case Input.Keys.NUM_1:
+                player.attemptToMoveInDirection(board,direction.heading);
+                board.updateBoard();
+                return true;
 
+            case Input.Keys.NUM_1:
                 player.rotateClockWise(1);
                 return true;
             case Input.Keys.NUM_2:
 
                 player.rotateClockWise(2);
                 return true;
+
             case Input.Keys.NUM_3:
                 player.rotateClockWise(3);
                 return true;
@@ -144,11 +152,10 @@ public class GameScreen extends InputAdapter implements Screen {
                 for (Player p : board.playerObjects) {
                     if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
                         BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
-                        boardObject.updateBoard(player);
+                        boardObject.update(p);
                     }
                     board.fireLasers();
                 }
-
 
             default:
                 return false;

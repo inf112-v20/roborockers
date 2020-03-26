@@ -2,12 +2,9 @@
 package inf112.skeleton.app;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 
 public class Player{
@@ -36,7 +33,7 @@ public class Player{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
-        this.playerLaser = new Laser(37,x,y);
+        this.playerLaser = new Laser(x,y,heading.heading);
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
         this.playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
@@ -204,6 +201,7 @@ public class Player{
         Vector2 laserStart = heading.getPositionInDirection(xPosition,yPosition,heading.heading);
         playerLaser.position.x = laserStart.x;
         playerLaser.position.y = laserStart.y;
+        playerLaser.setDirection(heading);
         return playerLaser;
     }
 }

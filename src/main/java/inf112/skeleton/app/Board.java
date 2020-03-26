@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Board {
     private int boardWidth;
     private int boardHeight;
@@ -186,24 +187,76 @@ public class Board {
         return false;
     }
 
+    /**
+     * Registers all players that are supposed to be struck by lasers before striking them in order
+     * not to have a player die and be moved to checkpoint before all lasers have been fired
+     */
     public void fireLasers(){
         Map<Vector2, Integer> positionsToHit = new HashMap<>();
+        Map<Player, Integer> playersToHit = new HashMap<>();
+        //Get all lasers on the board
         for (Laser laser: lasers) {
             positionsToHit.put(laser.laserHit(this), laser.getDamage());
         }
-        //
+        //Get all lasers on players
         for (Player player: playerObjects) {
             Laser laser = player.getPlayerLaser();
             positionsToHit.put(laser.laserHit(this), laser.getDamage());
         }
+        //Iterate through all lasersHits keeping track of how much damage each player is supposed to take
         for(Map.Entry<Vector2, Integer> positionToHit : positionsToHit.entrySet()){
             if(positionToHit != null){
                 for (Player player: playerObjects) {
+                    try{
                     if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
-                        player.takeDamage(positionToHit.getValue());
+                        if(playersToHit.containsKey(player)){
+                            playersToHit.put(player, playersToHit.get(player)+positionToHit.getValue());
+                        }
+                        else{
+                            playersToHit.put(player, positionToHit.getValue());
+                        }
                     }
                 }
+                    catch (NullPointerException e){}
+                }
+
             }
+        }
+        //Lastly register the damage onto each player
+        for(Map.Entry<Player, Integer> player : playersToHit.entrySet()) {
+            player.getKey().takeDamage(player.getValue());
+        }
+    }
+
+    /**
+     * Updates the board objects that impact the players
+     * rotates the players and moves them if they are on conveyor belts
+     * then fires off lasers
+     */
+    public void updateBoard(){
+        Map<Player, Vector2> newPlayerPositions = new HashMap<Player, Vector2>();
+        try {
+            Thread.sleep(200);
+        }
+        catch (InterruptedException e){}
+        for (Player p : playerObjects) {
+            if(playerAdjuster[p.xPosition][p.yPosition] != null){
+                BoardObject boardObject = playerAdjuster[p.xPosition][p.yPosition];
+                newPlayerPositions.put(p, boardObject.getPushingTo());
+            }
+        for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
+            Player player = newPlayerPosition.getKey();
+            Vector2 vector = newPlayerPosition.getValue();
+            int i = 0;
+            for (Vector2 vector2 : newPlayerPositions.values()){
+                if(vector.equals(vector2)) i++;
+            }
+            if(i == 1){
+                player.xPosition = (int)vector.x;
+                player.yPosition = (int)vector.y;
+            }
+        }
+        fireLasers();
         }
     }
 
