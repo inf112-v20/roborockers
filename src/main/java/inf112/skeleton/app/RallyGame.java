@@ -13,9 +13,6 @@ public class RallyGame extends Game {
 
     public SpriteBatch batch;
     private Board board;
-    private Player player;
-
-
 
     @Override
     public void create() {

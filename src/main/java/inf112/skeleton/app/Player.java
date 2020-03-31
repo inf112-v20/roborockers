@@ -14,12 +14,12 @@ public class Player{
     public Vector2 checkpoint;
     public int remainingLives;
     public int healthPoints = 9;
-    private static String name;
-    public static MoveCard[] programCard;
+    private String name;
+    public MoveCard[] programCard;
     public ArrayList<MoveCard> selectableCards;
     public int powerdownStatus;
     public ArrayList<MoveCard> hand;
-    public static Texture playerTexture;
+    public Texture playerTexture;
     public Cell playerCell = new Cell();
     public TextureRegion[][] playerTxRegion;
     public boolean[] flagWinCondition;
@@ -114,9 +114,20 @@ public class Player{
         if(board.willCollideWithWall(xPosition,yPosition,nominalDirection)) return false;
         if(board.willGoIntoHole(xPosition,yPosition,nominalDirection) || board.willGoOutOfTheMap(xPosition,yPosition,nominalDirection)){
             loseALife();
-            return false;
+            //return false;
         }
+
         if(board.willCollideWithPlayer(xPosition,yPosition,nominalDirection)){
+            Direction dir = new Direction(nominalDirection);
+            Vector2 position = dir.getPositionInDirection(xPosition,yPosition,dir.heading);
+            Player playerToPush = board.playerAtPosition(position);
+            if(playerToPush.attemptToMoveInDirection(board, nominalDirection)){
+                if(nominalDirection == Direction.NominalDirection.NORTH) yPosition += 1;
+                else if(nominalDirection == Direction.NominalDirection.EAST) xPosition += 1;
+                else if(nominalDirection == Direction.NominalDirection.SOUTH) yPosition -= 1;
+                else xPosition -= 1;
+            }
+            else{return false;}
             //push player if possible, update yPosition and return true
             // otherwise return false
         }
@@ -182,7 +193,7 @@ public class Player{
              */
             remainingLives = 0;
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
-            System.out.println(Player.name + " has died");
+            System.out.println(this.name + " has died");
         }
     }
     public void updateTxRegion(){

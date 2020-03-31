@@ -15,6 +15,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private OrthographicCamera camera;
     private Player player;
     private Player player2;
+
     private Board board;
     private SpriteBatch batch;
     private MoveCard card;
@@ -27,10 +28,12 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(1, 1, "Name", 3, 1, 4);
+        player = new Player(1, 1, "Player 1", 3, 1, 4);
         player2 = new Player(2,4, "Player 2",3,2,4);
+
         board.playerObjects.add(player);
         board.playerObjects.add(player2);
+
         card = new MoveCard(20, 0, false);
 
     }
@@ -42,6 +45,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void render(float v) {
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.setView(camera);
@@ -63,6 +67,7 @@ public class GameScreen extends InputAdapter implements Screen {
         batch.draw(card.texture, x += w, 800, w, h);
         batch.draw(card.texture, x += w, 800, w, h);
         batch.end();
+
     }
 
 
@@ -95,8 +100,7 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
-        System.out.println(player.healthPoints);
-
+        System.out.println(player.healthPoints + " " + player2.healthPoints);
         board.playerLayer.setCell(player.xPosition, player.yPosition, null);
         board.playerLayer.setCell(player2.xPosition, player2.yPosition, null);
 

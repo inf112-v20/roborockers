@@ -29,6 +29,7 @@ public class Board {
     public ArrayList<Player> playerObjects;
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
+    private ArrayList<Vector2> startingSpots;
 
 
     /**
@@ -57,10 +58,12 @@ public class Board {
         wallObjects = new Wall[boardWidth][boardHeight];
         playerAdjuster = new BoardObject[boardWidth][boardHeight];
         playerObjects = new ArrayList<Player>();
+        startingSpots = new ArrayList<>();
 
         //Fills the 2D arrays with the objects needed to implement the functionality required
         for (int x = 0; x < boardWidth; x++) {
             for (int y = 0; y < boardHeight; y++) {
+                if(startPosition.getCell(x,y) != null) startingSpots.add(new Vector2(x,y));
                 if (wallLayer.getCell(x, y) != null) {
                     TiledMapTile tile = wallLayer.getCell(x, y).getTile();
                     Wall w = new Wall(x, y, tile.getId());
@@ -173,7 +176,11 @@ public class Board {
     public boolean willCollideWithPlayer(int x, int y, Direction.NominalDirection dir){
         Direction direction = new Direction(dir);
         Vector2 position = direction.getPositionInDirection(x,y,dir);
-        if(playerLayer.getCell((int)position.x,(int)position.y) != null) return true;
+        for (Player player : playerObjects) {
+            if(position.x == player.xPosition && position.y == player.yPosition){
+                return true;
+            }
+        }
         return false;
     }
     /**
@@ -242,7 +249,12 @@ public class Board {
         for (Player p : playerObjects) {
             if(playerAdjuster[p.xPosition][p.yPosition] != null){
                 BoardObject boardObject = playerAdjuster[p.xPosition][p.yPosition];
-                newPlayerPositions.put(p, boardObject.getPushingTo());
+                if(boardObject.getPushingTo() == null){
+                    boardObject.update(p);
+                }
+                else {
+                    newPlayerPositions.put(p, boardObject.getPushingTo());
+                }
             }
         for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
             Player player = newPlayerPosition.getKey();
@@ -252,12 +264,44 @@ public class Board {
                 if(vector.equals(vector2)) i++;
             }
             if(i == 1){
-                player.xPosition = (int)vector.x;
-                player.yPosition = (int)vector.y;
+                Direction.NominalDirection nomDir = getDirectionToPosition(new Vector2(player.xPosition,player.yPosition), vector);
+                if(positionIsOutOfBounds(vector)) player.loseALife();
+                else{
+                    player.xPosition = (int)vector.x;
+                    player.yPosition = (int)vector.y;
+                }
+
             }
         }
-        fireLasers();
+
         }
+        fireLasers();
+    }
+
+    public boolean positionHasPlayer(Vector2 position){
+        for(Player player: playerObjects){
+            if(player.xPosition == position.x && player.yPosition == position.y) return true;
+        }
+        return false;
+    }
+    public Player playerAtPosition(Vector2 position){
+        for(Player player: playerObjects){
+            if(player.xPosition == position.x && player.yPosition == position.y) return player;
+        }
+        return null;
+    }
+
+    public Direction.NominalDirection getDirectionToPosition(Vector2 oldPos, Vector2 newPos){
+        if(oldPos.x > newPos.x) return Direction.NominalDirection.SOUTH;
+        else if(oldPos.x < newPos.x) return Direction.NominalDirection.NORTH;
+        else if(oldPos.y > newPos.y) return Direction.NominalDirection.WEST;
+        else return Direction.NominalDirection.EAST;
+    }
+
+    public int distanceBetweenPositions(Vector2 oldPos, Vector2 newPos){
+        int xValue = Math.abs((int)(oldPos.x - newPos.x));
+        int yValue = Math.abs((int)(oldPos.y - newPos.y));
+        return Math.max(xValue, yValue);
     }
 
 }
