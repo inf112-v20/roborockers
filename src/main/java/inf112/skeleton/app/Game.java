@@ -18,7 +18,7 @@ public class Game {
             int topOfDeck = 0;
             for (Player player : playerList) {
                 if(player.remainingLives == 0){
-                    playerList.remove(player);
+                    playerList.remove(player); //Kan muligens feile med liste iterable etc...
                     continue;
                 }
                 if(player.powerdownStatus != 1){

@@ -215,10 +215,10 @@ public class Board {
             if(positionToHit != null){
                 for (Player player: playerObjects) {
                     try{
-                    if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
-                        if(playersToHit.containsKey(player)){
-                            playersToHit.put(player, playersToHit.get(player)+positionToHit.getValue());
-                        }
+                        if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
+                            if(playersToHit.containsKey(player)){
+                                playersToHit.put(player, playersToHit.get(player)+positionToHit.getValue());
+                            }
                         else{
                             playersToHit.put(player, positionToHit.getValue());
                         }
