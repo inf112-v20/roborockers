@@ -210,7 +210,6 @@ public class Board {
             else{
                 positionsToHit.put(laser.laserHit(this), laser.getDamage());
             }
-
         }
         //Iterate through all players on the board and register the players laser strike
         for (Player player: playerObjects) {

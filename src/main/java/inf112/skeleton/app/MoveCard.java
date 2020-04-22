@@ -45,19 +45,22 @@ public class MoveCard implements Comparable<MoveCard> {
 
     public void toggleCard(){
         int assetNameLen = assetName.length();
-        if(isSelected = false){
+        String s = "";
+        if(!isSelected){
             isSelected = true;
-            assetName = assetName.substring(0, assetNameLen-5) + "S.png";
+            s += assetName.substring(0,assetNameLen-4);
+            s += "S.png";
         }
         else{
             isSelected = false;
-            assetName = assetName.substring(0, assetNameLen-5) + ".png";
+            s += assetName.substring(0, assetNameLen-4);
+            s += ".png";
         }
-        updateTexture();
+        updateTexture(s);
     }
 
-    private void updateTexture(){
-        this.texture = new Texture(assetName);
+    public void updateTexture(String s){
+        this.texture = new Texture(s);
     }
 
     @Override

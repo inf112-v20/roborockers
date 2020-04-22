@@ -21,3 +21,11 @@ public class RallyGame extends Game {
         this.setScreen(new MenuScreen(this, board));
     }
 }
+
+/*
+fem kort som er programkortet
+opptil 9 kort som er hånden
+antall liv spilleren har igjen
+antall livspoeng spilleren har
+må gi en mulighet til å powerdowne
+ */
