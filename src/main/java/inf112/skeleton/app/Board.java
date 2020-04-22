@@ -195,43 +195,41 @@ public class Board {
     }
 
     /**
-     * Registers all players that are supposed to be struck by lasers before striking them in order
+     * Registers all positions that are supposed to be struck by lasers before striking them in order
      * not to have a player die and be moved to checkpoint before all lasers have been fired
      */
     public void fireLasers(){
         Map<Vector2, Integer> positionsToHit = new HashMap<>();
-        Map<Player, Integer> playersToHit = new HashMap<>();
-        //Get all lasers on the board
+        //Iterate through all lasers on board and register positions to be struck
         for (Laser laser: lasers) {
-            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            if(laser.laserHit(this) == null) continue;
+            if(positionsToHit.containsKey(laser.laserHit(this))){
+                int damage = positionsToHit.get(laser.laserHit(this));
+                positionsToHit.put(laser.laserHit(this), damage + laser.getDamage());
+            }
+            else{
+                positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            }
+
         }
-        //Get all lasers on players
+        //Iterate through all players on the board and register the players laser strike
         for (Player player: playerObjects) {
             Laser laser = player.getPlayerLaser();
-            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            if(laser.laserHit(this) == null) continue;
+            if(positionsToHit.containsKey(laser.laserHit(this))){
+                int damage = positionsToHit.get(laser.laserHit(this));
+                positionsToHit.put(laser.laserHit(this), damage + laser.getDamage());
+            }
+            else{
+                positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            }
         }
         //Iterate through all lasersHits keeping track of how much damage each player is supposed to take
         for(Map.Entry<Vector2, Integer> positionToHit : positionsToHit.entrySet()){
-            if(positionToHit != null){
-                for (Player player: playerObjects) {
-                    try{
-                        if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
-                            if(playersToHit.containsKey(player)){
-                                playersToHit.put(player, playersToHit.get(player)+positionToHit.getValue());
-                            }
-                        else{
-                            playersToHit.put(player, positionToHit.getValue());
-                        }
-                    }
-                }
-                    catch (NullPointerException e){}
-                }
-
+            if(playerAtPosition(positionToHit.getKey()) != null){
+                Player playerToTakeHit = playerAtPosition(positionToHit.getKey());
+                playerToTakeHit.takeDamage(positionToHit.getValue());
             }
-        }
-        //Lastly register the damage onto each player
-        for(Map.Entry<Player, Integer> player : playersToHit.entrySet()) {
-            player.getKey().takeDamage(player.getValue());
         }
     }
 
@@ -247,6 +245,7 @@ public class Board {
         }
         catch (InterruptedException e){}
         for (Player p : playerObjects) {
+            try{
             if(playerAdjuster[p.xPosition][p.yPosition] != null){
                 BoardObject boardObject = playerAdjuster[p.xPosition][p.yPosition];
                 if(boardObject.getPushingTo() == null){
@@ -254,9 +253,13 @@ public class Board {
                 }
                 else {
                     newPlayerPositions.put(p, boardObject.getPushingTo());
-                }
+                }}
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Caught arrayoutofboundsexception");
             }
-        for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
+
+            for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
             Player player = newPlayerPosition.getKey();
             Vector2 vector = newPlayerPosition.getValue();
             int i = 0;

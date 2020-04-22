@@ -57,10 +57,10 @@ public class GameScreen extends InputAdapter implements Screen {
         int x = 0;
         int w = 77;
         int h = 130;
-        for (MoveCard card: player.hand) {
-            batch.draw(card.texture, x, 800, w, h);
-            x += w;
-        }
+        //for (MoveCard card: player.hand) {
+          //  batch.draw(card.texture, x, 800, w, h);
+            //x += w;
+        //}
         /*
         batch.draw(card.texture, 0, 800, w, h);
         batch.draw(card.texture, x += w, 800, w, h);

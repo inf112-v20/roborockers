@@ -193,6 +193,8 @@ public class Player{
              */
             remainingLives = 0;
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
+            xPosition = (int)checkpoint.x;
+            yPosition = (int)checkpoint.y;
             System.out.println(this.name + " has died");
         }
     }
@@ -208,6 +210,9 @@ public class Player{
         return name;
     }
 
+    /**
+     * Updates the value of players laser to correspond with players current position and heading and returns laser
+     */
     public Laser getPlayerLaser(){
         Vector2 laserStart = heading.getPositionInDirection(xPosition,yPosition,heading.heading);
         playerLaser.position.x = laserStart.x;
