@@ -1,94 +1,107 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 
-public class MenuScreen extends ScreenAdapter  {
-
-    private static final int PLAY_BUTTON_WIDTH = 300;
-    private static final int PLAY_BUTTON_HEIGHT = 150;
-    private static final int EXIT_BUTTON_WIDTH = 200;
-    private static final int EXIT_BUTTON_HEIGHT = 100;
-    private static final int PLAY_Y = 200;
-
-    private Texture playButtonActive;
-    private Texture playButtonInactive;
-    private Texture exitButtonActive;
-    private Texture exitButtonInactive;
-    private OrthographicCamera camera;
+public class MenuScreen extends ScreenAdapter {
 
 
+    private Stage stage;
     private RallyGame game;
-    private Texture img;
     private Board board;
 
 
-    public MenuScreen(RallyGame game, Board board) {
+    public MenuScreen(final RallyGame game, final Board board) {
         this.game = game;
         this.board = board;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, RallyGame.SCREEN_WIDTH,RallyGame.SCREEN_HEIGHT);
-        this.img = new Texture("BAKGRUNN.png");
-        playButtonActive = new Texture("PlaybuttonActive.png");
-        playButtonInactive = new Texture("PlayButtonIn.png");
-        exitButtonActive  = new Texture("ExitButtonAct.png");
-        exitButtonInactive = new Texture("ExitIna.png");
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
 
-    }
+        Table table = new Table();
+        table.setFillParent(true);
+        Skin skin = new Skin(Gdx.files.internal(("Skin/skin/clean-crispy-ui.json")));
 
 
-    @Override
-    public void render(float v) {
-        // Unproject kordinatene, de funker ikke som normalt, men ved å lage en vector så blir det enklere å justere 
-        Vector3 vec = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
-        camera.unproject(vec);
+        Texture logoTexture = new Texture(Gdx.files.internal("bakgrunn.png"));
+        Image logo = new Image(logoTexture);
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-        game.batch.draw(img,0, 0,game.SCREEN_WIDTH , game.SCREEN_HEIGHT);
+        CheckBox checkBox = new CheckBox("hello", skin);
 
-        // -150 og -400 er for å justere knappen til høyden
-        // hvordan få knappen til å justere seg ved forskjellige høyder?
-        int PLAYBUTTONx = RallyGame.SCREEN_WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
-        int PLAYBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - PLAY_BUTTON_HEIGHT / 2 - 220;
-        int EXITBUTTONx = (RallyGame.SCREEN_WIDTH / 2  - EXIT_BUTTON_WIDTH / 2);
-        int EXITBUTTONy = RallyGame.SCREEN_HEIGHT / 2 - EXIT_BUTTON_HEIGHT / 2 - 400;
+        Label mapSelectorLabel = new Label("Map: ", skin);
+        mapSelectorLabel.setFontScale(1.3f);
+        SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
 
-        if(vec.x < PLAYBUTTONx + PLAY_BUTTON_WIDTH && vec.x > PLAYBUTTONx && vec.y < PLAYBUTTONy + PLAY_BUTTON_HEIGHT && vec.y > PLAYBUTTONy) {
-            game.batch.draw(playButtonActive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-            if(Gdx.input.isTouched()) {
-                dispose();
+
+        // "save" valget i en variabel elns
+        String[] mapSelectorOptions = {"demo.tmx","tiles.tmx"};
+        mapSelectorBox.setItems(mapSelectorOptions);
+
+
+
+        TextButton playButton = new TextButton("Play", skin);
+        playButton.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // istedenfor board, hvilke map de velger fra selecteren
                 game.setScreen(new GameScreen(board));
             }
-        } else {
-            game.batch.draw(playButtonInactive, PLAYBUTTONx, PLAY_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-        }
 
-        if(vec.x < EXITBUTTONx + EXIT_BUTTON_WIDTH  && vec.x > EXITBUTTONx && vec.y < EXITBUTTONy + EXIT_BUTTON_HEIGHT && vec.y > EXITBUTTONy) {
-            game.batch.draw(exitButtonActive, EXITBUTTONx , 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
-            if(Gdx.input.isTouched()) {
-                Gdx.app.exit();
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
             }
-        } else {
-            game.batch.draw(exitButtonInactive, EXITBUTTONx, 50, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
-        }
+        });
 
-        game.batch.end();
+        // Exitbutton
+        Button exitButton = new TextButton("Exit", skin);
+        exitButton.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                System.exit(0);
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+
+        table.top();
+        table.add(logo).top().colspan(2).padTop(50).size(500, 250);
+        table.row();
+        table.add(playButton).prefHeight(70).prefWidth(200).colspan(2);
+        table.row();
+        table.add(mapSelectorLabel).right();
+        table.add(mapSelectorBox).left();
+        table.row();
+        table.add(exitButton).prefHeight(50).prefWidth(200).colspan(2).padTop(50);
+
+        table.setFillParent(true);
+        table.setDebug(false);
+        stage.addActor(table);
 
 
     }
 
     @Override
-    public void dispose() {
-        img.dispose();
-        playButtonActive.dispose();
-        // lukke skjermen, eller siden
-
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
     }
+
+
+
 
 
 }
-

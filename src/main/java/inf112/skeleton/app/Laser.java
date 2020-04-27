@@ -13,34 +13,42 @@ public class Laser {
             case 37:
                 direction = new Direction(Direction.NominalDirection.NORTH);
                 this.damage = 1;
+                break;
 
             case 38:
                 direction = new Direction(Direction.NominalDirection.EAST);
                 this.damage = 1;
+                break;
 
             case 45:
                 direction = new Direction(Direction.NominalDirection.SOUTH);
                 this.damage = 1;
+                break;
 
             case 46:
                 direction = new Direction(Direction.NominalDirection.WEST);
                 this.damage = 2;
+                break;
 
             case 87:
                 direction = new Direction(Direction.NominalDirection.NORTH);
                 this.damage = 2;
+                break;
 
             case 93:
                 direction = new Direction(Direction.NominalDirection.EAST);
                 this.damage = 2;
+                break;
 
             case 94:
                 direction = new Direction(Direction.NominalDirection.SOUTH);
                 this.damage = 2;
+                break;
 
             case 95:
                 direction = new Direction(Direction.NominalDirection.WEST);
                 this.damage = 2;
+                break;
         }
     }
 
@@ -61,8 +69,8 @@ public class Laser {
                 }
             }
             hitPosition = direction.getPositionInDirection((int)hitPosition.x,(int)hitPosition.y,direction.heading);
-            }
         }
+    }
 
     public int getDamage() { return damage; }
 
