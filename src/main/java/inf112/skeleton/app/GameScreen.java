@@ -4,15 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class GameScreen extends InputAdapter implements Screen {
@@ -23,10 +18,6 @@ public class GameScreen extends InputAdapter implements Screen {
     private Board board;
     private SpriteBatch batch;
     private MoveCard card;
-    private Deck deck;
-    private BitmapFont font = new BitmapFont();
-    private int[] cardsInStock;
-    private int[] cardsSelected;
 
 
     public GameScreen(Board board) {
@@ -41,9 +32,7 @@ public class GameScreen extends InputAdapter implements Screen {
         board.playerObjects.add(player);
         board.playerObjects.add(player2);
         card = new MoveCard(20, 0, false);
-        //String[] bildenavn = {"Move1S.png", "Move2S.png",  "Move3S.png",  "MoveBackS.png",  "LeftTurnS.png",  "RightTurnS.png",  "PowerUpS.png",  "AgainS.png",  "U-turnS.png" };
-        deck = new Deck(null);
-        deck.listOfMoveCards.get(0);
+
     }
 
     @Override
@@ -62,27 +51,18 @@ public class GameScreen extends InputAdapter implements Screen {
         board.playerLayer.setCell(player2.xPosition, player2.yPosition, player2.playerCell);
         batch.begin();
         int x = 0;
-        int xVal = 154;
         int w = 77;
-        int h = 97;
-
-        for (int i = 0; i < 9; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,x, 680, w, h);
-            x+=w;
-        }
-
-        for (int i = 0; i < 5; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,xVal, 575, w, h);
-            xVal+=w;
-        }
-        int liv = 8;
-        font.setColor(Color.BLACK);
-        font.draw(batch, "Player 1:"+ player.healthPoints, 50, 600);
-        font.draw(batch, "Player 2:"+player2.healthPoints, 600, 600);
+        int h = 130;
+        batch.draw(card.texture, 0, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
+        batch.draw(card.texture, x += w, 800, w, h);
         batch.end();
-
     }
 
 

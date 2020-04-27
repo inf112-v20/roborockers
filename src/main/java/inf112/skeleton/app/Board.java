@@ -29,6 +29,7 @@ public class Board {
     public ArrayList<Player> playerObjects;
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
+    private ArrayList<Vector2> startingSpots;
 
 
     /**
@@ -57,10 +58,12 @@ public class Board {
         wallObjects = new Wall[boardWidth][boardHeight];
         playerAdjuster = new BoardObject[boardWidth][boardHeight];
         playerObjects = new ArrayList<Player>();
+        startingSpots = new ArrayList<>();
 
         //Fills the 2D arrays with the objects needed to implement the functionality required
         for (int x = 0; x < boardWidth; x++) {
             for (int y = 0; y < boardHeight; y++) {
+                if(startPosition.getCell(x,y) != null) startingSpots.add(new Vector2(x,y));
                 if (wallLayer.getCell(x, y) != null) {
                     TiledMapTile tile = wallLayer.getCell(x, y).getTile();
                     Wall w = new Wall(x, y, tile.getId());
@@ -173,7 +176,11 @@ public class Board {
     public boolean willCollideWithPlayer(int x, int y, Direction.NominalDirection dir){
         Direction direction = new Direction(dir);
         Vector2 position = direction.getPositionInDirection(x,y,dir);
-        if(playerLayer.getCell((int)position.x,(int)position.y) != null) return true;
+        for (Player player : playerObjects) {
+            if(position.x == player.xPosition && position.y == player.yPosition){
+                return true;
+            }
+        }
         return false;
     }
     /**
@@ -188,44 +195,69 @@ public class Board {
     }
 
     /**
-     * Registers all players that are supposed to be struck by lasers before striking them in order
+     * Registers all positions that are supposed to be struck by lasers before striking them in order
      * not to have a player die and be moved to checkpoint before all lasers have been fired
      */
     public void fireLasers(){
         Map<Vector2, Integer> positionsToHit = new HashMap<>();
-        Map<Player, Integer> playersToHit = new HashMap<>();
-        //Get all lasers on the board
+        //Iterate through all lasers on board and register positions to be struck
         for (Laser laser: lasers) {
-            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            if(laser.laserHit(this) == null) continue;
+            if(positionsToHit.containsKey(laser.laserHit(this))){
+                int damage = positionsToHit.get(laser.laserHit(this));
+                positionsToHit.put(laser.laserHit(this), damage + laser.getDamage());
+            }
+            else{
+                positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            }
         }
-        //Get all lasers on players
-        for (Player player: playerObjects) {
+        //Iterate through all players on the board and register the players laser strike
+        for (GameActor player: playerObjects) {
             Laser laser = player.getPlayerLaser();
-            positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            if(laser.laserHit(this) == null) continue;
+            if(positionsToHit.containsKey(laser.laserHit(this))){
+                int damage = positionsToHit.get(laser.laserHit(this));
+                positionsToHit.put(laser.laserHit(this), damage + laser.getDamage());
+            }
+            else{
+                positionsToHit.put(laser.laserHit(this), laser.getDamage());
+            }
         }
         //Iterate through all lasersHits keeping track of how much damage each player is supposed to take
         for(Map.Entry<Vector2, Integer> positionToHit : positionsToHit.entrySet()){
-            if(positionToHit != null){
-                for (Player player: playerObjects) {
-                    try{
-                    if(positionToHit.getKey().x == player.xPosition && positionToHit.getKey().y == player.yPosition){
-                        if(playersToHit.containsKey(player)){
-                            playersToHit.put(player, playersToHit.get(player)+positionToHit.getValue());
-                        }
-                        else{
-                            playersToHit.put(player, positionToHit.getValue());
-                        }
-                    }
-                }
-                    catch (NullPointerException e){}
-                }
-
+            if(playerAtPosition(positionToHit.getKey()) != null){
+                GameActor playerToTakeHit = playerAtPosition(positionToHit.getKey());
+                playerToTakeHit.takeDamage(positionToHit.getValue());
             }
         }
-        //Lastly register the damage onto each player
-        for(Map.Entry<Player, Integer> player : playersToHit.entrySet()) {
-            player.getKey().takeDamage(player.getValue());
+    }
+
+
+
+    public boolean positionHasPlayer(Vector2 position){
+        for(GameActor player: playerObjects){
+            if(player.getXPosition() == position.x && player.getYPosition() == position.y) return true;
         }
+        return false;
+    }
+    public GameActor playerAtPosition(Vector2 position){
+        for(Player player: playerObjects){
+            if(player.xPosition == position.x && player.yPosition == position.y) return player;
+        }
+        return null;
+    }
+
+    public Direction.NominalDirection getDirectionToPosition(Vector2 oldPos, Vector2 newPos){
+        if(oldPos.x > newPos.x) return Direction.NominalDirection.SOUTH;
+        else if(oldPos.x < newPos.x) return Direction.NominalDirection.NORTH;
+        else if(oldPos.y > newPos.y) return Direction.NominalDirection.WEST;
+        else return Direction.NominalDirection.EAST;
+    }
+
+    public int distanceBetweenPositions(Vector2 oldPos, Vector2 newPos){
+        int xValue = Math.abs((int)(oldPos.x - newPos.x));
+        int yValue = Math.abs((int)(oldPos.y - newPos.y));
+        return Math.max(xValue, yValue);
     }
 
     /**
@@ -234,30 +266,61 @@ public class Board {
      * then fires off lasers
      */
     public void updateBoard(){
-        Map<Player, Vector2> newPlayerPositions = new HashMap<Player, Vector2>();
-        try {
-            Thread.sleep(200);
-        }
-        catch (InterruptedException e){}
-        for (Player p : playerObjects) {
-            if(playerAdjuster[p.xPosition][p.yPosition] != null){
-                BoardObject boardObject = playerAdjuster[p.xPosition][p.yPosition];
-                newPlayerPositions.put(p, boardObject.getPushingTo());
-            }
-        for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
-            Player player = newPlayerPosition.getKey();
-            Vector2 vector = newPlayerPosition.getValue();
-            int i = 0;
-            for (Vector2 vector2 : newPlayerPositions.values()){
-                if(vector.equals(vector2)) i++;
-            }
-            if(i == 1){
-                player.xPosition = (int)vector.x;
-                player.yPosition = (int)vector.y;
+        ArrayList<Player> playersAlreadyMoved = new ArrayList<>();
+        Map<BoardObject, Player> map = new HashMap<>();
+
+        //rotator
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 0){
+                boardObject.update(player);
+                playersAlreadyMoved.add(player);
             }
         }
+        //push1
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 1){
+                if(map.containsKey(boardObject.getPushingTo())){
+                    playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
+                    playersAlreadyMoved.add(player);
+                    map.remove(boardObject.getPushingTo());
+
+                }
+                else{
+                    map.put(boardObject, player);
+                }
+            }
+        }
+        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+        }
+        map.clear();
+        //push2
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 2){
+                if(map.containsKey(boardObject.getPushingTo())){
+                    playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
+                    playersAlreadyMoved.add(player);
+                }
+                else{
+                    map.put(boardObject, player);
+                }
+
+            }
+        }
+        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+        }
+
+        //fire lasers
         fireLasers();
-        }
     }
+
 
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Rotator implements BoardObject {
     private boolean isClockwiseRotator;
     private Vector2 position;
+    private int distance;
 
     public Rotator(int ID, int x, int y){
         position = new Vector2(x,y);
@@ -31,7 +32,7 @@ public class Rotator implements BoardObject {
     }
 
     @Override
-    public void update(Player player) {
+    public void update(GameActor player) {
         if(isClockwiseRotator) player.rotateClockWise(1);
         else player.rotateClockWise(3);
     }
@@ -39,5 +40,11 @@ public class Rotator implements BoardObject {
     @Override
     public Vector2 getPushingTo() { return null;}
 
+    @Override
+    public int getDistance() { return 0;}
 
+    @Override
+    public Direction.NominalDirection getDirection() {
+        return null;
+    }
 }

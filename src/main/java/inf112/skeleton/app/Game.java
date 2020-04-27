@@ -4,26 +4,28 @@ import java.util.*;
 
 public class Game {
 
-    private static ArrayList<Player> playerList;
+    private static ArrayList<GameActor> playerList;
     private static Deck playDeck;
+    private static Board board;
 
-    public Game() {
-        this.playerList = new ArrayList<Player>();
+    public Game(Board board) {
+        this.playerList = new ArrayList<GameActor>();
         this.playDeck = new Deck(null);
+        this.board = board;
     }
 
     public void startGameRound() {
         while (!playerList.isEmpty()) {
             playDeck.shuffle();
             int topOfDeck = 0;
-            for (Player player : playerList) {
-                if(player.remainingLives == 0){
-                    playerList.remove(player);
+            for (GameActor player : playerList) {
+                if(0 == player.getRemainingLives()){
+                    playerList.remove(player); //Kan muligens feile med liste iterable etc...
                     continue;
                 }
-                if(player.powerdownStatus != 1){
-                    player.receiveCards((ArrayList<MoveCard>) playDeck.listOfMoveCards.subList(topOfDeck, (9 - (9-player.healthPoints))));
-                    topOfDeck += (9 - (9 - player.healthPoints));
+                if(player.getPowerDownStatus() != 1){
+                    player.receiveCards((ArrayList<MoveCard>) playDeck.listOfMoveCards.subList(topOfDeck, (9 - (9-player.getHealthPoints()))));
+                    topOfDeck += (9 - (9 - player.getHealthPoints()));
                 }
                 player.startRound(this);
             }
@@ -34,21 +36,20 @@ public class Game {
     public void gamePhases() {
         for (int i = 0; i < 5; i++) {
             ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
-            ArrayList<Player> playerQueue = new ArrayList<Player>();
-            for (Player player : playerList) {
-                if(player.healthPoints > 0) {
-                    mcQueue.add(player.selectableCards.get(i));
+            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
+            for (GameActor player : playerList) {
+                if(player.getHealthPoints() > 0) {
+                    mcQueue.add(player.getProgramCard()[i]);
                     playerQueue.add(player);
                 }
             }
             while(!mcQueue.isEmpty()){
                 int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                //playerQueue.get(nextPlayerToMove).doMove(board, i);
+                playerQueue.get(nextPlayerToMove).doMove(board, i);
                 playerQueue.remove(nextPlayerToMove);
                 mcQueue.remove(nextPlayerToMove);
             }
-            //Fire all lasers simultaneously
-            //check all players on rotators/on belts and update map accordingly
+            board.updateBoard();
         }
     }
 

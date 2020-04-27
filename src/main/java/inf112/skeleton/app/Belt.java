@@ -8,6 +8,7 @@ public class Belt implements BoardObject {
     private Vector2 position;
     private Direction.NominalDirection direction;
     private Vector2 pushingTo;
+    private int distance;
     private ArrayList<Integer> oneUp = new ArrayList<>(Arrays.asList(42, 43, 49, 57, 65, 69));
     private ArrayList<Integer> oneRight = new ArrayList<>(Arrays.asList(35, 41, 52, 58, 61, 66));
     private ArrayList<Integer> oneDown = new ArrayList<>(Arrays.asList(33, 36, 50, 59, 62, 67));
@@ -22,43 +23,65 @@ public class Belt implements BoardObject {
 
         if(oneUp.contains(ID)){
             pushingTo = new Vector2(position.x, position.y + 1);
+            direction = Direction.NominalDirection.NORTH;
+            distance = 1;
         }
         else if(oneRight.contains(ID)){
             pushingTo = new Vector2(position.x + 1, position.y);
+            direction = Direction.NominalDirection.EAST;
+            distance = 1;
 
         }
         else if(oneDown.contains(ID)){
             pushingTo = new Vector2(position.x, position.y - 1);
+            direction = Direction.NominalDirection.SOUTH;
+            distance = 1;
 
         }
         else if(oneLeft.contains(ID)){
             pushingTo = new Vector2(position.x - 1, position.y);
+            direction = Direction.NominalDirection.WEST;
+            distance = 1;
 
         }
         else if(twoUp.contains(ID)){
             pushingTo = new Vector2(position.x, position.y + 2);
+            direction = Direction.NominalDirection.NORTH;
+            distance = 2;
 
         }
         else if(twoRight.contains(ID)){
             pushingTo = new Vector2(position.x + 2, position.y);
+            direction = Direction.NominalDirection.EAST;
+            distance = 2;
         }
         else if(twoDown.contains(ID)){
             pushingTo = new Vector2(position.x, position.y - 2);
+            direction = Direction.NominalDirection.SOUTH;
+            distance = 2;
 
         }
         else if(twoLeft.contains(ID)){
             pushingTo = new Vector2(position.x - 2, position.y);
+            direction = Direction.NominalDirection.WEST;
+            distance = 2;
         }
         else {
             //object is not a belt, therefor do not set pushing to variable
+            distance = 0;
         }
     }
     @Override
-    public void update(Player player){
-        player.xPosition = (int)pushingTo.x;
-        player.yPosition = (int)pushingTo.y;
+    public void update(GameActor player){
+        player.setXPosition((int)pushingTo.x);
+        player.setYPosition((int)pushingTo.y);
     }
-
+    @Override
     public Vector2 getPushingTo(){ return pushingTo;}
 
+    @Override
+    public int getDistance() {return distance;}
+
+    @Override
+    public Direction.NominalDirection getDirection(){return direction;}
 }
