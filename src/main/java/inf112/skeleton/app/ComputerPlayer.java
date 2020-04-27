@@ -1,13 +1,15 @@
-
 package inf112.skeleton.app;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+
 import java.util.ArrayList;
 
-public class Player implements GameActor{
+public class ComputerPlayer implements GameActor {
+
     public int xPosition;
     public int yPosition;
     public Direction heading;
@@ -19,12 +21,12 @@ public class Player implements GameActor{
     public int powerdownStatus;
     public ArrayList<MoveCard> hand;
     public Texture playerTexture;
-    public Cell playerCell = new Cell();
+    public TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell();
     public TextureRegion[][] playerTxRegion;
     public boolean[] flagWinCondition;
     private Laser playerLaser;
 
-    public Player(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
+    public ComputerPlayer(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
         this.xPosition = x;
         this.yPosition = y;
         this.name = name;
@@ -43,7 +45,7 @@ public class Player implements GameActor{
         Instantiated, therefore this constructor will allow testing on game functionality by foregoing texture
         implementation.
     */
-    public Player(int x, int y, int amountOfLives, int nmrOfFlags){
+    public ComputerPlayer(int x, int y, int amountOfLives, int nmrOfFlags){
         this.xPosition = x;
         this.yPosition = y;
         this.remainingLives = amountOfLives;
@@ -114,6 +116,12 @@ public class Player implements GameActor{
     }
     @Override
     public void programRobot(){
+        if(healthPoints < 4){
+            announcePowerdown();
+        }
+        for (int i = 0; i < ((9-(9-healthPoints))); i++){
+            programCard[i] = hand.get(i);
+        }
     }
     @Override
     public void announcePowerdown (){
@@ -126,7 +134,7 @@ public class Player implements GameActor{
     @Override
     public void receiveCards(ArrayList<MoveCard> dealtCards){
         hand.clear();
-        for(int i = 0; i < 9 - (9-healthPoints); i++){
+        for(int i = 0; i < (9-healthPoints); i++){
             hand.add(dealtCards.remove(dealtCards.size()-1));
         }
     }
@@ -265,3 +273,4 @@ public class Player implements GameActor{
         checkpoint.y = yPosition;
     }
 }
+

@@ -212,7 +212,7 @@ public class Board {
             }
         }
         //Iterate through all players on the board and register the players laser strike
-        for (Player player: playerObjects) {
+        for (GameActor player: playerObjects) {
             Laser laser = player.getPlayerLaser();
             if(laser.laserHit(this) == null) continue;
             if(positionsToHit.containsKey(laser.laserHit(this))){
@@ -226,67 +226,21 @@ public class Board {
         //Iterate through all lasersHits keeping track of how much damage each player is supposed to take
         for(Map.Entry<Vector2, Integer> positionToHit : positionsToHit.entrySet()){
             if(playerAtPosition(positionToHit.getKey()) != null){
-                Player playerToTakeHit = playerAtPosition(positionToHit.getKey());
+                GameActor playerToTakeHit = playerAtPosition(positionToHit.getKey());
                 playerToTakeHit.takeDamage(positionToHit.getValue());
             }
         }
     }
 
-    /**
-     * Updates the board objects that impact the players
-     * rotates the players and moves them if they are on conveyor belts
-     * then fires off lasers
-     */
-    public void updateBoard(){
-        Map<Player, Vector2> newPlayerPositions = new HashMap<Player, Vector2>();
-        try {
-            Thread.sleep(200);
-        }
-        catch (InterruptedException e){}
-        for (Player p : playerObjects) {
-            try{
-            if(playerAdjuster[p.xPosition][p.yPosition] != null){
-                BoardObject boardObject = playerAdjuster[p.xPosition][p.yPosition];
-                if(boardObject.getPushingTo() == null){
-                    boardObject.update(p);
-                }
-                else {
-                    newPlayerPositions.put(p, boardObject.getPushingTo());
-                }}
 
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Caught arrayoutofboundsexception");
-            }
-
-            for (Map.Entry<Player, Vector2> newPlayerPosition : newPlayerPositions.entrySet()) {
-            Player player = newPlayerPosition.getKey();
-            Vector2 vector = newPlayerPosition.getValue();
-            int i = 0;
-            for (Vector2 vector2 : newPlayerPositions.values()){
-                if(vector.equals(vector2)) i++;
-            }
-            if(i == 1){
-                Direction.NominalDirection nomDir = getDirectionToPosition(new Vector2(player.xPosition,player.yPosition), vector);
-                if(positionIsOutOfBounds(vector)) player.loseALife();
-                else{
-                    player.xPosition = (int)vector.x;
-                    player.yPosition = (int)vector.y;
-                }
-
-            }
-        }
-
-        }
-        fireLasers();
-    }
 
     public boolean positionHasPlayer(Vector2 position){
-        for(Player player: playerObjects){
-            if(player.xPosition == position.x && player.yPosition == position.y) return true;
+        for(GameActor player: playerObjects){
+            if(player.getXPosition() == position.x && player.getYPosition() == position.y) return true;
         }
         return false;
     }
-    public Player playerAtPosition(Vector2 position){
+    public GameActor playerAtPosition(Vector2 position){
         for(Player player: playerObjects){
             if(player.xPosition == position.x && player.yPosition == position.y) return player;
         }
@@ -305,5 +259,68 @@ public class Board {
         int yValue = Math.abs((int)(oldPos.y - newPos.y));
         return Math.max(xValue, yValue);
     }
+
+    /**
+     * Updates the board objects that impact the players
+     * rotates the players and moves them if they are on conveyor belts
+     * then fires off lasers
+     */
+    public void updateBoard(){
+        ArrayList<Player> playersAlreadyMoved = new ArrayList<>();
+        Map<BoardObject, Player> map = new HashMap<>();
+
+        //rotator
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 0){
+                boardObject.update(player);
+                playersAlreadyMoved.add(player);
+            }
+        }
+        //push1
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 1){
+                if(map.containsKey(boardObject.getPushingTo())){
+                    playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
+                    playersAlreadyMoved.add(player);
+                    map.remove(boardObject.getPushingTo());
+
+                }
+                else{
+                    map.put(boardObject, player);
+                }
+            }
+        }
+        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+        }
+        map.clear();
+        //push2
+        for (Player player: playerObjects) {
+            if(playersAlreadyMoved.contains(player)) continue;
+            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            if (boardObject != null && boardObject.getDistance() == 2){
+                if(map.containsKey(boardObject.getPushingTo())){
+                    playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
+                    playersAlreadyMoved.add(player);
+                }
+                else{
+                    map.put(boardObject, player);
+                }
+
+            }
+        }
+        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+            mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
+        }
+
+        //fire lasers
+        fireLasers();
+    }
+
 
 }
