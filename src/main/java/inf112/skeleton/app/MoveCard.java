@@ -22,10 +22,13 @@ public class MoveCard implements Comparable<MoveCard> {
             switch(amountOfMoves){
                 case(1):
                     this.assetName = "Cards/RightTurn.png";
+                    break;
                 case(2):
                     this.assetName = "Cards/U-Turn.png";
+                    break;
                 case(3):
-                    this.assetName = "Cards/RightTurn.png";
+                    this.assetName = "Cards/LeftTurn.png";
+                    break;
 
             }
         }
