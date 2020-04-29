@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import java.util.ArrayList;
+
 
 public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -22,7 +24,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private MoveCard card;
     private Deck deck;
     private BitmapFont font = new BitmapFont();
-
+    MoveCard [] temp = new MoveCard[5];
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -62,17 +64,22 @@ public class GameScreen extends InputAdapter implements Screen {
         int h = 97;
 
         for (int i = 0; i < 9; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,x, 680, w, h);
+            MoveCard card = deck.listOfMoveCards.get(i);
+            if (!card.isSelected) batch.draw(card.texture,x, board.getBoardHeight()+680, w, h);
             x+=w;
         }
-
-        for (int i = 0; i < 5; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,xVal, 575, w, h);
+/*
+        for (MoveCard mc : temp){
+            if(mc!=null) batch.draw(mc.texture, xVal, 575, w, h);
             xVal+=w;
         }
-        int liv = 8;
+
+ */
+        for (int i = 0; i < 5; i++) {
+            if(temp[i]!=null) batch.draw(temp[i].texture, xVal, 575, w, h);
+            xVal+=w;
+        }
+
         font.setColor(Color.BLACK);
         font.draw(batch, "Player 1:"+ player.healthPoints, 50, 600);
         font.draw(batch, "Player 2:"+player2.healthPoints, 600, 600);
@@ -139,15 +146,15 @@ public class GameScreen extends InputAdapter implements Screen {
                 board.updateBoard();
                 return true;
 
-            case Input.Keys.NUM_1:
+            case Input.Keys.G:
                 player.rotateClockWise(1);
                 return true;
-            case Input.Keys.NUM_2:
+            case Input.Keys.H:
 
                 player.rotateClockWise(2);
                 return true;
 
-            case Input.Keys.NUM_3:
+            case Input.Keys.J:
                 player.rotateClockWise(3);
                 return true;
 
@@ -167,10 +174,79 @@ public class GameScreen extends InputAdapter implements Screen {
                     }
                     board.fireLasers();
                 }
+            case Input.Keys.NUM_1:
+                deck.listOfMoveCards.get(0).isSelected=false;
+
+                System.out.println(deck.listOfMoveCards.get(0).isSelected);
+
+                if (deck.listOfMoveCards.get(0).isSelected) return false;
+                else if (temp[4] == null){
+                    for (int i = 0; i < temp.length; i++) {
+                        if(temp[i] == null){
+                            temp[i] = deck.listOfMoveCards.get(0);
+                            break;
+                        }
+                    }
+                    deck.listOfMoveCards.get(0).toggleCard();
+                    System.out.println(deck.listOfMoveCards.get(0).isSelected);
+                }
+                return true;
+
+
+            case Input.Keys.NUM_2:
+                return cardInput(2);
+
+            case Input.Keys.NUM_3:
+                return cardInput(3);
+
+            case Input.Keys.NUM_4:
+                return cardInput(4);
+
+            case Input.Keys.NUM_5:
+                return cardInput(5);
+
+            case Input.Keys.NUM_6:
+                return cardInput(6);
+
+            case Input.Keys.NUM_7:
+                return cardInput(7);
+
+            case Input.Keys.NUM_8:
+                return cardInput(8);
+
+            case Input.Keys.NUM_9:
+                return cardInput(9);
+
+            case Input.Keys.BACKSPACE:
+                for (int i = 0; i < temp.length; i++) {
+                    if(temp[i] != null)temp[i].toggleCard();
+                    temp[i] = null;
+                }
 
             default:
                 return false;
         }
+    }
+
+
+    public boolean cardInput(int number){
+        number-=1;
+        deck.listOfMoveCards.get(number).isSelected=false;
+
+        System.out.println(deck.listOfMoveCards.get(number).isSelected);
+
+        if (deck.listOfMoveCards.get(number).isSelected) return false;
+        else if (temp[4] == null){
+            for (int i = 0; i < temp.length; i++) {
+                if(temp[i] == null){
+                    temp[i] = deck.listOfMoveCards.get(number);
+                    break;
+                }
+            }
+            deck.listOfMoveCards.get(number).toggleCard();
+            System.out.println(deck.listOfMoveCards.get(number).isSelected);
+        }
+        return true;
     }
 }
 
