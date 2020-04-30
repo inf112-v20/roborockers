@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.ArrayList;
 
 
 public class GameScreen extends InputAdapter implements Screen {
@@ -21,9 +21,10 @@ public class GameScreen extends InputAdapter implements Screen {
     private Player player2;
     private Board board;
     private SpriteBatch batch;
+    private MoveCard card;
     private Deck deck;
     private BitmapFont font = new BitmapFont();
-
+    MoveCard [] temp = new MoveCard[5];
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -32,10 +33,11 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(1, 2, "Name", 3, 1, 4);
+        player = new Player(1, 1, "Name", 3, 1, 4);
         player2 = new Player(2,4, "Player 2",3,2,4);
         board.playerObjects.add(player);
         board.playerObjects.add(player2);
+        card = new MoveCard(20, 0, false);
 
         deck = new Deck(null);
         deck.listOfMoveCards.get(0);
@@ -53,9 +55,8 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer.setView(camera);
         camera.update();
         mapRenderer.render();
-        for (GameActor player: board.playerObjects) {
-            board.playerLayer.setCell(player.getXPosition(),player.getYPosition(), player.getPlayerCell());
-        }
+        board.playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
+        board.playerLayer.setCell(player2.xPosition, player2.yPosition, player2.playerCell);
         batch.begin();
         int x = 0;
         int xVal = 154;
@@ -63,20 +64,25 @@ public class GameScreen extends InputAdapter implements Screen {
         int h = 97;
 
         for (int i = 0; i < 9; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,x, board.getBoardHeight()+680, w, h);
+            MoveCard card = deck.listOfMoveCards.get(i);
+            if (!card.isSelected) batch.draw(card.texture,x, board.getBoardHeight()+680, w, h);
             x+=w;
         }
-
-        for (int i = 0; i < 5; i++) {
-            //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,xVal, 575, w, h);
+/*
+        for (MoveCard mc : temp){
+            if(mc!=null) batch.draw(mc.texture, xVal, 575, w, h);
             xVal+=w;
         }
-        int liv = 8;
+
+ */
+        for (int i = 0; i < 5; i++) {
+            if(temp[i]!=null) batch.draw(temp[i].texture, xVal, 575, w, h);
+            xVal+=w;
+        }
+
         font.setColor(Color.BLACK);
-        font.draw(batch, "Player 1: "+ player.healthPoints, 50, 600);
-        font.draw(batch, "Player 2: "+ player2.healthPoints, 600, 600);
+        font.draw(batch, "Player 1:"+ player.healthPoints, 50, 600);
+        font.draw(batch, "Player 2:"+player2.healthPoints, 600, 600);
         batch.end();
     }
 
@@ -109,7 +115,6 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public boolean keyUp(int keyCode){
-        System.out.println(board.getBoardWidth());
         Direction direction = new Direction();
         System.out.println(player.healthPoints);
 
@@ -141,15 +146,15 @@ public class GameScreen extends InputAdapter implements Screen {
                 board.updateBoard();
                 return true;
 
-            case Input.Keys.NUM_1:
+            case Input.Keys.G:
                 player.rotateClockWise(1);
                 return true;
-            case Input.Keys.NUM_2:
+            case Input.Keys.H:
 
                 player.rotateClockWise(2);
                 return true;
 
-            case Input.Keys.NUM_3:
+            case Input.Keys.J:
                 player.rotateClockWise(3);
                 return true;
 
@@ -162,17 +167,86 @@ public class GameScreen extends InputAdapter implements Screen {
                 return true;
 
             case Input.Keys.U:
-                for (GameActor p : board.playerObjects) {
-                    if(board.playerAdjuster[p.getXPosition()][p.getYPosition()] != null){
-                        BoardObject boardObject = board.playerAdjuster[p.getXPosition()][p.getYPosition()];
+                for (Player p : board.playerObjects) {
+                    if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
+                        BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
                         boardObject.update(p);
                     }
                     board.fireLasers();
+                }
+            case Input.Keys.NUM_1:
+                deck.listOfMoveCards.get(0).isSelected=false;
+
+                System.out.println(deck.listOfMoveCards.get(0).isSelected);
+
+                if (deck.listOfMoveCards.get(0).isSelected) return false;
+                else if (temp[4] == null){
+                    for (int i = 0; i < temp.length; i++) {
+                        if(temp[i] == null){
+                            temp[i] = deck.listOfMoveCards.get(0);
+                            break;
+                        }
+                    }
+                    deck.listOfMoveCards.get(0).toggleCard();
+                    System.out.println(deck.listOfMoveCards.get(0).isSelected);
+                }
+                return true;
+
+
+            case Input.Keys.NUM_2:
+                return cardInput(2);
+
+            case Input.Keys.NUM_3:
+                return cardInput(3);
+
+            case Input.Keys.NUM_4:
+                return cardInput(4);
+
+            case Input.Keys.NUM_5:
+                return cardInput(5);
+
+            case Input.Keys.NUM_6:
+                return cardInput(6);
+
+            case Input.Keys.NUM_7:
+                return cardInput(7);
+
+            case Input.Keys.NUM_8:
+                return cardInput(8);
+
+            case Input.Keys.NUM_9:
+                return cardInput(9);
+
+            case Input.Keys.BACKSPACE:
+                for (int i = 0; i < temp.length; i++) {
+                    if(temp[i] != null)temp[i].toggleCard();
+                    temp[i] = null;
                 }
 
             default:
                 return false;
         }
+    }
+
+
+    public boolean cardInput(int number){
+        number-=1;
+        deck.listOfMoveCards.get(number).isSelected=false;
+
+        System.out.println(deck.listOfMoveCards.get(number).isSelected);
+
+        if (deck.listOfMoveCards.get(number).isSelected) return false;
+        else if (temp[4] == null){
+            for (int i = 0; i < temp.length; i++) {
+                if(temp[i] == null){
+                    temp[i] = deck.listOfMoveCards.get(number);
+                    break;
+                }
+            }
+            deck.listOfMoveCards.get(number).toggleCard();
+            System.out.println(deck.listOfMoveCards.get(number).isSelected);
+        }
+        return true;
     }
 }
 
