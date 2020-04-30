@@ -5,8 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,17 +26,19 @@ public class Board {
     public Wall[][] wallObjects;
     public BoardObject[][] playerAdjuster;
     public ArrayList<Laser> lasers = new ArrayList<Laser>();
-    public ArrayList<Player> playerObjects;
+    public ArrayList<GameActor> playerObjects;
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
-    private ArrayList<Vector2> startingSpots;
+    Vector2[] startingVectors = new Vector2[8];
+    private int[]checkpointFlags = {56, 64, 72, 80};
+    public GameActor winner;
 
 
     /**
      * Constructor for creating and setting up a playing board
      * @param boardName  filename of the board to be started up
      */
-    public Board(String boardName) {
+    public Board(String boardName, int numberOfPlayers) {
         tileSize = 300;
         board = new TmxMapLoader().load(boardName);
         boardLayers = new HashMap<>();
@@ -57,13 +59,18 @@ public class Board {
         wallLayer = (TiledMapTileLayer) board.getLayers().get("Wall");
         wallObjects = new Wall[boardWidth][boardHeight];
         playerAdjuster = new BoardObject[boardWidth][boardHeight];
-        playerObjects = new ArrayList<Player>();
-        startingSpots = new ArrayList<>();
+        playerObjects = new ArrayList<GameActor>();
 
         //Fills the 2D arrays with the objects needed to implement the functionality required
         for (int x = 0; x < boardWidth; x++) {
             for (int y = 0; y < boardHeight; y++) {
-                if(startPosition.getCell(x,y) != null) startingSpots.add(new Vector2(x,y));
+                int counter = 0;
+                if(flagLayer.getCell(x,y) != null) counter ++;
+                checkpointFlags = Arrays.copyOfRange(checkpointFlags, 0, counter);
+                if(startPosition.getCell(x,y) != null){
+                    int positionID = startPosition.getCell(x,y).getTile().getId();
+                    startingVectors[helperStartPositions(positionID)] = new Vector2(x,y);
+                }
                 if (wallLayer.getCell(x, y) != null) {
                     TiledMapTile tile = wallLayer.getCell(x, y).getTile();
                     Wall w = new Wall(x, y, tile.getId());
@@ -80,6 +87,10 @@ public class Board {
                     playerAdjuster[x][y] = b;
                 }
             }
+        }
+        playerObjects.add(new Player((int)startingVectors[0].x, (int)startingVectors[0].y,"Your player", 3, 1, checkpointFlags.length));
+        for(int i = 1; i < numberOfPlayers; i++){
+            playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
         }
     }
 
@@ -176,8 +187,8 @@ public class Board {
     public boolean willCollideWithPlayer(int x, int y, Direction.NominalDirection dir){
         Direction direction = new Direction(dir);
         Vector2 position = direction.getPositionInDirection(x,y,dir);
-        for (Player player : playerObjects) {
-            if(position.x == player.xPosition && position.y == player.yPosition){
+        for (GameActor player : playerObjects) {
+            if(position.x == player.getXPosition() && position.y == player.getYPosition()){
                 return true;
             }
         }
@@ -241,8 +252,8 @@ public class Board {
         return false;
     }
     public GameActor playerAtPosition(Vector2 position){
-        for(Player player: playerObjects){
-            if(player.xPosition == position.x && player.yPosition == position.y) return player;
+        for(GameActor player: playerObjects){
+            if(player.getXPosition() == position.x && player.getYPosition() == position.y) return player;
         }
         return null;
     }
@@ -266,22 +277,38 @@ public class Board {
      * then fires off lasers
      */
     public void updateBoard(){
-        ArrayList<Player> playersAlreadyMoved = new ArrayList<>();
-        Map<BoardObject, Player> map = new HashMap<>();
+        ArrayList<GameActor> playersAlreadyMoved = new ArrayList<>();
+        Map<BoardObject, GameActor> map = new HashMap<>();
+
+        //Register if players are on a their next flag and if so update checkpoint
+        for (GameActor player: playerObjects) {
+            if(flagLayer.getCell(player.getXPosition(),player.getYPosition()) != null){
+                int flagID = flagLayer.getCell(player.getXPosition(),player.getYPosition()).getTile().getId();
+                for(int i = 0; i < checkpointFlags.length; i++){
+                    if(player.getNumberOfFlagsVisited() == i && flagID == checkpointFlags[i]){
+                        player.setNumberOfFlagsVisited(player.getNumberOfFlagsVisited() + 1);
+                        player.updateCheckpoint();
+                        if(player.getNumberOfFlagsVisited() == checkpointFlags.length){
+                            winner = player;
+                        }
+                    }
+                }
+            }
+        }
 
         //rotator
-        for (Player player: playerObjects) {
+        for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
-            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() == 0){
                 boardObject.update(player);
                 playersAlreadyMoved.add(player);
             }
         }
         //push1
-        for (Player player: playerObjects) {
+        for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
-            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() == 1){
                 if(map.containsKey(boardObject.getPushingTo())){
                     playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
@@ -294,14 +321,14 @@ public class Board {
                 }
             }
         }
-        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+        for (Map.Entry<BoardObject, GameActor> mapEntry : map.entrySet()){
             mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
         }
         map.clear();
         //push2
-        for (Player player: playerObjects) {
+        for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
-            BoardObject boardObject = playerAdjuster[player.xPosition][player.yPosition];
+            BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() == 2){
                 if(map.containsKey(boardObject.getPushingTo())){
                     playersAlreadyMoved.add(map.get(boardObject.getPushingTo()));
@@ -313,13 +340,23 @@ public class Board {
 
             }
         }
-        for (Map.Entry<BoardObject, Player> mapEntry : map.entrySet()){
+        for (Map.Entry<BoardObject, GameActor> mapEntry : map.entrySet()){
             mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
             mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
         }
 
         //fire lasers
         fireLasers();
+    }
+
+    public int helperStartPositions(int inNumber){
+        Integer[] startingSpotID = {121,122,123,124,129,130,131,132};
+        for(int i = 0; i < startingSpotID.length; i++) {
+            if(inNumber == startingSpotID[i]){
+                return i;
+            }
+        }
+        return 0;
     }
 
 

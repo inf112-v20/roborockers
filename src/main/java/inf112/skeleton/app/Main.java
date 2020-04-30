@@ -10,7 +10,7 @@ public class Main {
         cfg.title = "Robo Rally - The Game";
         cfg.width = RallyGame.SCREEN_WIDTH;
         cfg.height = RallyGame.SCREEN_HEIGHT;
-        cfg.resizable = true;
+        cfg.resizable = false;
 
         new LwjglApplication(new RallyGame( ), cfg);
     }

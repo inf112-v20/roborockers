@@ -16,12 +16,11 @@ public class MenuScreen extends ScreenAdapter {
 
     private Stage stage;
     private RallyGame game;
-    private Board board;
 
 
-    public MenuScreen(final RallyGame game, final Board board) {
+    public MenuScreen(final RallyGame game) {
         this.game = game;
-        this.board = board;
+        //this.board = board;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -33,16 +32,23 @@ public class MenuScreen extends ScreenAdapter {
         Texture logoTexture = new Texture(Gdx.files.internal("bakgrunn.png"));
         Image logo = new Image(logoTexture);
 
-        CheckBox checkBox = new CheckBox("hello", skin);
+        CheckBox checkBox = new CheckBox("", skin);
 
         Label mapSelectorLabel = new Label("Map: ", skin);
         mapSelectorLabel.setFontScale(1.3f);
-        SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
+        final SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
 
 
         // "save" valget i en variabel elns
-        String[] mapSelectorOptions = {"demo.tmx","tiles.tmx"};
+        String[] mapSelectorOptions = {"tiles3.tmx","tiles.tmx"};
         mapSelectorBox.setItems(mapSelectorOptions);
+
+        Label playerNumberLabel = new Label("Number of players: ", skin);
+        playerNumberLabel.setFontScale(1.3f);
+        final SelectBox<Integer> playerNumberBox = new SelectBox<>(skin);
+
+        Integer[] playerNumberOptions = {2,3,4,5,6,7,8};
+        playerNumberBox.setItems(playerNumberOptions);
 
 
 
@@ -50,8 +56,9 @@ public class MenuScreen extends ScreenAdapter {
         playButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // istedenfor board, hvilke map de velger fra selecteren
-                game.setScreen(new GameScreen(board));
+                // Create a board with 2-8 players on the selected map
+                int numberOfPlayers = playerNumberBox.getSelected();
+                game.setScreen(new GameScreen(new Board(mapSelectorBox.getSelected(), numberOfPlayers)));
             }
 
             @Override
@@ -83,6 +90,9 @@ public class MenuScreen extends ScreenAdapter {
         table.add(mapSelectorLabel).right();
         table.add(mapSelectorBox).left();
         table.row();
+        table.add(playerNumberLabel).right();
+        table.add(playerNumberBox).left();
+        table.row();
         table.add(exitButton).prefHeight(50).prefWidth(200).colspan(2).padTop(50);
 
         table.setFillParent(true);
@@ -99,9 +109,4 @@ public class MenuScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
     }
-
-
-
-
-
 }

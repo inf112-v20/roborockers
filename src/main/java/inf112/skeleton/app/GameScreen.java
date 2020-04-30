@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class GameScreen extends InputAdapter implements Screen {
@@ -19,7 +21,6 @@ public class GameScreen extends InputAdapter implements Screen {
     private Player player2;
     private Board board;
     private SpriteBatch batch;
-    private MoveCard card;
     private Deck deck;
     private BitmapFont font = new BitmapFont();
 
@@ -31,11 +32,10 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(1, 1, "Name", 3, 1, 4);
+        player = new Player(1, 2, "Name", 3, 1, 4);
         player2 = new Player(2,4, "Player 2",3,2,4);
         board.playerObjects.add(player);
         board.playerObjects.add(player2);
-        card = new MoveCard(20, 0, false);
 
         deck = new Deck(null);
         deck.listOfMoveCards.get(0);
@@ -53,8 +53,9 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer.setView(camera);
         camera.update();
         mapRenderer.render();
-        board.playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
-        board.playerLayer.setCell(player2.xPosition, player2.yPosition, player2.playerCell);
+        for (GameActor player: board.playerObjects) {
+            board.playerLayer.setCell(player.getXPosition(),player.getYPosition(), player.getPlayerCell());
+        }
         batch.begin();
         int x = 0;
         int xVal = 154;
@@ -63,7 +64,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
         for (int i = 0; i < 9; i++) {
             //cardsInStock[i] = deck.listOfMoveCards.get(i);
-            batch.draw(deck.listOfMoveCards.get(i).texture,x, 680, w, h);
+            batch.draw(deck.listOfMoveCards.get(i).texture,x, board.getBoardHeight()+680, w, h);
             x+=w;
         }
 
@@ -74,8 +75,8 @@ public class GameScreen extends InputAdapter implements Screen {
         }
         int liv = 8;
         font.setColor(Color.BLACK);
-        font.draw(batch, "Player 1:"+ player.healthPoints, 50, 600);
-        font.draw(batch, "Player 2:"+player2.healthPoints, 600, 600);
+        font.draw(batch, "Player 1: "+ player.healthPoints, 50, 600);
+        font.draw(batch, "Player 2: "+ player2.healthPoints, 600, 600);
         batch.end();
     }
 
@@ -108,6 +109,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public boolean keyUp(int keyCode){
+        System.out.println(board.getBoardWidth());
         Direction direction = new Direction();
         System.out.println(player.healthPoints);
 
@@ -160,9 +162,9 @@ public class GameScreen extends InputAdapter implements Screen {
                 return true;
 
             case Input.Keys.U:
-                for (Player p : board.playerObjects) {
-                    if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
-                        BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
+                for (GameActor p : board.playerObjects) {
+                    if(board.playerAdjuster[p.getXPosition()][p.getYPosition()] != null){
+                        BoardObject boardObject = board.playerAdjuster[p.getXPosition()][p.getYPosition()];
                         boardObject.update(p);
                     }
                     board.fireLasers();

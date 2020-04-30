@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class ComputerPlayer implements GameActor {
     public Texture playerTexture;
     public TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell();
     public TextureRegion[][] playerTxRegion;
-    public boolean[] flagWinCondition;
+    public int numberOfFlagsVisited = 0;
     private Laser playerLaser;
 
     public ComputerPlayer(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
@@ -38,7 +39,6 @@ public class ComputerPlayer implements GameActor {
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
         this.playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
-        this.flagWinCondition = new boolean[nmrOfFlags];
     }
     /*
         For testing purposes the LibGDX and all texture classes will fail if the LibGDX library has not yet been
@@ -52,7 +52,6 @@ public class ComputerPlayer implements GameActor {
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
-        this.flagWinCondition = new boolean[nmrOfFlags];
     }
     @Override
     public int getXPosition(){
@@ -80,12 +79,16 @@ public class ComputerPlayer implements GameActor {
         return powerdownStatus;
     }
     @Override
-    public int getHealthPoints(){
-        return healthPoints;
-    }
+    public int getHealthPoints(){ return healthPoints; }
     @Override
-    public MoveCard[] getProgramCard(){
-        return programCard;
+    public MoveCard[] getProgramCard(){ return programCard;}
+    @Override
+    public int getNumberOfFlagsVisited(){return numberOfFlagsVisited;}
+    @Override
+    public void setNumberOfFlagsVisited(int amount){numberOfFlagsVisited = amount;}
+    @Override
+    public Cell getPlayerCell(){
+        return playerCell;
     }
 
     @Override

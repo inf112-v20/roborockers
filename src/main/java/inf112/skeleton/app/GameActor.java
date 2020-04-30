@@ -2,6 +2,8 @@ package inf112.skeleton.app;
 
 
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+
 import java.util.ArrayList;
 
 public interface GameActor {
@@ -30,4 +32,7 @@ public interface GameActor {
     int getHealthPoints();
     int getPowerDownStatus();
     MoveCard[] getProgramCard();
+    int getNumberOfFlagsVisited();
+    void setNumberOfFlagsVisited(int amount);
+    Cell getPlayerCell();
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import java.util.ArrayList;
 
+
 public class Player implements GameActor{
     public int xPosition;
     public int yPosition;
@@ -21,7 +22,7 @@ public class Player implements GameActor{
     public Texture playerTexture;
     public Cell playerCell = new Cell();
     public TextureRegion[][] playerTxRegion;
-    public boolean[] flagWinCondition;
+    public int numberOfFlagsVisited = 0;
     private Laser playerLaser;
 
     public Player(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
@@ -36,7 +37,6 @@ public class Player implements GameActor{
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
         this.playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][0]));
-        this.flagWinCondition = new boolean[nmrOfFlags];
     }
     /*
         For testing purposes the LibGDX and all texture classes will fail if the LibGDX library has not yet been
@@ -50,7 +50,6 @@ public class Player implements GameActor{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
-        this.flagWinCondition = new boolean[nmrOfFlags];
     }
     @Override
     public int getXPosition(){
@@ -85,6 +84,12 @@ public class Player implements GameActor{
     public MoveCard[] getProgramCard(){
         return programCard;
     }
+    @Override
+    public int getNumberOfFlagsVisited(){return numberOfFlagsVisited;}
+    @Override
+    public void setNumberOfFlagsVisited(int amount){numberOfFlagsVisited = amount;}
+    @Override
+    public Cell getPlayerCell(){ return playerCell; }
 
     @Override
     public void startRound(Game game){

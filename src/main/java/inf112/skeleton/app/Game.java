@@ -15,12 +15,14 @@ public class Game {
     }
 
     public void startGameRound() {
-        while (!playerList.isEmpty()) {
+        while (!playerList.isEmpty() || board.winner != null) {
             playDeck.shuffle();
             int topOfDeck = 0;
             for (GameActor player : playerList) {
                 if(0 == player.getRemainingLives()){
                     playerList.remove(player); //Kan muligens feile med liste iterable etc...
+                    board.playerLayer.setCell(player.getXPosition(),player.getYPosition(), null);
+
                     continue;
                 }
                 if(player.getPowerDownStatus() != 1){
@@ -31,6 +33,7 @@ public class Game {
             }
             gamePhases();
         }
+
     }
 
     public void gamePhases() {
