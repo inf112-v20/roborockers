@@ -61,7 +61,7 @@ public class Laser {
         Vector2 hitPosition = new Vector2(position.x, position.y);
         while(true){
             if(board.positionIsOutOfBounds(hitPosition)) return null;
-            if(board.playerLayer != null) return hitPosition;
+            if(board.playerLayer.getCell((int)hitPosition.x, (int)hitPosition.y) != null) return hitPosition;
             Wall wall = board.wallObjects[(int)hitPosition.x][(int)hitPosition.y];
             if(wall != null){
                 if(wall.blocksMovementTowards(direction.rotate180(direction.heading))){

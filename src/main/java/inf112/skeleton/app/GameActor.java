@@ -35,4 +35,5 @@ public interface GameActor {
     int getNumberOfFlagsVisited();
     void setNumberOfFlagsVisited(int amount);
     Cell getPlayerCell();
+    String createPlayerStatus();
 }

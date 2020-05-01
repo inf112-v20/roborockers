@@ -55,34 +55,34 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer.setView(camera);
         camera.update();
         mapRenderer.render();
-        board.playerLayer.setCell(player.xPosition, player.yPosition, player.playerCell);
-        board.playerLayer.setCell(player2.xPosition, player2.yPosition, player2.playerCell);
+        for (GameActor individual : board.playerObjects){
+            board.playerLayer.setCell(individual.getXPosition(), individual.getYPosition(), individual.getPlayerCell());
+        }
         batch.begin();
-        int x = 0;
-        int xVal = 154;
-        int w = 77;
-        int h = 97;
+        int unselectedStartPositionX = 0;
+        int selectedStartPositionX = 154;
+        int cardWidth = 77;
+        int cardHeight = 97;
 
         for (int i = 0; i < 9; i++) {
             MoveCard card = deck.listOfMoveCards.get(i);
-            if (!card.isSelected) batch.draw(card.texture,x, board.getBoardHeight()+680, w, h);
-            x+=w;
-        }
-/*
-        for (MoveCard mc : temp){
-            if(mc!=null) batch.draw(mc.texture, xVal, 575, w, h);
-            xVal+=w;
+            if (!card.isSelected) batch.draw(card.texture,unselectedStartPositionX, board.getBoardHeight()+680, cardWidth, cardHeight);
+            unselectedStartPositionX+=cardWidth;
         }
 
- */
         for (int i = 0; i < 5; i++) {
-            if(temp[i]!=null) batch.draw(temp[i].texture, xVal, 575, w, h);
-            xVal+=w;
+            if(temp[i]!=null) batch.draw(temp[i].texture, selectedStartPositionX, 575, cardWidth, cardHeight);
+            selectedStartPositionX+=cardWidth;
         }
 
         font.setColor(Color.BLACK);
-        font.draw(batch, "Player 1:"+ player.healthPoints, 50, 600);
-        font.draw(batch, "Player 2:"+player2.healthPoints, 600, 600);
+        font.draw(batch, board.playerObjects.get(1).createPlayerStatus(), 50, 680);
+        font.draw(batch, "Go to flag: " + board.playerObjects.get(0).getNumberOfFlagsVisited(), 50, 660);
+        for(int i = 1; i < board.playerObjects.size(); i++){
+            GameActor ga = board.playerObjects.get(i);
+            font.draw(batch, ga.createPlayerStatus(), 540, 700 - (15 * i));
+        }
+
         batch.end();
     }
 
@@ -120,7 +120,6 @@ public class GameScreen extends InputAdapter implements Screen {
 
         board.playerLayer.setCell(player.xPosition, player.yPosition, null);
         board.playerLayer.setCell(player2.xPosition, player2.yPosition, null);
-
         switch (keyCode){
             case Input.Keys.UP:
                 direction.heading = Direction.NominalDirection.NORTH;
@@ -167,31 +166,10 @@ public class GameScreen extends InputAdapter implements Screen {
                 return true;
 
             case Input.Keys.U:
-                for (Player p : board.playerObjects) {
-                    if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
-                        BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
-                        boardObject.update(p);
-                    }
-                    board.fireLasers();
-                }
+                board.updateBoard();
+
             case Input.Keys.NUM_1:
-                deck.listOfMoveCards.get(0).isSelected=false;
-
-                System.out.println(deck.listOfMoveCards.get(0).isSelected);
-
-                if (deck.listOfMoveCards.get(0).isSelected) return false;
-                else if (temp[4] == null){
-                    for (int i = 0; i < temp.length; i++) {
-                        if(temp[i] == null){
-                            temp[i] = deck.listOfMoveCards.get(0);
-                            break;
-                        }
-                    }
-                    deck.listOfMoveCards.get(0).toggleCard();
-                    System.out.println(deck.listOfMoveCards.get(0).isSelected);
-                }
-                return true;
-
+                return cardInput(1);
 
             case Input.Keys.NUM_2:
                 return cardInput(2);
@@ -223,6 +201,20 @@ public class GameScreen extends InputAdapter implements Screen {
                     temp[i] = null;
                 }
 
+            case Input.Keys.ENTER:
+                if(temp[4] == null){
+                    //Did not input enough cards
+                    for (int i = 0; i < temp.length; i++) {
+                        if(temp[i] != null)temp[i].toggleCard();
+                        temp[i] = null;
+                    }
+
+                    return false;
+                }
+                else{
+                    //Start start up the game loop
+                }
+
             default:
                 return false;
         }
@@ -230,21 +222,20 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public boolean cardInput(int number){
-        number-=1;
-        deck.listOfMoveCards.get(number).isSelected=false;
+        deck.listOfMoveCards.get(number-1).isSelected=false;
 
-        System.out.println(deck.listOfMoveCards.get(number).isSelected);
+        System.out.println("Selected card: " + deck.listOfMoveCards.get(number-1).isSelected);
 
         if (deck.listOfMoveCards.get(number).isSelected) return false;
         else if (temp[4] == null){
             for (int i = 0; i < temp.length; i++) {
                 if(temp[i] == null){
-                    temp[i] = deck.listOfMoveCards.get(number);
+                    temp[i] = deck.listOfMoveCards.get(number-1);
                     break;
                 }
             }
-            deck.listOfMoveCards.get(number).toggleCard();
-            System.out.println(deck.listOfMoveCards.get(number).isSelected);
+            deck.listOfMoveCards.get(number-1).toggleCard();
+            System.out.println(deck.listOfMoveCards.get(number-1).isSelected);
         }
         return true;
     }

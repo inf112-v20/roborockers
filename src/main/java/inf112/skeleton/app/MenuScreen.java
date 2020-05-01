@@ -40,7 +40,7 @@ public class MenuScreen extends ScreenAdapter {
 
 
         // "save" valget i en variabel elns
-        String[] mapSelectorOptions = {"tiles3.tmx","tiles.tmx"};
+        String[] mapSelectorOptions = {"tiles.tmx","tiles3.tmx"};
         mapSelectorBox.setItems(mapSelectorOptions);
 
         Label playerNumberLabel = new Label("Number of players: ", skin);

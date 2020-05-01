@@ -154,7 +154,7 @@ public class Player implements GameActor{
         if(board.willCollideWithWall(xPosition,yPosition,nominalDirection)) return false;
         if(board.willGoIntoHole(xPosition,yPosition,nominalDirection) || board.willGoOutOfTheMap(xPosition,yPosition,nominalDirection)){
             loseALife();
-            //return false;
+            return false;
         }
 
         if(board.willCollideWithPlayer(xPosition,yPosition,nominalDirection)){
@@ -268,5 +268,13 @@ public class Player implements GameActor{
     public void updateCheckpoint(){
         checkpoint.x = xPosition;
         checkpoint.y = yPosition;
+    }
+    @Override
+    public String createPlayerStatus(){
+        String string = "";
+        string += getName() + " , Lives: ";
+        string += getRemainingLives() + " , HP: ";
+        string += getHealthPoints();
+        return string;
     }
 }

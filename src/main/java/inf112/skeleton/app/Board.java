@@ -345,8 +345,13 @@ public class Board {
             mapEntry.getValue().attemptToMoveInDirection(this, mapEntry.getKey().getDirection());
         }
 
-        //fire lasers
+        //remove old player cell textures
+        cleanOldPlayerTextures();
+        //fire the lasers
         fireLasers();
+        //once again clean old player textures in case some players died from lasers
+        cleanOldPlayerTextures();
+
     }
 
     public int helperStartPositions(int inNumber){
@@ -359,5 +364,15 @@ public class Board {
         return 0;
     }
 
+    public void cleanOldPlayerTextures(){
+        for (int x = 0; x < boardWidth; x++) {
+            for (int y = 0; y < boardHeight; y++){
+                playerLayer.setCell(x,y,null);
+            }
+        }
+        for (GameActor player:playerObjects) {
+            playerLayer.setCell(player.getXPosition(),player.getYPosition(),player.getPlayerCell());
+        }
+    }
 
 }

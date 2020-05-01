@@ -275,5 +275,13 @@ public class ComputerPlayer implements GameActor {
         checkpoint.x = xPosition;
         checkpoint.y = yPosition;
     }
+    @Override
+    public String createPlayerStatus(){
+        String string = "";
+        string += getName() + ", Lives: ";
+        string += getRemainingLives() + ", HP: ";
+        string += getHealthPoints();
+        return string;
+    }
 }
 
