@@ -68,13 +68,7 @@ public class GameScreen extends InputAdapter implements Screen {
             if (!card.isSelected) batch.draw(card.texture,x, board.getBoardHeight()+680, w, h);
             x+=w;
         }
-/*
-        for (MoveCard mc : temp){
-            if(mc!=null) batch.draw(mc.texture, xVal, 575, w, h);
-            xVal+=w;
-        }
 
- */
         for (int i = 0; i < 5; i++) {
             if(temp[i]!=null) batch.draw(temp[i].texture, xVal, 575, w, h);
             xVal+=w;
@@ -167,9 +161,9 @@ public class GameScreen extends InputAdapter implements Screen {
                 return true;
 
             case Input.Keys.U:
-                for (Player p : board.playerObjects) {
-                    if(board.playerAdjuster[p.xPosition][p.yPosition] != null){
-                        BoardObject boardObject = board.playerAdjuster[p.xPosition][p.yPosition];
+                for (GameActor p : board.playerObjects) {
+                    if(board.playerAdjuster[p.getXPosition()][p.getYPosition()] != null){
+                        BoardObject boardObject = board.playerAdjuster[p.getXPosition()][p.getYPosition()];
                         boardObject.update(p);
                     }
                     board.fireLasers();
