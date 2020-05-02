@@ -7,20 +7,29 @@ public class Game {
     private static ArrayList<GameActor> playerList;
     private static Deck playDeck;
     private static Board board;
+    private RallyGame game;
 
-    public Game(Board board) {
-        this.playerList = new ArrayList<GameActor>();
+    public Game(Board board, RallyGame game, ArrayList<GameActor> playerList) {
+        this.playerList = playerList;
         this.playDeck = new Deck(null);
         this.board = board;
+        this.game = game;
+    }
+
+    public void runGame(){
+        while(board.winner == null){
+            startGameRound();
+        }
     }
 
     public void startGameRound() {
-        while (!playerList.isEmpty() || board.winner != null) {
+        while (playerList.size() >= 2 || board.winner != null) {
             playDeck.shuffle();
             int topOfDeck = 0;
             for (GameActor player : playerList) {
                 if(0 == player.getRemainingLives()){
                     playerList.remove(player); //Kan muligens feile med liste iterable etc...
+                    board.playerObjects.remove(player);
                     board.playerLayer.setCell(player.getXPosition(),player.getYPosition(), null);
 
                     continue;
@@ -55,5 +64,4 @@ public class Game {
             board.updateBoard();
         }
     }
-
 }

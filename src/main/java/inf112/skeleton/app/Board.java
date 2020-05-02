@@ -30,15 +30,18 @@ public class Board {
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
     Vector2[] startingVectors = new Vector2[8];
-    private int[]checkpointFlags = {56, 64, 72, 80};
+    private int[]checkpointFlags = {55, 64, 72, 80};
     public GameActor winner;
+    private RallyGame game;
+    private Game gameLoop;
 
 
     /**
      * Constructor for creating and setting up a playing board
      * @param boardName  filename of the board to be started up
      */
-    public Board(String boardName, int numberOfPlayers) {
+    public Board(String boardName, int numberOfPlayers, RallyGame game) {
+        this.game = game;
         tileSize = 300;
         board = new TmxMapLoader().load(boardName);
         boardLayers = new HashMap<>();
@@ -82,7 +85,13 @@ public class Board {
                     TiledMapTile tile = playerAdjusterLayer.getCell(x,y).getTile();
                     BoardObject b = new Belt(x,y,tile.getId());
                     if(b.getPushingTo() == null){
-                        b = new Rotator(tile.getId(), x, y);
+                        if(b.getDistance() == -1){
+                            b = new Mender(tile.getId(), x, y);
+                        }
+                        else{
+                            b = new Rotator(tile.getId(), x, y);
+                        }
+
                     }
                     playerAdjuster[x][y] = b;
                 }
@@ -92,6 +101,7 @@ public class Board {
         for(int i = 1; i < numberOfPlayers; i++){
             playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
         }
+        gameLoop = new Game(this, game, playerObjects);
     }
 
     /**
@@ -280,13 +290,20 @@ public class Board {
         ArrayList<GameActor> playersAlreadyMoved = new ArrayList<>();
         Map<BoardObject, GameActor> map = new HashMap<>();
 
+        if(playerObjects.size() == 1) {
+            winner = playerObjects.get(0);
+            return;
+        }
+
         //Register if players are on a their next flag and if so update checkpoint
         for (GameActor player: playerObjects) {
             if(flagLayer.getCell(player.getXPosition(),player.getYPosition()) != null){
                 int flagID = flagLayer.getCell(player.getXPosition(),player.getYPosition()).getTile().getId();
                 for(int i = 0; i < checkpointFlags.length; i++){
+                    System.out.println(player.getNumberOfFlagsVisited() == i);
+                    System.out.println(flagID == checkpointFlags[i]);
                     if(player.getNumberOfFlagsVisited() == i && flagID == checkpointFlags[i]){
-                        player.setNumberOfFlagsVisited(player.getNumberOfFlagsVisited() + 1);
+                        player.setNumberOfFlagsVisited();
                         player.updateCheckpoint();
                         if(player.getNumberOfFlagsVisited() == checkpointFlags.length){
                             winner = player;
@@ -300,7 +317,7 @@ public class Board {
         for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
             BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
-            if (boardObject != null && boardObject.getDistance() == 0){
+            if (boardObject != null && boardObject.getDistance() <= 0){
                 boardObject.update(player);
                 playersAlreadyMoved.add(player);
             }

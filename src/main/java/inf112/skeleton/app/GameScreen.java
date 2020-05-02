@@ -18,7 +18,6 @@ public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Player player;
-    private Player player2;
     private Board board;
     private SpriteBatch batch;
     private MoveCard card;
@@ -33,10 +32,7 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.setToOrtho(false, board.getBoardWidth(), board.getBoardHeight() + 5);
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
-        player = new Player(1, 1, "Name", 3, 1, 4);
-        player2 = new Player(2,4, "Player 2",3,2,4);
-        board.playerObjects.add(player);
-        board.playerObjects.add(player2);
+        player = (Player)board.playerObjects.get(0);
         card = new MoveCard(20, 0, false);
 
         deck = new Deck(null);
@@ -76,7 +72,7 @@ public class GameScreen extends InputAdapter implements Screen {
         }
 
         font.setColor(Color.BLACK);
-        font.draw(batch, board.playerObjects.get(1).createPlayerStatus(), 50, 680);
+        font.draw(batch, board.playerObjects.get(0).createPlayerStatus(), 50, 680);
         font.draw(batch, "Go to flag: " + board.playerObjects.get(0).getNumberOfFlagsVisited(), 50, 660);
         for(int i = 1; i < board.playerObjects.size(); i++){
             GameActor ga = board.playerObjects.get(i);
@@ -118,8 +114,8 @@ public class GameScreen extends InputAdapter implements Screen {
         Direction direction = new Direction();
         System.out.println(player.healthPoints);
 
-        board.playerLayer.setCell(player.xPosition, player.yPosition, null);
-        board.playerLayer.setCell(player2.xPosition, player2.yPosition, null);
+        //board.playerLayer.setCell(player.xPosition, player.yPosition, null);
+
         switch (keyCode){
             case Input.Keys.UP:
                 direction.heading = Direction.NominalDirection.NORTH;
@@ -156,9 +152,6 @@ public class GameScreen extends InputAdapter implements Screen {
             case Input.Keys.J:
                 player.rotateClockWise(3);
                 return true;
-
-            case Input.Keys.I:
-                System.out.println(player2.getName());
 
             case Input.Keys.R:
                 player.xPosition = (int)player.checkpoint.x;

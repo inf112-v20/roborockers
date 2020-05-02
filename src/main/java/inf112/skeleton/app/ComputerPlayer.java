@@ -81,11 +81,16 @@ public class ComputerPlayer implements GameActor {
     @Override
     public int getHealthPoints(){ return healthPoints; }
     @Override
+    public void healPlayer(int healAmount){
+        healthPoints += healAmount;
+        if(healthPoints > 9) healthPoints = 9;
+    }
+    @Override
     public MoveCard[] getProgramCard(){ return programCard;}
     @Override
     public int getNumberOfFlagsVisited(){return numberOfFlagsVisited;}
     @Override
-    public void setNumberOfFlagsVisited(int amount){numberOfFlagsVisited = amount;}
+    public void setNumberOfFlagsVisited(){numberOfFlagsVisited += 1;}
     @Override
     public Cell getPlayerCell(){
         return playerCell;

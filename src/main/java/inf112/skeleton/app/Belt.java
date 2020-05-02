@@ -67,8 +67,16 @@ public class Belt implements BoardObject {
             distance = 2;
         }
         else {
-            //object is not a belt, therefor do not set pushing to variable
-            distance = 0;
+            //object is not a belt, but a mender
+            if(ID == 7 || ID == 15){
+                distance = -1;
+            }
+            //object is a rotator
+            else{
+                distance = 0;
+            }
+
+
         }
     }
     @Override

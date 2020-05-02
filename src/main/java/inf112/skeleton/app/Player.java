@@ -81,13 +81,18 @@ public class Player implements GameActor{
         return healthPoints;
     }
     @Override
+    public void healPlayer(int healAmount){
+        healthPoints += healAmount;
+        if(healthPoints > 9) healthPoints = 9;
+    }
+    @Override
     public MoveCard[] getProgramCard(){
         return programCard;
     }
     @Override
     public int getNumberOfFlagsVisited(){return numberOfFlagsVisited;}
     @Override
-    public void setNumberOfFlagsVisited(int amount){numberOfFlagsVisited = amount;}
+    public void setNumberOfFlagsVisited(){numberOfFlagsVisited += 1;}
     @Override
     public Cell getPlayerCell(){ return playerCell; }
 
@@ -96,9 +101,13 @@ public class Player implements GameActor{
         if(powerdownStatus == 1){
             powerdownStatus = 0;
             fullHeal();
+            hand.clear();
+            for(int i = 0; i < programCard.length; i++){
+                programCard[i] = null;
+            }
             return;
         }
-        if(powerdownStatus > 1) powerdownStatus -= 1;
+        if(powerdownStatus == 2) powerdownStatus = 1;
         programRobot();
     }
     @Override
@@ -109,7 +118,7 @@ public class Player implements GameActor{
                 rotateClockWise(nextMove.amountOfMoves);
             }
             else{
-                if(nextMove.amountOfMoves < 0){
+                if(nextMove.amountOfMoves > 0){
                     attemptToMoveForward(board, nextMove.amountOfMoves);
                 }
                 else attemptToMoveBackward(board, nextMove.amountOfMoves);
@@ -119,6 +128,7 @@ public class Player implements GameActor{
     }
     @Override
     public void programRobot(){
+
     }
     @Override
     public void announcePowerdown (){

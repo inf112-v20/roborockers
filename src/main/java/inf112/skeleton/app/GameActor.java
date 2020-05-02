@@ -33,7 +33,8 @@ public interface GameActor {
     int getPowerDownStatus();
     MoveCard[] getProgramCard();
     int getNumberOfFlagsVisited();
-    void setNumberOfFlagsVisited(int amount);
+    void setNumberOfFlagsVisited();
     Cell getPlayerCell();
     String createPlayerStatus();
+    void healPlayer(int healAmount);
 }
