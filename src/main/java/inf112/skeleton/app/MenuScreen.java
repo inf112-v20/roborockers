@@ -20,7 +20,6 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(final RallyGame game) {
         this.game = game;
-        //this.board = board;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -32,16 +31,23 @@ public class MenuScreen extends ScreenAdapter {
         Texture logoTexture = new Texture(Gdx.files.internal("bakgrunn.png"));
         Image logo = new Image(logoTexture);
 
-        CheckBox checkBox = new CheckBox("", skin);
 
         Label mapSelectorLabel = new Label("Map: ", skin);
         mapSelectorLabel.setFontScale(1.3f);
         final SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
 
 
-        // "save" valget i en variabel elns
         String[] mapSelectorOptions = {"tiles3.tmx","tiles.tmx","Roadway.tmx"};
         mapSelectorBox.setItems(mapSelectorOptions);
+
+        Texture RoadwayTexture = new Texture(Gdx.files.internal("mRoadway.png"));
+        Label Roadway = new Label("Roadway", skin);
+        Image RodwayImage = new Image(RoadwayTexture);
+
+        Label tiles1 = new Label("Tiles", skin);
+        Texture tiles1Texture = new Texture(Gdx.files.internal("mtiles.png"));
+        Image bildeTiles = new Image(tiles1Texture);
+
 
         Label playerNumberLabel = new Label("Number of players: ", skin);
         playerNumberLabel.setFontScale(1.3f);
@@ -51,14 +57,13 @@ public class MenuScreen extends ScreenAdapter {
         playerNumberBox.setItems(playerNumberOptions);
 
 
-
         TextButton playButton = new TextButton("Play", skin);
         playButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 // Create a board with 2-8 players on the selected map
                 int numberOfPlayers = playerNumberBox.getSelected();
-                game.setScreen(new GameScreen(new Board(mapSelectorBox.getSelected(), numberOfPlayers)));
+                game.setScreen(new GameScreen(new Board(mapSelectorBox.getSelected(), numberOfPlayers, game)));
             }
 
             @Override
@@ -82,18 +87,26 @@ public class MenuScreen extends ScreenAdapter {
             }
         });
 
+
         table.top();
-        table.add(logo).top().colspan(2).padTop(50).size(500, 250);
+        table.add(logo).top().colspan(2).padTop(50).size(500, 250).right();
         table.row();
+        table.add(Roadway).left().padRight(50);
+        table.row();
+        table.add(RodwayImage).size(150, 150).left().padRight(50);
         table.add(playButton).prefHeight(70).prefWidth(200).colspan(2);
         table.row();
         table.add(mapSelectorLabel).right();
         table.add(mapSelectorBox).left();
         table.row();
-        table.add(playerNumberLabel).right();
-        table.add(playerNumberBox).left();
+        table.add(playerNumberLabel).right().colspan(3);
+        table.add(playerNumberBox).left().colspan(3);
         table.row();
-        table.add(exitButton).prefHeight(50).prefWidth(200).colspan(2).padTop(50);
+        table.add(tiles1).left();
+        table.row();
+        table.add(bildeTiles).size(150, 150).left().padRight(50);
+        table.add(exitButton).prefHeight(50).prefWidth(200).colspan(3);
+        table.row();
 
         table.setFillParent(true);
         table.setDebug(false);
