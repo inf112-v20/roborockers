@@ -32,7 +32,7 @@ public class Board {
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
     Vector2[] startingVectors = new Vector2[8];
-    private int[]checkpointFlags = {55, 64, 72, 80};
+    private int[] checkpointFlags = new int[]{55, 64, 72, 80};
     public GameActor winner;
     private RallyGame game;
     public Game gameLoop;
@@ -104,7 +104,7 @@ public class Board {
             playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
         }
         gameLoop = new Game(this, game, playerObjects);
-        //gameLoop.runGame();
+        gameLoop.startGameRound();
     }
 
     /**
