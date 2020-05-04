@@ -290,7 +290,8 @@ public class ComputerPlayer implements GameActor {
         String string = "";
         string += getName() + ", Lives: ";
         string += getRemainingLives() + ", HP: ";
-        string += getHealthPoints();
+        string += getHealthPoints() + ", PDS: ";
+        string += powerdownStatus;
         return string;
     }
 }

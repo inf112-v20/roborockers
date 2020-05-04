@@ -284,9 +284,10 @@ public class Player implements GameActor{
     @Override
     public String createPlayerStatus(){
         String string = "";
-        string += getName() + " , Lives: ";
-        string += getRemainingLives() + " , HP: ";
-        string += getHealthPoints();
+        string += getName() + ", Lives: ";
+        string += getRemainingLives() + ", HP: ";
+        string += getHealthPoints() + ", PDS: ";
+        string += powerdownStatus;
         return string;
     }
 }
