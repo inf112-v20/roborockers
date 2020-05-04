@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.BoardObjects.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

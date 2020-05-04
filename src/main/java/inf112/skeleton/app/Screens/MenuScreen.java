@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.Board;
+import inf112.skeleton.app.RallyGame;
+import inf112.skeleton.app.Screens.GameScreen;
 
 
 public class MenuScreen extends ScreenAdapter {
@@ -78,6 +81,7 @@ public class MenuScreen extends ScreenAdapter {
                 // Create a board with 2-8 players on the selected map
                 int numberOfPlayers = playerNumberBox.getSelected();
                 game.setScreen(new GameScreen(new Board(mapSelectorBox.getSelected(), numberOfPlayers, game)));
+
             }
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

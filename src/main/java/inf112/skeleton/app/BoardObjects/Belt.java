@@ -1,6 +1,9 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.BoardObjects;
 
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Direction;
+import inf112.skeleton.app.GameActor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
