@@ -1,7 +1,8 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.BoardObjects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import inf112.skeleton.app.Direction;
 
 import java.util.ArrayList;
 import java.util.Arrays;

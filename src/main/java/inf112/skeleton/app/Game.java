@@ -1,5 +1,8 @@
 package inf112.skeleton.app;
 
+import inf112.skeleton.app.Screens.MenuScreen;
+import inf112.skeleton.app.Screens.WinnerAnnouncementScreen;
+
 import java.util.*;
 
 public class Game {
@@ -44,7 +47,7 @@ public class Game {
             }
         }
         else{
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new WinnerAnnouncementScreen(game, board.winner));
         }
     }
 

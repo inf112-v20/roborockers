@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import inf112.skeleton.app.*;
 
 public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -19,7 +20,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private SpriteBatch batch;
     private Deck deck;
     private BitmapFont font = new BitmapFont();
-    MoveCard [] temp = new MoveCard[5];
+    MoveCard[] temp = new MoveCard[5];
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();

@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import inf112.skeleton.app.BoardObjects.Laser;
+
 import java.util.ArrayList;
 
 

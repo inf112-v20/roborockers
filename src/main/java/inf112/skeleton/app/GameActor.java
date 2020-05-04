@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import inf112.skeleton.app.BoardObjects.Laser;
 
 import java.util.ArrayList;
 
