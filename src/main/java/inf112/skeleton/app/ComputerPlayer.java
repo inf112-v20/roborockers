@@ -20,7 +20,7 @@ public class ComputerPlayer implements GameActor {
     private String name;
     public MoveCard[] programCard;
     public int powerdownStatus;
-    public ArrayList<MoveCard> hand;
+    public ArrayList<MoveCard> hand = new ArrayList<>();
     public Texture playerTexture;
     public TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell();
     public TextureRegion[][] playerTxRegion;
@@ -35,6 +35,7 @@ public class ComputerPlayer implements GameActor {
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
+        this.programCard = new MoveCard[5];
         this.playerLaser = new Laser(x,y,heading.heading);
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
@@ -97,13 +98,17 @@ public class ComputerPlayer implements GameActor {
     }
 
     @Override
-    public void startRound(Game game){
+    public void startRound(){
         if(powerdownStatus == 1){
             powerdownStatus = 0;
             fullHeal();
+            hand.clear();
+            for(int i = 0; i < programCard.length; i++){
+                programCard[i] = null;
+            }
             return;
         }
-        if(powerdownStatus > 1) powerdownStatus -= 1;
+        if(powerdownStatus == 2) powerdownStatus = 1;
         programRobot();
     }
     @Override
@@ -127,7 +132,7 @@ public class ComputerPlayer implements GameActor {
         if(healthPoints < 4){
             announcePowerdown();
         }
-        for (int i = 0; i < ((9-(9-healthPoints))); i++){
+        for (int i = 0; i < (9-healthPoints); i++){
             programCard[i] = hand.get(i);
         }
     }

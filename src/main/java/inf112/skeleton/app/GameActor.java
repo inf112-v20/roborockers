@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import java.util.ArrayList;
 
 public interface GameActor {
-    void startRound(Game game);
+    void startRound();
     void doMove(Board board, int phaseNumber);
     void programRobot();
     void announcePowerdown();

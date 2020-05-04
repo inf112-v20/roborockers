@@ -18,12 +18,13 @@ public class Player implements GameActor{
     private String name;
     public MoveCard[] programCard;
     public int powerdownStatus;
-    public ArrayList<MoveCard> hand;
+    public ArrayList<MoveCard> hand = new ArrayList<>();
     public Texture playerTexture;
     public Cell playerCell = new Cell();
     public TextureRegion[][] playerTxRegion;
     public int numberOfFlagsVisited = 0;
     private Laser playerLaser;
+    public boolean hasProgrammedRobot = false;
 
     public Player(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
         this.xPosition = x;
@@ -33,6 +34,7 @@ public class Player implements GameActor{
         this.checkpoint = new Vector2(x, y);
         this.powerdownStatus = 0;
         this.heading = new Direction();
+        this.programCard = new MoveCard[5];
         this.playerLaser = new Laser(x,y,heading.heading);
         this.playerTexture = new Texture("Player"+ playerNumber +".png");
         this.playerTxRegion = TextureRegion.split(playerTexture, 300, 300);
@@ -97,18 +99,18 @@ public class Player implements GameActor{
     public Cell getPlayerCell(){ return playerCell; }
 
     @Override
-    public void startRound(Game game){
+    public void startRound(){
         if(powerdownStatus == 1){
             powerdownStatus = 0;
             fullHeal();
             hand.clear();
+            hasProgrammedRobot = true;
             for(int i = 0; i < programCard.length; i++){
                 programCard[i] = null;
             }
             return;
         }
         if(powerdownStatus == 2) powerdownStatus = 1;
-        programRobot();
     }
     @Override
     public void doMove(Board board, int phaseNumber){

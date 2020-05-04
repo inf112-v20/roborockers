@@ -11,16 +11,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import java.util.ArrayList;
-
-
 public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Player player;
     private Board board;
     private SpriteBatch batch;
-    private MoveCard card;
     private Deck deck;
     private BitmapFont font = new BitmapFont();
     MoveCard [] temp = new MoveCard[5];
@@ -33,10 +29,7 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = (Player)board.playerObjects.get(0);
-        card = new MoveCard(20, 0, false);
-
         deck = new Deck(null);
-        deck.listOfMoveCards.get(0);
     }
 
     @Override
@@ -60,8 +53,8 @@ public class GameScreen extends InputAdapter implements Screen {
         int cardWidth = 77;
         int cardHeight = 97;
 
-        for (int i = 0; i < 9; i++) {
-            MoveCard card = deck.listOfMoveCards.get(i);
+        for (int i = 0; i < 9; i++) {//i<player.hand.size()
+            MoveCard card = deck.listOfMoveCards.get(i);//player.hand.get(i)
             if (!card.isSelected) batch.draw(card.texture,unselectedStartPositionX, board.getBoardHeight()+680, cardWidth, cardHeight);
             unselectedStartPositionX+=cardWidth;
         }
@@ -113,104 +106,106 @@ public class GameScreen extends InputAdapter implements Screen {
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
         System.out.println(player.healthPoints);
+        if(board.playerObjects.get(0) instanceof Player && !((Player) board.playerObjects.get(0)).hasProgrammedRobot){
 
-        //board.playerLayer.setCell(player.xPosition, player.yPosition, null);
+            switch (keyCode){
+                case Input.Keys.UP:
+                    direction.heading = Direction.NominalDirection.NORTH;
+                    player.attemptToMoveInDirection(board,direction.heading);
+                    board.updateBoard();
+                    return true;
 
-        switch (keyCode){
-            case Input.Keys.UP:
-                direction.heading = Direction.NominalDirection.NORTH;
-                player.attemptToMoveInDirection(board,direction.heading);
-                board.updateBoard();
-                return true;
+                case Input.Keys.DOWN:
+                    direction.heading = Direction.NominalDirection.SOUTH;
+                    player.attemptToMoveInDirection(board,direction.heading);
+                    board.updateBoard();
+                    return true;
 
-            case Input.Keys.DOWN:
-                direction.heading = Direction.NominalDirection.SOUTH;
-                player.attemptToMoveInDirection(board,direction.heading);
-                board.updateBoard();
-                return true;
+                case Input.Keys.LEFT:
+                    direction.heading = Direction.NominalDirection.WEST;
+                    player.attemptToMoveInDirection(board,direction.heading);
+                    board.updateBoard();
+                    return true;
 
-            case Input.Keys.LEFT:
-                direction.heading = Direction.NominalDirection.WEST;
-                player.attemptToMoveInDirection(board,direction.heading);
-                board.updateBoard();
-                return true;
+                case Input.Keys.RIGHT:
+                    direction.heading = Direction.NominalDirection.EAST;
+                    player.attemptToMoveInDirection(board,direction.heading);
+                    board.updateBoard();
+                    return true;
 
-            case Input.Keys.RIGHT:
-                direction.heading = Direction.NominalDirection.EAST;
-                player.attemptToMoveInDirection(board,direction.heading);
-                board.updateBoard();
-                return true;
+                case Input.Keys.G:
+                    player.rotateClockWise(1);
+                    return true;
 
-            case Input.Keys.G:
-                player.rotateClockWise(1);
-                return true;
-            case Input.Keys.H:
+                case Input.Keys.H:
+                    player.rotateClockWise(2);
+                    return true;
 
-                player.rotateClockWise(2);
-                return true;
+                case Input.Keys.J:
+                    player.rotateClockWise(3);
+                    return true;
 
-            case Input.Keys.J:
-                player.rotateClockWise(3);
-                return true;
+                case Input.Keys.R:
+                    player.xPosition = (int)player.checkpoint.x;
+                    player.yPosition = (int)player.checkpoint.y;
+                    return true;
 
-            case Input.Keys.R:
-                player.xPosition = (int)player.checkpoint.x;
-                player.yPosition = (int)player.checkpoint.y;
-                return true;
+                case Input.Keys.U:
+                    board.updateBoard();
 
-            case Input.Keys.U:
-                board.updateBoard();
+                case Input.Keys.NUM_1:
+                    return cardInput(1);
 
-            case Input.Keys.NUM_1:
-                return cardInput(1);
+                case Input.Keys.NUM_2:
+                    return cardInput(2);
 
-            case Input.Keys.NUM_2:
-                return cardInput(2);
+                case Input.Keys.NUM_3:
+                    return cardInput(3);
 
-            case Input.Keys.NUM_3:
-                return cardInput(3);
+                case Input.Keys.NUM_4:
+                    return cardInput(4);
 
-            case Input.Keys.NUM_4:
-                return cardInput(4);
+                case Input.Keys.NUM_5:
+                    return cardInput(5);
 
-            case Input.Keys.NUM_5:
-                return cardInput(5);
+                case Input.Keys.NUM_6:
+                    return cardInput(6);
 
-            case Input.Keys.NUM_6:
-                return cardInput(6);
+                case Input.Keys.NUM_7:
+                    return cardInput(7);
 
-            case Input.Keys.NUM_7:
-                return cardInput(7);
+                case Input.Keys.NUM_8:
+                    return cardInput(8);
 
-            case Input.Keys.NUM_8:
-                return cardInput(8);
+                case Input.Keys.NUM_9:
+                    return cardInput(9);
 
-            case Input.Keys.NUM_9:
-                return cardInput(9);
-
-            case Input.Keys.BACKSPACE:
-                for (int i = 0; i < temp.length; i++) {
-                    if(temp[i] != null)temp[i].toggleCard();
-                    temp[i] = null;
-                }
-
-            case Input.Keys.ENTER:
-                if(temp[4] == null){
-                    //Did not input enough cards
+                case Input.Keys.BACKSPACE:
                     for (int i = 0; i < temp.length; i++) {
                         if(temp[i] != null)temp[i].toggleCard();
                         temp[i] = null;
                     }
 
-                    return false;
-                }
-                else{
-                    //Start start up the game loop
-                }
+                case Input.Keys.ENTER:
+                    if(temp[4] == null){
+                        //Did not input enough cards
+                        for (int i = 0; i < temp.length; i++) {
+                            if(temp[i] != null)temp[i].toggleCard();
+                            temp[i] = null;
+                        }
 
-            default:
-                return false;
+                        return false;
+                    }
+                    else{
+                        player.hasProgrammedRobot = true;
+                    //Start start up the game loop
+                    }
+
+                default:
+                    return false;
+            }
         }
+        return false;
     }
 
 

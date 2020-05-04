@@ -33,7 +33,7 @@ public class Board {
     private int[]checkpointFlags = {55, 64, 72, 80};
     public GameActor winner;
     private RallyGame game;
-    private Game gameLoop;
+    public Game gameLoop;
 
 
     /**
@@ -102,6 +102,7 @@ public class Board {
             playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
         }
         gameLoop = new Game(this, game, playerObjects);
+        //gameLoop.runGame();
     }
 
     /**
@@ -299,16 +300,12 @@ public class Board {
         for (GameActor player: playerObjects) {
             if(flagLayer.getCell(player.getXPosition(),player.getYPosition()) != null){
                 int flagID = flagLayer.getCell(player.getXPosition(),player.getYPosition()).getTile().getId();
-                for(int i = 0; i < checkpointFlags.length; i++){
-                    System.out.println(player.getNumberOfFlagsVisited() == i);
-                    System.out.println(flagID == checkpointFlags[i]);
-                    if(player.getNumberOfFlagsVisited() == i && flagID == checkpointFlags[i]){
-                        player.setNumberOfFlagsVisited();
-                        player.updateCheckpoint();
-                        if(player.getNumberOfFlagsVisited() == checkpointFlags.length){
-                            winner = player;
-                        }
-                    }
+                if(flagID == checkpointFlags[player.getNumberOfFlagsVisited()]){
+                    player.setNumberOfFlagsVisited();
+                    player.updateCheckpoint();
+                }
+                if(player.getNumberOfFlagsVisited() == checkpointFlags.length){
+                    winner = player;
                 }
             }
         }

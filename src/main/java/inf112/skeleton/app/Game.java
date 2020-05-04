@@ -23,26 +23,29 @@ public class Game {
     }
 
     public void startGameRound() {
-        while (playerList.size() >= 2 || board.winner != null) {
+        if (playerList.size() >= 2 && board.winner == null) {
             playDeck.shuffle();
             int topOfDeck = 0;
-            for (GameActor player : playerList) {
-                if(0 == player.getRemainingLives()){
-                    playerList.remove(player); //Kan muligens feile med liste iterable etc...
-                    board.playerObjects.remove(player);
-                    board.playerLayer.setCell(player.getXPosition(),player.getYPosition(), null);
-
+            int i = 0;
+            while (i < playerList.size()){
+                GameActor ga = playerList.get(i);
+                if(ga.getRemainingLives() == 0){
+                    playerList.remove(i);
+                    board.playerObjects.remove(i);
+                    board.playerLayer.setCell(ga.getXPosition(), ga.getYPosition(), null);
                     continue;
                 }
-                if(player.getPowerDownStatus() != 1){
-                    player.receiveCards((ArrayList<MoveCard>) playDeck.listOfMoveCards.subList(topOfDeck, (9 - (9-player.getHealthPoints()))));
-                    topOfDeck += (9 - (9 - player.getHealthPoints()));
+                if(ga.getPowerDownStatus() != 1){
+                    int cardsToBeDealt = 9 - (9 - ga.getHealthPoints());
+                    ga.receiveCards(new ArrayList<MoveCard>(playDeck.listOfMoveCards.subList(topOfDeck, topOfDeck + cardsToBeDealt)));
+                    topOfDeck += cardsToBeDealt;
                 }
-                player.startRound(this);
+                i++;
             }
-            gamePhases();
         }
-
+        else{
+            game.setScreen(new MenuScreen(game));
+        }
     }
 
     public void gamePhases() {
@@ -63,5 +66,6 @@ public class Game {
             }
             board.updateBoard();
         }
+    startGameRound();
     }
 }
