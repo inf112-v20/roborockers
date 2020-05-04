@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.ComputerPlayer;
 import inf112.skeleton.app.GameActor;
+import inf112.skeleton.app.Player;
 import inf112.skeleton.app.RallyGame;
 
 
@@ -19,10 +21,12 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
     private Stage stage;
     private RallyGame game;
     private Table table;
+    private GameActor actor;
 
 
     public WinnerAnnouncementScreen(final RallyGame game, GameActor actor) {
         this.game = game;
+        this.actor = actor;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -36,7 +40,6 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
         Image winnerImage = new Image(winnerTexture);
 
         TextButton playerWinner = new TextButton("The winner is " + actor.getName(), skin);
-       // Label playerWinner = new Label("The winner is " + actor, skin);
 
         Label credits = new Label("Game made by Johan, Anna, Peter, Vegard and Oystein", skin);
 
@@ -72,11 +75,11 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
         table.top();
         table.add(winnerImage).top().colspan(2).padTop(50).size(500, 250);
         table.row();
-        table.add(playerWinner).size(200,50).colspan(2);
+        table.add(playerWinner).size(200,50).colspan(2).padTop(20);
         table.row();
         table.add(exitButton).prefHeight(70).prefWidth(200).colspan(2).padTop(80);
         table.row();
-        table.add(playButton).prefHeight(50).prefWidth(185).colspan(2).padTop(50);
+        table.add(playButton).prefHeight(50).prefWidth(185).colspan(2).padTop(25);
         table.row();
         table.add(credits).colspan(2).padTop(100);
         table.setFillParent(true);
@@ -91,5 +94,13 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+        stage.getBatch().begin();
+        if (actor instanceof Player) {
+            stage.getBatch().draw((((Player) actor).playerTxRegion[0][0]), 100, 400, 100, 100);
+
+        } else {
+            stage.getBatch().draw((((ComputerPlayer) actor).playerTxRegion[0][0]), 100, 100, 100, 100);
+        }
+        stage.getBatch().end();
     }
 }
