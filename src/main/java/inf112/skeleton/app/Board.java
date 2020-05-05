@@ -32,7 +32,7 @@ public class Board {
     private TiledMap board;
     private Map<String, TiledMapTileLayer> boardLayers;
     Vector2[] startingVectors = new Vector2[8];
-    private int[] checkpointFlags = new int[]{55, 64, 72, 80};
+    public int[] checkpointFlags = {55, 63, 71, 79};
     public GameActor winner;
     private RallyGame game;
     public Game gameLoop;
@@ -65,13 +65,12 @@ public class Board {
         wallObjects = new Wall[boardWidth][boardHeight];
         playerAdjuster = new BoardObject[boardWidth][boardHeight];
         playerObjects = new ArrayList<GameActor>();
+        int counter = 0;
 
         //Fills the 2D arrays with the objects needed to implement the functionality required
         for (int x = 0; x < boardWidth; x++) {
             for (int y = 0; y < boardHeight; y++) {
-                int counter = 0;
                 if(flagLayer.getCell(x,y) != null) counter ++;
-                checkpointFlags = Arrays.copyOfRange(checkpointFlags, 0, counter);
                 if(startPosition.getCell(x,y) != null){
                     int positionID = startPosition.getCell(x,y).getTile().getId();
                     startingVectors[helperStartPositions(positionID)] = new Vector2(x,y);
@@ -99,6 +98,7 @@ public class Board {
                 }
             }
         }
+        checkpointFlags = Arrays.copyOfRange(checkpointFlags, 0, counter);
         playerObjects.add(new Player((int)startingVectors[0].x, (int)startingVectors[0].y,"Your player", 3, 1, checkpointFlags.length));
         for(int i = 1; i < numberOfPlayers; i++){
             playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));

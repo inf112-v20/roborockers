@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.Board;
 import inf112.skeleton.app.RallyGame;
-import inf112.skeleton.app.Screens.GameScreen;
 
 
 public class MenuScreen extends ScreenAdapter {
@@ -20,7 +19,6 @@ public class MenuScreen extends ScreenAdapter {
     private Stage stage;
     private RallyGame game;
     private Texture mapTexture;
-    private Image mapImage;
     private String string;
     private Table table ;
 
