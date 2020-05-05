@@ -80,6 +80,7 @@ public class MenuScreen extends ScreenAdapter {
                 int numberOfPlayers = playerNumberBox.getSelected();
                 game.setScreen(new GameScreen(new Board(mapSelectorBox.getSelected(), numberOfPlayers, game)));
 
+
             }
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

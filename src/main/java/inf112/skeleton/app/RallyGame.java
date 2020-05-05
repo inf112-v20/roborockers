@@ -14,8 +14,6 @@ public class RallyGame extends Game {
     @Override
     public void create() {
 
-
          this.setScreen(new MenuScreen(this));
-      //  this.setScreen(new WinnerAnnouncementScreen(this, plater));
     }
 }
