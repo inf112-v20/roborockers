@@ -21,6 +21,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private Board board;
     private SpriteBatch batch;
     private BitmapFont font = new BitmapFont();
+    private Game gameloop;
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -30,6 +31,7 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = (Player)board.playerObjects.get(0);
+        gameloop = board.gameLoop;
     }
 
     @Override
@@ -44,6 +46,8 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer.setView(camera);
         camera.update();
         mapRenderer.render();
+
+        if(board.winner != null) board.gameLoop.game.setScreen(new WinnerAnnouncementScreen(board.gameLoop.game, board.winner));
         for (GameActor individual : board.playerObjects){
             board.playerLayer.setCell(individual.getXPosition(), individual.getYPosition(), individual.getPlayerCell());
         }

@@ -10,13 +10,15 @@ public class Game {
     private static ArrayList<GameActor> playerList;
     private static Deck playDeck;
     private static Board board;
-    private RallyGame game;
+    public RallyGame game;
+    public  int currentPhase;
 
     public Game(Board board, RallyGame game, ArrayList<GameActor> playerList) {
         this.playerList = playerList;
         this.playDeck = new Deck(null);
         this.board = board;
         this.game = game;
+        this.currentPhase = 0;
     }
 
     public void runGame(){
@@ -95,5 +97,30 @@ public class Game {
                 }
             }
         }
+    }
+
+    public boolean runGamePhase(){
+        if(currentPhase < 5){
+            ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
+            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
+            for (GameActor ga : playerList) {
+                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
+                    mcQueue.add(ga.getProgramCard()[currentPhase]);
+                    playerQueue.add(ga);
+                }
+            }
+            while(!mcQueue.isEmpty()){
+                int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
+                playerQueue.get(nextPlayerToMove).doMove(board, currentPhase);
+                playerQueue.remove(nextPlayerToMove);
+                mcQueue.remove(nextPlayerToMove);
+            }
+            board.updateBoard();
+            currentPhase += 1;
+            return false;
+        } else{
+            currentPhase = 0;
+            return true;
+       }
     }
 }

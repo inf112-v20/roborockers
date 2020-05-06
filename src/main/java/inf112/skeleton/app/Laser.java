@@ -62,22 +62,29 @@ public class Laser {
 
     public Vector2 laserHit(Board board){
         Vector2 hitPosition = new Vector2(position.x, position.y);
+        int i = 0;
         while(true){
             if(board.positionIsOutOfBounds(hitPosition)) return null;
             Wall wall = board.wallObjects[(int)hitPosition.x][(int)hitPosition.y];
             if(wall != null){
-                if(wall.blocksMovementTowards(direction.rotate180(direction.heading))){
+                if(wall.blocksMovementTowards(direction.rotate180(direction.heading)) && i != 0){
+                    System.out.println("print1");
                     return null;
                 }
                 if(board.playerLayer.getCell((int)hitPosition.x, (int)hitPosition.y) != null){
                     return hitPosition;
                 }
-                if(wall.blocksMovementTowards(direction.heading)) return null;
+                if(wall.blocksMovementTowards(direction.heading)) {
+                    System.out.println("print2");
+                    return null;
+                }
             }
             if(board.playerLayer.getCell((int)hitPosition.x, (int)hitPosition.y) != null){
+                System.out.println("print3");
                 return hitPosition;
             }
             hitPosition = direction.getPositionInDirection((int)hitPosition.x,(int)hitPosition.y,direction.heading);
+            i += 1;
         }
     }
 

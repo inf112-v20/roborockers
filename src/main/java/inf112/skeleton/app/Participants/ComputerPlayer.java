@@ -142,7 +142,7 @@ public class ComputerPlayer implements GameActor {
         if(healthPoints < 4){
             announcePowerdown();
         }
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < Math.min(hand.size(), 5); i++){
             programCard[i] = hand.get(i);
         }
     }
