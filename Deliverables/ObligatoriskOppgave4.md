@@ -1,11 +1,11 @@
 
-##Deloppgave 1: Team og prosjekt
+## Deloppgave 1: Team og prosjekt
 
 Noen av oss har gjennom denne semesteroppgaven hatt problemer med git i forhold til at de har to brukere som vil være koblet til repositoriet. Dermed står det på insight at man har færre commits enn det man egentlig har. Vi vil tro at dette har noe med at vi har forskjellige fag, med forskjellige brukere og tilknytninger. Peter har for eksempel også en git bruker som går gjennom uib sin retting.ii.uib.no, og han tror dette har noe med saken å gjøre. Noen har fått det til å fungere, mens andre ikke. Men dette gjør ingen forskjell i form av at man ikke får brukt git og committet til repositoriet. Men for at man skal se alle commitsene til de forskjellige, må man gå gjennom i commits øverst til venstre i roborockers repositoriet. 
 
 
 **Referat fra møter siden forrige leveranse skal legges ved.** 
-Møtereferat finner du på wiki siden våres på github. (legge inn link)
+Møtereferat finner du på [wiki](https://github.com/inf112-v20/roborockers/wiki) siden våres på github. 
 
 
 **Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?** 
@@ -30,7 +30,7 @@ Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten
 Gruppedynamikken i prosjektet og rett etter koronasituasjonen begynte fungerte egentlig overraskende bra i forhold til omstendighetene. Vi hadde møter flere ganger i uken hvor stort sett alle var til stede til enhver tid. Som nevnt tidligere var det lettere da å ha hyppige møter, i forhold til at vi ikke trengte å fysisk møte opp, hvor vi hadde møtene på remote. Nå ukene etter påske har vi hatt flere møter i uken og gruppedynamikken har fungert bra i forhold til at vi har fått til mye, hvor vi i stor grad har holdt på med parprogrammering ved at vi har delt skjermene våre til hverandre. 
 
 
-##Deloppgave 2: Krav
+## Deloppgave 2: Krav
 
 **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.** 
 Kravene våre ligger i issues på GitHub. 
@@ -39,13 +39,13 @@ Kravene våre ligger i issues på GitHub.
 
 **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. Husk at akseptansekriterier ofte skrives mer eller mindre som tester**
 Krav:
-* Plukke opp flag -> issue 1
-* Velge kort og bevege spilleren med de - > issue 20
-* Utføre en spillrunde -> issue 4
-* Gjennomføre en fase -> issue 9
-* Ha forskjellige spillbrett -> issue 25
-* Kunne ha powerdown - issue 33
-* Som spiller ønsker jeg å kunne velge kort og bevege meg med de. issue 20
+* Som spiller ønsker jeg å vinne spillet ved å fange alle flaggene i riktige rekkefølge - [#Issue 1](https://github.com/inf112-v20/roborockers/issues/1)
+* Som spiller ønsker jeg å kunne velge bevegelseskort og bruke dem til å bevege meg - [#Issue 20](https://github.com/inf112-v20/roborockers/issues/20)
+* Som spiller ønsker jeg å gjennomføre en spill runde  [#Issue 4](https://github.com/inf112-v20/roborockers/issues/4)
+* Gjennomføre en fase - [#Issue 9](https://github.com/inf112-v20/roborockers/issues/9)
+* Ha forskjellige spillbrett - [#Issue 25](https://github.com/inf112-v20/roborockers/issues/25)
+* Kunne ha powerdown - [#Issue 33](https://github.com/inf112-v20/roborockers/issues/33)
+* Som spiller ønsker jeg å kunne velge kort og bevege meg med de. [#Issue 20](https://github.com/inf112-v20/roborockers/issues/20)
 
 
 
@@ -95,7 +95,7 @@ HVA HAR VI IKKE KLART ..  ..
 
 
 
-##Tester 
+## Tester 
 Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spillet fungerer. Ikke alle ting er like enkelt å få testet med denne metoden, som for eksempel LibGdx og derfor har vi valgt å bruke manuelle tester. Dette går ut på at vi sjekker at dette fungerer med å gjøre dette i spillet. 
 
 Tekst til board klassen(legges som en markdown fil i testmappen):
