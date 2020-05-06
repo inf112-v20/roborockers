@@ -1,6 +1,6 @@
 package inf112.skeleton.app;
 
-import inf112.skeleton.app.Screens.MenuScreen;
+import inf112.skeleton.app.Participants.GameActor;
 import inf112.skeleton.app.Screens.WinnerAnnouncementScreen;
 
 import java.util.*;
@@ -26,25 +26,11 @@ public class Game {
     }
 
     public void startGameRound() {
-        if (playerList.size() >= 2 && board.winner == null) {
+        if (board.winner == null) {
             playDeck.shuffle();
-            int topOfDeck = 0;
-            int i = 0;
-            while (i < playerList.size()){
-                GameActor ga = playerList.get(i);
-                if(ga.getRemainingLives() == 0){
-                    playerList.remove(i);
-                    board.playerObjects.remove(i);
-                    board.playerLayer.setCell(ga.getXPosition(), ga.getYPosition(), null);
-                    continue;
-                }
-                if(ga.getPowerDownStatus() != 1){
-                    int cardsToBeDealt = 9 - (9 - ga.getHealthPoints());
-                    ga.receiveCards(new ArrayList<MoveCard>(playDeck.listOfMoveCards.subList(topOfDeck, topOfDeck + cardsToBeDealt)));
-                    topOfDeck += cardsToBeDealt;
-                }
-                i++;
-            }
+            removeWithDeadPlayers();
+            cleanPlayersProgramCard();
+            dealCards();
         }
         else{
             game.setScreen(new WinnerAnnouncementScreen(game, board.winner));
@@ -55,10 +41,10 @@ public class Game {
         for (int i = 0; i < 5; i++) {
             ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
             ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
-            for (GameActor player : playerList) {
-                if(player.getHealthPoints() > 0) {
-                    mcQueue.add(player.getProgramCard()[i]);
-                    playerQueue.add(player);
+            for (GameActor ga : playerList) {
+                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
+                    mcQueue.add(ga.getProgramCard()[i]);
+                    playerQueue.add(ga);
                 }
             }
             while(!mcQueue.isEmpty()){
@@ -69,6 +55,46 @@ public class Game {
             }
             board.updateBoard();
         }
+
     startGameRound();
+    }
+
+    public void dealCards(){
+        int topOfDeck = 0;
+        for(GameActor ga : playerList){
+            ga.clearHand();
+            int cardsToBeDealt = 9 - (9 - ga.getHealthPoints());
+            if(ga.getPowerDownStatus() != 1){
+                ArrayList<MoveCard> cardsToDeal = new ArrayList<MoveCard>(playDeck.listOfMoveCards.subList(topOfDeck, topOfDeck + cardsToBeDealt));
+                ga.receiveCards(cardsToDeal);
+            }
+            topOfDeck += cardsToBeDealt;
+        }
+    }
+
+    public void removeWithDeadPlayers(){
+        int i = 0;
+        while(i < playerList.size()){
+            if(playerList.get(i).getRemainingLives() == 0){
+                GameActor ga = playerList.get(i);
+                board.playerObjects.remove(ga);
+                playerList.remove(ga);
+                board.playerLayer.setCell(ga.getXPosition(), ga.getYPosition(), null);
+            }
+            i++;
+        }
+    }
+    public void cleanPlayersProgramCard(){
+        for (GameActor ga : playerList){
+            for (int i = 0; i < 9 - (9 - ga.getHealthPoints()); i++) {
+                try{
+                    ga.getProgramCard()[i].toggleCard();
+                    ga.getProgramCard()[i] = null;
+                }
+                catch (Exception e){
+                    break;
+                }
+            }
+        }
     }
 }

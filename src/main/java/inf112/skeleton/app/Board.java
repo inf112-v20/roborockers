@@ -6,6 +6,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.BoardObjects.*;
+import inf112.skeleton.app.Participants.ComputerPlayer;
+import inf112.skeleton.app.Participants.GameActor;
+import inf112.skeleton.app.Participants.Player;
+import inf112.skeleton.app.Screens.WinnerAnnouncementScreen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -152,17 +156,23 @@ public class Board {
     public boolean willCollideWithWall(int x, int y, Direction.NominalDirection dir){
         Direction direction = new Direction(dir);
         Vector2 position = direction.getPositionInDirection(x,y,dir);
-        Wall currentPosition = wallObjects[x][y];
-        Wall nextPosition = null;
-        if(!positionIsOutOfBounds(position)) nextPosition = wallObjects[(int)position.x][(int)position.y];
-        if(nextPosition == null){
-            if(currentPosition != null) return currentPosition.blocksMovementTowards(dir);
+        Wall wallOnCurrentPos = null;
+        try{
+            wallOnCurrentPos = wallObjects[x][y];
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            return false;
+        }
+        Wall wallOnAttemptedPosition = null;
+        if(!positionIsOutOfBounds(position)) wallOnAttemptedPosition = wallObjects[(int)position.x][(int)position.y];
+        if(wallOnAttemptedPosition == null){
+            if(wallOnCurrentPos != null) return wallOnCurrentPos.blocksMovementTowards(dir);
             else return false;
         }
-        if(currentPosition != null){
-            return currentPosition.blocksMovementTowards(dir) || nextPosition.blocksMovementTowards(direction.rotate180(dir));
+        if(wallOnCurrentPos != null){
+            return wallOnCurrentPos.blocksMovementTowards(dir) || wallOnAttemptedPosition.blocksMovementTowards(direction.rotate180(dir));
         }
-        else return nextPosition.blocksMovementTowards(direction.rotate180(dir));
+        else return wallOnAttemptedPosition.blocksMovementTowards(direction.rotate180(dir));
         }
 
     /**
@@ -208,13 +218,24 @@ public class Board {
         return false;
     }
     /**
-     * Returns whether or not a an attempted move will result in stopping in a wall
+     * Returns whether or not a vector2 corresponds with a position on the board
      * @param position Vector2 with x and y values for the coordinate we want to check for
      * @return true / false
      */
     public boolean positionIsOutOfBounds(Vector2 position){
         if(position.x < 0 || position.x >= boardWidth) return true;
         if(position.y < 0 || position.y >= boardHeight) return true;
+        return false;
+    }
+    /**
+     * Returns whether or not x and y coordinated correspond to a position on the board
+     * @param x coordinate from the left
+     * @param y coordinate from the bottom
+     * @return true / false
+     */
+    public boolean positionIsOutOfBounds(int x, int y){
+        if(x < 0 || x >= boardWidth) return true;
+        if(y < 0 || y >= boardHeight) return true;
         return false;
     }
 
@@ -308,6 +329,7 @@ public class Board {
                 }
                 if(player.getNumberOfFlagsVisited() == checkpointFlags.length){
                     winner = player;
+                    game.setScreen(new WinnerAnnouncementScreen(game, winner));
                 }
             }
         }

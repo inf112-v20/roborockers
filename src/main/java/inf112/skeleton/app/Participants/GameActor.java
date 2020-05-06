@@ -1,9 +1,12 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.Participants;
 
 
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import inf112.skeleton.app.BoardObjects.Laser;
+import inf112.skeleton.app.Board;
+import inf112.skeleton.app.Laser;
+import inf112.skeleton.app.Direction;
+import inf112.skeleton.app.MoveCard;
 
 import java.util.ArrayList;
 
@@ -38,4 +41,5 @@ public interface GameActor {
     Cell getPlayerCell();
     String createPlayerStatus();
     void healPlayer(int healAmount);
+    void clearHand ();
 }

@@ -1,8 +1,9 @@
-package inf112.skeleton.app.BoardObjects;
+package inf112.skeleton.app;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Board;
 import inf112.skeleton.app.Direction;
+import inf112.skeleton.app.Wall;
 
 public class Laser {
     public Vector2 position;

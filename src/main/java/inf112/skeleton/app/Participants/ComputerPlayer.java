@@ -1,16 +1,20 @@
+package inf112.skeleton.app.Participants;
 
-package inf112.skeleton.app;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import inf112.skeleton.app.BoardObjects.Laser;
+import inf112.skeleton.app.Board;
+import inf112.skeleton.app.Laser;
+import inf112.skeleton.app.Direction;
+import inf112.skeleton.app.MoveCard;
 
 import java.util.ArrayList;
 
+public class ComputerPlayer implements GameActor {
 
-public class Player implements GameActor{
     public int xPosition;
     public int yPosition;
     public Direction heading;
@@ -22,13 +26,12 @@ public class Player implements GameActor{
     public int powerdownStatus;
     public ArrayList<MoveCard> hand = new ArrayList<>();
     public Texture playerTexture;
-    public Cell playerCell = new Cell();
+    public TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell();
     public TextureRegion[][] playerTxRegion;
     public int numberOfFlagsVisited = 0;
     private Laser playerLaser;
-    public boolean hasProgrammedRobot = false;
 
-    public Player(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
+    public ComputerPlayer(int x, int y, String name, int amountOfLives, int playerNumber, int nmrOfFlags){
         this.xPosition = x;
         this.yPosition = y;
         this.name = name;
@@ -47,7 +50,7 @@ public class Player implements GameActor{
         Instantiated, therefore this constructor will allow testing on game functionality by foregoing texture
         implementation.
     */
-    public Player(int x, int y, int amountOfLives, int nmrOfFlags){
+    public ComputerPlayer(int x, int y, int amountOfLives, int nmrOfFlags){
         this.xPosition = x;
         this.yPosition = y;
         this.remainingLives = amountOfLives;
@@ -81,24 +84,22 @@ public class Player implements GameActor{
         return powerdownStatus;
     }
     @Override
-    public int getHealthPoints(){
-        return healthPoints;
-    }
+    public int getHealthPoints(){ return healthPoints; }
     @Override
     public void healPlayer(int healAmount){
         healthPoints += healAmount;
         if(healthPoints > 9) healthPoints = 9;
     }
     @Override
-    public MoveCard[] getProgramCard(){
-        return programCard;
-    }
+    public MoveCard[] getProgramCard(){ return programCard;}
     @Override
     public int getNumberOfFlagsVisited(){return numberOfFlagsVisited;}
     @Override
     public void setNumberOfFlagsVisited(){numberOfFlagsVisited += 1;}
     @Override
-    public Cell getPlayerCell(){ return playerCell; }
+    public Cell getPlayerCell(){
+        return playerCell;
+    }
 
     @Override
     public void startRound(){
@@ -106,13 +107,13 @@ public class Player implements GameActor{
             powerdownStatus = 0;
             fullHeal();
             hand.clear();
-            hasProgrammedRobot = true;
             for(int i = 0; i < programCard.length; i++){
                 programCard[i] = null;
             }
             return;
         }
         if(powerdownStatus == 2) powerdownStatus = 1;
+        programRobot();
     }
     @Override
     public void doMove(Board board, int phaseNumber){
@@ -122,7 +123,7 @@ public class Player implements GameActor{
                 rotateClockWise(nextMove.amountOfMoves);
             }
             else{
-                if(nextMove.amountOfMoves > 0){
+                if(nextMove.amountOfMoves < 0){
                     attemptToMoveForward(board, nextMove.amountOfMoves);
                 }
                 else attemptToMoveBackward(board, nextMove.amountOfMoves);
@@ -130,9 +131,20 @@ public class Player implements GameActor{
         }
 
     }
+
+    @Override
+    public void clearHand(){
+        hand.clear();
+    }
+
     @Override
     public void programRobot(){
-
+        if(healthPoints < 4){
+            announcePowerdown();
+        }
+        for (int i = 0; i < 5; i++){
+            programCard[i] = hand.get(i);
+        }
     }
     @Override
     public void announcePowerdown (){
@@ -148,6 +160,7 @@ public class Player implements GameActor{
         for(int i = 0; i < 9 - (9-healthPoints); i++){
             hand.add(dealtCards.remove(dealtCards.size()-1));
         }
+        programRobot();
     }
     @Override
     public void attemptToMoveForward(Board board, int steps){
@@ -168,7 +181,7 @@ public class Player implements GameActor{
         if(board.willCollideWithWall(xPosition,yPosition,nominalDirection)) return false;
         if(board.willGoIntoHole(xPosition,yPosition,nominalDirection) || board.willGoOutOfTheMap(xPosition,yPosition,nominalDirection)){
             loseALife();
-            return false;
+            //return false;
         }
 
         if(board.willCollideWithPlayer(xPosition,yPosition,nominalDirection)){
@@ -293,3 +306,4 @@ public class Player implements GameActor{
         return string;
     }
 }
+

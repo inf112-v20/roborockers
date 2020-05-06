@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import inf112.skeleton.app.*;
+import inf112.skeleton.app.Participants.GameActor;
+import inf112.skeleton.app.Participants.Player;
 
 public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -57,12 +59,17 @@ public class GameScreen extends InputAdapter implements Screen {
         if(player.getRemainingLives() > 0){
             for (int i = 0; i < player.hand.size(); i++) {//i<player.hand.size()
                 MoveCard card = player.hand.get(i);//player.hand.get(i)
-                if (!card.isSelected) batch.draw(card.texture,unselectedStartPositionX, board.getBoardHeight()+680, cardWidth, cardHeight);
+                if (!card.isSelected){
+                    batch.draw(card.texture,unselectedStartPositionX, board.getBoardHeight()+680, cardWidth, cardHeight);
+                }
                 unselectedStartPositionX+=cardWidth;
             }
 
             for (int i = 0; i < 5; i++) {
-                if(player.programCard[i]!=null) batch.draw(player.programCard[i].texture, selectedStartPositionX, 575, cardWidth, cardHeight);
+                if(player.programCard[i]!=null){
+                    batch.draw(player.programCard[i].texture, selectedStartPositionX, 575, cardWidth, cardHeight);
+                    font.draw(batch, String.valueOf(player.programCard[i].priorityValue), selectedStartPositionX, 575);
+                }
                 selectedStartPositionX+=cardWidth;
             }
         }
@@ -191,9 +198,10 @@ public class GameScreen extends InputAdapter implements Screen {
                     }
 
                 case Input.Keys.ENTER:
-                    if(player.programCard[4] == null){
+                    int indexOfLastCardToProgram = Math.min(4, 9-(9-player.getHealthPoints()));
+                    if(player.programCard[indexOfLastCardToProgram] == null){
                         //Did not input enough cards
-                        for (int i = 0; i < player.programCard.length; i++) {
+                        for (int i = 0; i < indexOfLastCardToProgram; i++) {
                             if(player.programCard[i] != null)player.programCard[i].toggleCard();
                             player.programCard[i] = null;
                         }
@@ -203,6 +211,7 @@ public class GameScreen extends InputAdapter implements Screen {
                     else{
                         player.hasProgrammedRobot = true;
                         board.gameLoop.gamePhases();
+                        player.hasProgrammedRobot = false;
                     //Start start up the game loop
                     }
 
@@ -215,22 +224,28 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public boolean cardInput(int number){
-        player.hand.get(number-1).isSelected=false;
-
-        System.out.println("Selected card: " + player.hand.get(number-1).isSelected);
-
-        if (player.hand.get(number).isSelected) return false;
-        else if (player.programCard[4] == null){
-            for (int i = 0; i < player.programCard.length; i++) {
-                if(player.programCard[i] == null){
-                    player.programCard[i] = player.hand.get(number-1);
-                    break;
+        //Make sure you cannot break the game selecting an index greater than the players hand size
+        if(number > 9 - (9 - player.getHealthPoints())) return false;
+        MoveCard card = player.hand.get(number-1);
+        if(card.isSelected){
+            for(int i = 0; i < player.programCard.length; i++){
+                if(card == player.programCard[i]){
+                    player.programCard[i] = null;
+                    card.toggleCard();
+                    return true;
                 }
             }
-            player.hand.get(number-1).toggleCard();
-            System.out.println(player.hand.get(number-1).isSelected);
         }
-        return true;
+        else{
+            for (int i = 0; i < player.programCard.length; i++) {
+                if(player.programCard[i] == null){
+                    player.programCard[i] = card;
+                    card.toggleCard();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 

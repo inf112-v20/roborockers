@@ -1,4 +1,4 @@
-package inf112.skeleton.app.BoardObjects;
+package inf112.skeleton.app;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;

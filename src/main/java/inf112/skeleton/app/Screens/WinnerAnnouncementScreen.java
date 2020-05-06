@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import inf112.skeleton.app.ComputerPlayer;
-import inf112.skeleton.app.GameActor;
-import inf112.skeleton.app.Player;
+import inf112.skeleton.app.Participants.ComputerPlayer;
+import inf112.skeleton.app.Participants.GameActor;
+import inf112.skeleton.app.Participants.Player;
 import inf112.skeleton.app.RallyGame;
 
 
