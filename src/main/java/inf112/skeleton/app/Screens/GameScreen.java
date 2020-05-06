@@ -20,9 +20,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private Player player;
     private Board board;
     private SpriteBatch batch;
-    //private Deck deck;
     private BitmapFont font = new BitmapFont();
-    //MoveCard [] temp = new MoveCard[5];
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -32,7 +30,6 @@ public class GameScreen extends InputAdapter implements Screen {
         camera.update();
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = (Player)board.playerObjects.get(0);
-        //deck = new Deck(null);
     }
 
     @Override
@@ -51,29 +48,6 @@ public class GameScreen extends InputAdapter implements Screen {
             board.playerLayer.setCell(individual.getXPosition(), individual.getYPosition(), individual.getPlayerCell());
         }
         batch.begin();
-        int unselectedStartPositionX = 0;
-        int selectedStartPositionX = 100;
-        int cardWidth = 77;
-        int cardHeight = 97;
-
-        if(player.getRemainingLives() > 0){
-            for (int i = 0; i < player.hand.size(); i++) {//i<player.hand.size()
-                MoveCard card = player.hand.get(i);//player.hand.get(i)
-                if (!card.isSelected){
-                    batch.draw(card.texture,unselectedStartPositionX, board.getBoardHeight()+680, cardWidth, cardHeight);
-                }
-                unselectedStartPositionX+=cardWidth;
-            }
-
-            for (int i = 0; i < 5; i++) {
-                if(player.programCard[i]!=null){
-                    batch.draw(player.programCard[i].texture, selectedStartPositionX, 575, cardWidth, cardHeight);
-                    font.draw(batch, String.valueOf(player.programCard[i].priorityValue), selectedStartPositionX, 575);
-                }
-                selectedStartPositionX+=cardWidth;
-            }
-        }
-
 
         font.setColor(Color.BLACK);
         font.draw(batch, player.createPlayerStatus(), 10, 690);
@@ -83,6 +57,32 @@ public class GameScreen extends InputAdapter implements Screen {
             font.draw(batch, ga.createPlayerStatus(), 490, 700 - (15 * i));
         }
 
+        int unselectedStartPositionX = 0;
+        int selectedStartPositionX = 100;
+        int cardWidth = 77;
+        int cardHeight = 97;
+        if (player.getRemainingLives() > 0) {
+            for (int i = 0; i < player.hand.size(); i++) {//i<player.hand.size()
+                MoveCard card = player.hand.get(i);//player.hand.get(i)
+                if (player.positionOfSpecificMoveCardInProgramCard(card) == null) {
+                    batch.draw(card.texture, unselectedStartPositionX, board.getBoardHeight() + 680, cardWidth, cardHeight);
+                    font.draw(batch, String.valueOf(card.priorityValue), unselectedStartPositionX + 10, board.getBoardHeight() + 750);
+                    unselectedStartPositionX += cardWidth;
+                } else {
+                    unselectedStartPositionX += cardWidth;
+                }
+
+            }
+            for (int i = 0; i < player.programCard.length; i++) {
+                MoveCard card = player.programCard[i];
+                if (card != null) {
+                    batch.draw(card.texture, selectedStartPositionX, 575, cardWidth, cardHeight);
+                    font.draw(batch, String.valueOf(card.priorityValue), selectedStartPositionX + 10, 645);
+                }
+
+                selectedStartPositionX += cardWidth;
+            }
+        }
         batch.end();
     }
 
@@ -192,17 +192,17 @@ public class GameScreen extends InputAdapter implements Screen {
                     return cardInput(9);
 
                 case Input.Keys.BACKSPACE:
-                    for (int i = 0; i < player.programCard.length; i++) {
-                        if(player.programCard[i] != null)player.programCard[i].toggleCard();
+                    //check math min for correct numbers
+                    for (int i = 0; i < Math.min(5, (10-(9-player.getHealthPoints()))); i++) {
                         player.programCard[i] = null;
                     }
+                    return true;
 
                 case Input.Keys.ENTER:
                     int indexOfLastCardToProgram = Math.min(4, 9-(9-player.getHealthPoints()));
                     if(player.programCard[indexOfLastCardToProgram] == null){
                         //Did not input enough cards
                         for (int i = 0; i < indexOfLastCardToProgram; i++) {
-                            if(player.programCard[i] != null)player.programCard[i].toggleCard();
                             player.programCard[i] = null;
                         }
 
@@ -227,23 +227,18 @@ public class GameScreen extends InputAdapter implements Screen {
         //Make sure you cannot break the game selecting an index greater than the players hand size
         if(number > 9 - (9 - player.getHealthPoints())) return false;
         MoveCard card = player.hand.get(number-1);
-        if(card.isSelected){
+        Integer positionOfCard = player.positionOfSpecificMoveCardInProgramCard(card);
+        if(positionOfCard == null){
             for(int i = 0; i < player.programCard.length; i++){
-                if(card == player.programCard[i]){
-                    player.programCard[i] = null;
-                    card.toggleCard();
+                if(player.programCard[i] == null){
+                    player.programCard[i] = card;
                     return true;
                 }
             }
         }
         else{
-            for (int i = 0; i < player.programCard.length; i++) {
-                if(player.programCard[i] == null){
-                    player.programCard[i] = card;
-                    card.toggleCard();
-                    return true;
-                }
-            }
+            player.programCard[positionOfCard] = null;
+            return false;
         }
         return false;
     }

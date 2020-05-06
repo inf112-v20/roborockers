@@ -300,4 +300,11 @@ public class Player implements GameActor {
         string += powerdownStatus;
         return string;
     }
+
+    public Integer positionOfSpecificMoveCardInProgramCard(MoveCard card){
+        for (int i = 0; i < programCard.length; i++) {
+            if(programCard[i] == card) return i;
+        }
+        return null;
+    }
 }

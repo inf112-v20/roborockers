@@ -25,7 +25,6 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(final RallyGame game) {
         this.game = game;
-        //this.board = board;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 

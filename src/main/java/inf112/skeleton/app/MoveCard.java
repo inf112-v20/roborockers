@@ -7,16 +7,12 @@ public class MoveCard implements Comparable<MoveCard> {
     public int priorityValue;
     public int amountOfMoves;
     public Texture texture;
-    public Texture unselectedTexture;
-    public Texture selectedTexture;
-    public boolean isSelected;
     private String assetName;
 
     /*
     Construct either a rotator card or a movement card with trumping values and values corresponding to how many times
      */
     public MoveCard(int priorityValue, int amountOfMoves, boolean isRotatorCard) {
-        this.isSelected = false;
         this.amountOfMoves = amountOfMoves;
         this.priorityValue = priorityValue;
         this.isRotator = isRotatorCard;
@@ -43,21 +39,6 @@ public class MoveCard implements Comparable<MoveCard> {
             }
         }
         this.texture = new Texture(assetName);
-        this.unselectedTexture = texture;
-        this.selectedTexture = new Texture(assetName.substring(0, assetName.length() - 4)+"S.png");
-
-    }
-
-    public void toggleCard(){
-        if(isSelected == false){
-            isSelected = true;
-            texture = selectedTexture;
-        }
-        else{
-            isSelected = false;
-            texture = unselectedTexture;
-        }
-
     }
 
     @Override

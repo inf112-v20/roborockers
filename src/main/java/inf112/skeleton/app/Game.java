@@ -88,7 +88,6 @@ public class Game {
         for (GameActor ga : playerList){
             for (int i = 0; i < 9 - (9 - ga.getHealthPoints()); i++) {
                 try{
-                    ga.getProgramCard()[i].toggleCard();
                     ga.getProgramCard()[i] = null;
                 }
                 catch (Exception e){
