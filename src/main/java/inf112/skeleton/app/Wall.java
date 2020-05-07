@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Wall {
-    private Cell wallCell;
-    private Vector2 position;
     private boolean blockActionUp;
     private boolean blockActionRight;
     private boolean blockActionDown;
@@ -19,9 +17,7 @@ public class Wall {
     private ArrayList<Integer> blockDown = new ArrayList<>(Arrays.asList(8, 29, 37, 32, 87));
     private ArrayList<Integer> blockLeft = new ArrayList<>(Arrays.asList(24, 30, 32, 38, 93));
 
-    public Wall(int x, int y, int ID){
-        this.wallCell = new Cell();
-        this.position = new Vector2(x, y);
+    public Wall(int ID){
         if(blockUp.contains(ID)){
             blockActionUp = true;
         }
@@ -51,9 +47,6 @@ public class Wall {
             return blockActionLeft;
         }
     }
-
-    public Vector2 getPosition(){ return position;}
-    public Cell getCell(){ return wallCell;}
 }
 
 

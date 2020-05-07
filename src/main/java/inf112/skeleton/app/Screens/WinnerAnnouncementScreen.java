@@ -41,7 +41,7 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
 
         TextButton playerWinner = new TextButton("The winner is " + actor.getName(), skin);
 
-        Label credits = new Label("Game made by Johan, Anna, Peter, Vegard and Oystein", skin);
+        Label credits = new Label("Game made by Anna, Johan, Peter, Vegard and Oystein", skin);
 
 
         TextButton playButton = new TextButton("Start new game", skin);
@@ -99,7 +99,7 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
             stage.getBatch().draw((((Player) actor).playerTxRegion[0][0]), 100, 400, 100, 100);
 
         } else {
-            stage.getBatch().draw((((ComputerPlayer) actor).playerTxRegion[0][0]), 100, 100, 100, 100);
+            stage.getBatch().draw((((ComputerPlayer) actor).playerTxRegion[0][0]), 100, 400, 100, 100);
         }
         stage.getBatch().end();
     }

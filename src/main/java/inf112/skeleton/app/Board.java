@@ -83,7 +83,7 @@ public class Board {
                 }
                 if (wallLayer.getCell(x, y) != null) {
                     TiledMapTile tile = wallLayer.getCell(x, y).getTile();
-                    Wall w = new Wall(x, y, tile.getId());
+                    Wall w = new Wall(tile.getId());
                     wallObjects[x][y] = w;
                     Laser laser = new Laser(tile.getId(),x,y);
                     if(laser.getDamage() != 0) lasers.add(laser);
@@ -424,9 +424,6 @@ public class Board {
         cleanOldPlayerTextures();
         //fire the lasers
         fireLasers();
-        //once again clean old player textures in case some players died from lasers
-        cleanOldPlayerTextures();
-
     }
 
     public int helperStartPositions(int inNumber){

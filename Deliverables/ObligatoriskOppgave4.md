@@ -15,7 +15,9 @@ Rollene i teamet har stort sett fungert bra siden sist innlevering. Vi føler at
 
 **Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?** 
 
-Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen. 
+Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen.
+
+Men for oss har en slags kanban med litt parprogrammering fungert bra for oss. Dette er nok fordi Kanban ikke har så mye regler og man kan styre det litt sånn som man selv vil. 
 
 
 **Gjør et retrospektiv hvor dere vurderer hvordan prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?** 
@@ -95,11 +97,17 @@ Oppdatert MVP liste :
 
 - Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. 
 - Døde spillere blir av og til værende på spillbrettet med oppdatert texture som viser at spilleren er død
+- Når en spiller har vunnet, får man opp WinnerAnnouncementScreen som signaliserer hvem som har vunnet. Knappen for å starte spillet igjen fungerer, men når man kommer inn på den opprinnelige MenuScreen fungerer det ikke å starte spillet på nytt. Vi tror dette kommer av at konstruktøren til MenuScreen tar inn en final, og at dette ikke kan gjøre flere ganger. 
 
 
 **Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige (spillbare).**
 
 Vi valgte istedenfor å lage mulitplayer over LAN og utvikle en AI å spille mot. Dette valget ble tatt litt sent i prossessen da vi oppdaget at dette var mye mer arbeid enn vi så for oss og ble da vanskelig ettersom vi ikke kunne treffes lengre. Vi hadde dette som et krav tidligere men er nå erstattet med at vi har utviklet en AI. 
+
+## Klassediagram  
+
+Du finner klassediagrammet vårt i mappen Deliverables -> [Roborockers_klassediagram_oblig4.png](https://github.com/inf112-v20/roborockers/blob/master/Deliverables/Roborockers_klassediagram_oblig4.png)
+
 
 
 ## Tester 
@@ -108,6 +116,6 @@ Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spille
 
 
 Tekst til board klassen(legges som en markdown fil i testmappen):
-På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. Vi har valgt å ikke fjerne at man kan bevege seg med piltastene, slik at vi enklere kan teste at ting fungerer.
+På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. Vi har valgt å ikke fjerne at man kan bevege seg med piltastene, slik at vi enklere kan teste at ting fungerer. Hvis man trykker på "D" tasten enabler og disabler man denne funksjonen.
 
 

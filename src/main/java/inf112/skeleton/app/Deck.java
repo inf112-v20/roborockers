@@ -28,6 +28,38 @@ public class Deck {
         return newDeck;
     }
 
+    /**
+     * For testing Deck/MoveCard without textures
+     * @param list
+     */
+    public Deck(ArrayList<MoveCard> list, boolean testing){
+        if(list == null){
+            this.listOfMoveCards = makeNewDeck( true);
+        }
+        else{
+            this.listOfMoveCards = list;
+        }
+    }
+
+    /**
+     * For testing Deck/MoveCard without textures
+     * @param testing
+     * @return
+     */
+    private ArrayList<MoveCard> makeNewDeck(boolean testing){
+        ArrayList<MoveCard> newDeck = new ArrayList<MoveCard>();
+        Random random = new Random();
+
+        for(int i = 0; i < 100; i++){
+            boolean isRotatorCard = random.nextBoolean();
+            int amountOfMoves = random.nextInt(4);
+            if(amountOfMoves == 0 && isRotatorCard == true) amountOfMoves = random.nextInt(4-1) + 1;
+            newDeck.add(new MoveCard(i, amountOfMoves, isRotatorCard, true));
+        }
+        return newDeck;
+    }
+
+
     private void swap(int first, int second, ArrayList<MoveCard> list){
         MoveCard temp = list.get(first);
         list.set(first, list.get(second));
@@ -42,5 +74,4 @@ public class Deck {
         }
         this.listOfMoveCards = list;
     }
-
 }
