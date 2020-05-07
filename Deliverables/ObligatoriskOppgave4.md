@@ -33,7 +33,7 @@ Tas til slutt, når project board er ferdig.
 
 **Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften?** 
 
-Gruppedynamikken i prosjektet og rett etter koronasituasjonen begynte fungerte egentlig overraskende bra i forhold til omstendighetene. Vi hadde møter flere ganger i uken hvor stort sett alle var til stede til enhver tid. Som nevnt tidligere var det lettere da å ha hyppige møter, i forhold til at vi ikke trengte å fysisk møte opp, hvor vi hadde møtene på remote. Nå ukene etter påske har vi hatt flere møter i uken og gruppedynamikken har fungert bra i forhold til at vi har fått til mye, hvor vi i stor grad har holdt på med parprogrammering ved at vi har delt skjermene våre til hverandre. 
+Gruppedynamikken i prosjektet og rett etter koronasituasjonen begynte fungerte egentlig overraskende bra i forhold til omstendighetene. Vi hadde møter flere ganger i uken hvor stort sett alle var til stede til enhver tid. Som nevnt tidligere var det lettere da å ha hyppige møter, i forhold til at vi ikke trengte å fysisk møte opp, hvor vi ble tvunget til å ha møtene på remote, noe vi også ser på som en fordel. Nå ukene etter påske har vi hatt flere møter i uken og gruppedynamikken har fungert greit i forhold til at vi har fått til mye, hvor vi i stor grad har holdt på med parprogrammering ved at vi har delt skjermene våre til hverandre. Gruppedynamikken har generelt gjennom proskjetet vært bra, men dabbet litt av utover karantenetiden.
 
 
 ## Deloppgave 2: Krav
@@ -108,13 +108,6 @@ HVA HAR VI IKKE KLART ..  ..
 Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spillet fungerer. Ikke alle ting er like enkelt å få testet med denne metoden, som for eksempel LibGdx og derfor har vi valgt å bruke manuelle tester. Dette går ut på at vi sjekker at dette fungerer med å gjøre dette i spillet. 
 
 Tekst til board klassen(legges som en markdown fil i testmappen):
-På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Noe av de reglene vi har laget, som vi tester manuelt er: 
+På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. 
 
-Skrive manuelle tester på alle visuelle funksjoner
-Sjekke at man ikke kan gå gjennom vegger
-sjekke at man kan plukke opp flagg
-Sjekke at man kan dø
-sjekke at man mister liv dersom man går rundt en motstander
-Sjekke at man dør i et hull
-osv
 
