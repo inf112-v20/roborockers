@@ -4,15 +4,16 @@
 Noen av oss har gjennom denne semesteroppgaven hatt problemer med git i forhold til at de har to brukere som vil være koblet til repositoriet. Dermed står det på insight at man har færre commits enn det man egentlig har. Vi vil tro at dette har noe med at vi har forskjellige fag, med forskjellige brukere og tilknytninger. Peter har for eksempel også en git bruker som går gjennom uib sin retting.ii.uib.no, og han tror dette har noe med saken å gjøre. Noen har fått det til å fungere, mens andre ikke. Men dette gjør ingen forskjell i form av at man ikke får brukt git og committet til repositoriet. Men for at man skal se alle commitsene til de forskjellige, må man gå gjennom i commits øverst til venstre i roborockers repositoriet. 
 
 
-**Referat fra møter siden forrige leveranse skal legges ved.** 
+**Referat fra møter siden forrige leveranse skal legges ved.**
+
 Møtereferat finner du på [wiki](https://github.com/inf112-v20/roborockers/wiki) siden våres på github. 
 
 
 **Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?** 
-Rollene i teamet har stort sett fungert bra siden sist innlevering. Etter innlevering 3, altså uken før påsken hadde vi alle andre fag å jobbe med. Og i påsken tok vi oss fri fra skole, så derfor ble det ikke jobbet med prosjektet, slik dere ser i forhold til møtereferatene. Vi føler at rollene som teamlead og kundekontakt fungerer bra, og ser derfor ikke noe behov i å oppdatere dette. Vi har vært veldig fornøyd jevnt gjennom prosjektet på rollene vi ga i begynnelsen. 
+Rollene i teamet har stort sett fungert bra siden sist innlevering. Vi føler at rollene som teamlead og kundekontakt fungerer bra, og ser derfor ikke noe behov i å oppdatere dette. Vi har vært veldig fornøyd jevnt gjennom prosjektet på rollene vi ga i begynnelsen. 
 
 **Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?** 
-Har vært litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4.Vi synes stort sett at valgene vi har tatt gjennom hele prosessen har vært gode. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen.
+Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen. 
 
 
 **Gjør et retrospektiv hvor dere vurderer hvordan prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?** 
