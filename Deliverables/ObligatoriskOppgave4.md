@@ -97,6 +97,7 @@ Oppdatert MVP liste :
 
 - Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. 
 - Døde spillere blir av og til værende på spillbrettet med oppdatert texture som viser at spilleren er død
+- Når en spiller har vunnet, får man opp WinnerAnnouncementScreen som signaliserer hvem som har vunnet. Knappen for å starte spillet igjen fungerer, men når man kommer inn på den opprinnelige MenuScreen fungerer det ikke å starte spillet på nytt. Vi tror dette kommer av at konstruktøren til MenuScreen tar inn en final, og at dette ikke kan gjøre flere ganger. 
 
 
 **Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige (spillbare).**
