@@ -108,6 +108,6 @@ Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spille
 
 
 Tekst til board klassen(legges som en markdown fil i testmappen):
-På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. Vi har valgt å ikke fjerne at man kan bevege seg med piltastene, slik at vi enklere kan teste at ting fungerer.
+På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. Vi har valgt å ikke fjerne at man kan bevege seg med piltastene, slik at vi enklere kan teste at ting fungerer. Hvis man trykker på "D" tasten enabler og disabler man denne funksjonen.
 
 
