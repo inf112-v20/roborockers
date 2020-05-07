@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -23,6 +24,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private BitmapFont font = new BitmapFont();
     private Game gameloop;
     private boolean debugModeEnabled;
+    private Texture flaggImage;
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -56,12 +58,16 @@ public class GameScreen extends InputAdapter implements Screen {
         batch.begin();
 
         font.setColor(Color.BLACK);
+        Texture flaggImage = new Texture(Gdx.files.internal("flag.jpeg"));
+        batch.draw(flaggImage, 5, 650,20,20);
         font.draw(batch, player.createPlayerStatus(), 10, 690);
-        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 10, 670);
+        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 25, 670);
         for(int i = 1; i < board.playerObjects.size(); i++){
             GameActor ga = board.playerObjects.get(i);
             font.draw(batch, ga.createPlayerStatus(), 490, 700 - (15 * i));
         }
+
+
 
         int unselectedStartPositionX = 0;
         int selectedStartPositionX = 100;

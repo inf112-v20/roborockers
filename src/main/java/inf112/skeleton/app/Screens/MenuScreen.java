@@ -1,6 +1,5 @@
 package inf112.skeleton.app.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,18 +33,13 @@ public class MenuScreen extends ScreenAdapter {
         table.setFillParent(true);
         Skin skin = new Skin(Gdx.files.internal(("Skin/skin/clean-crispy-ui.json")));
 
-
         Texture logoTexture = new Texture(Gdx.files.internal("bakgrunn.png"));
         Image logo = new Image(logoTexture);
-
-        CheckBox checkBox = new CheckBox("", skin);
 
         Label mapSelectorLabel = new Label("Map: ", skin);
         mapSelectorLabel.setFontScale(1.3f);
         final SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
 
-
-        // "save" valget i en variabel elns
         String[] mapSelectorOptions = {"tiles3.tmx","tiles.tmx","Roadway.tmx"};
         mapSelectorBox.setItems(mapSelectorOptions);
 
@@ -135,7 +129,7 @@ public class MenuScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
         stage.getBatch().begin();
-        stage.getBatch().draw(mapTexture, 0,0, 250, 280);
+        stage.getBatch().draw(mapTexture, 20,50, 190, 220);
         stage.getBatch().end();
     }
 }

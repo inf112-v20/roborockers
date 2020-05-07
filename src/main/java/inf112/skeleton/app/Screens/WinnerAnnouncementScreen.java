@@ -34,8 +34,6 @@ public class WinnerAnnouncementScreen extends ScreenAdapter {
         table.setFillParent(true);
         Skin skin = new Skin(Gdx.files.internal(("Skin/skin/clean-crispy-ui.json")));
 
-
-
         Texture winnerTexture = new Texture(Gdx.files.internal("Winner.png"));
         Image winnerImage = new Image(winnerTexture);
 
