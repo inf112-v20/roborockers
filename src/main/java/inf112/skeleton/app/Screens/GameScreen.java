@@ -89,7 +89,7 @@ public class GameScreen extends InputAdapter implements Screen {
                 selectedStartPositionX += cardWidth;
             }
         }
-        if(debugModeEnabled) font.draw(batch, "Debug mode is enabled, press the right ctrl button to toggle off", 100, 600);
+        if(debugModeEnabled) font.draw(batch, "Debug mode is enabled, press the D button to toggle off", 100, 600);
         batch.end();
     }
 
@@ -126,7 +126,7 @@ public class GameScreen extends InputAdapter implements Screen {
         if(board.playerObjects.get(0) instanceof Player && !((Player) board.playerObjects.get(0)).hasProgrammedRobot){
 
             switch (keyCode){
-                case Input.Keys.CONTROL_RIGHT:
+                case Input.Keys.D:
                     debugModeEnabled = !debugModeEnabled;
                     return true;
 

@@ -1,5 +1,6 @@
 package inf112.skeleton.app.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +15,7 @@ import inf112.skeleton.app.RallyGame;
 
 
 public class MenuScreen extends ScreenAdapter {
+
 
 
     private Stage stage;
