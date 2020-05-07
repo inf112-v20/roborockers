@@ -4,18 +4,22 @@
 Noen av oss har gjennom denne semesteroppgaven hatt problemer med git i forhold til at de har to brukere som vil være koblet til repositoriet. Dermed står det på insight at man har færre commits enn det man egentlig har. Vi vil tro at dette har noe med at vi har forskjellige fag, med forskjellige brukere og tilknytninger. Peter har for eksempel også en git bruker som går gjennom uib sin retting.ii.uib.no, og han tror dette har noe med saken å gjøre. Noen har fått det til å fungere, mens andre ikke. Men dette gjør ingen forskjell i form av at man ikke får brukt git og committet til repositoriet. Men for at man skal se alle commitsene til de forskjellige, må man gå gjennom i commits øverst til venstre i roborockers repositoriet. 
 
 
-**Referat fra møter siden forrige leveranse skal legges ved.** 
+**Referat fra møter siden forrige leveranse skal legges ved.**
+
 Møtereferat finner du på [wiki](https://github.com/inf112-v20/roborockers/wiki) siden våres på github. 
 
 
-**Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?** 
-Rollene i teamet har stort sett fungert bra siden sist innlevering. Etter innlevering 3, altså uken før påsken hadde vi alle andre fag å jobbe med. Og i påsken tok vi oss fri fra skole, så derfor ble det ikke jobbet med prosjektet, slik dere ser i forhold til møtereferatene. Vi føler at rollene som teamlead og kundekontakt fungerer bra, og ser derfor ikke noe behov i å oppdatere dette. Vi har vært veldig fornøyd jevnt gjennom prosjektet på rollene vi ga i begynnelsen. 
+**Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?**
+
+Rollene i teamet har stort sett fungert bra siden sist innlevering. Vi føler at rollene som teamlead og kundekontakt fungerer bra, og ser derfor ikke noe behov i å oppdatere dette. Vi har vært veldig fornøyd jevnt gjennom prosjektet på rollene vi ga i begynnelsen. 
 
 **Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?** 
-Har vært litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4.Vi synes stort sett at valgene vi har tatt gjennom hele prosessen har vært gode. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen.
+
+Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen. 
 
 
 **Gjør et retrospektiv hvor dere vurderer hvordan prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?** 
+
 I begynnelsen var denne måten å jobbe med kode på veldig ny for oss alle. Ingen av gruppemedlemmene hadde erfaring med å skrive kode sammen. Så i begynnelsen gikk det litt tregt og det var lite kommunikasjon. Men utover i prosjektet har det gått bedre og bedre. 
 
 Om vi skulle begynt på prosjektet på nytt med den erfaringen vi har nå, hadde vi nok satt en plan for hvordan vi skal jobbe, fordelt mer oppgaver og blitt flinkere til å møtes. Og selvfølgelig hvordan vi fordeler tiden av møte på en god måte, slik at vi kunne oppnå å gjøre flere oppgaver i løpet av møte tidene. Men et stort nøkkelord for dette prosjektet er nok; kommunikasjon. 
@@ -23,21 +27,25 @@ Om vi skulle begynt på prosjektet på nytt med den erfaringen vi har nå, hadde
 
 
 **Legg ved skjermdump av project board ved innlevering. Sørg for at det er oppdatert med siste status ved innlevering.** 
+
 Tas til slutt, når project board er ferdig. 
 
 
-Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften?
+**Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften?** 
+
 Gruppedynamikken i prosjektet og rett etter koronasituasjonen begynte fungerte egentlig overraskende bra i forhold til omstendighetene. Vi hadde møter flere ganger i uken hvor stort sett alle var til stede til enhver tid. Som nevnt tidligere var det lettere da å ha hyppige møter, i forhold til at vi ikke trengte å fysisk møte opp, hvor vi hadde møtene på remote. Nå ukene etter påske har vi hatt flere møter i uken og gruppedynamikken har fungert bra i forhold til at vi har fått til mye, hvor vi i stor grad har holdt på med parprogrammering ved at vi har delt skjermene våre til hverandre. 
 
 
 ## Deloppgave 2: Krav
 
 **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.** 
+
 Kravene våre ligger i issues på GitHub. 
 
 
 
 **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. Husk at akseptansekriterier ofte skrives mer eller mindre som tester**
+
 Krav:
 * Som spiller ønsker jeg å vinne spillet ved å fange alle flaggene i riktige rekkefølge - [#Issue 1](https://github.com/inf112-v20/roborockers/issues/1)
 * Som spiller ønsker jeg å kunne velge bevegelseskort og bruke dem til å bevege meg - [#Issue 20](https://github.com/inf112-v20/roborockers/issues/20)
@@ -82,8 +90,9 @@ Oppdatert MVP liste :
 
 
 **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).** 
-- Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. For det andre vil den døende spilleren dersom dyttet respawne til den siden for checkpointet den opprinnelig ble dyttet til. Det siste er at det kan føre til en index out of bounds exception, altså at den blir dyttet ut av brettet dersom checkpointet ligger nær kanten på brettet, og vil få en posisjon på en høyere eller lavere index i forhold til brettets gitte bredde og høyde. 
-- bruke 1-9 osv til å bruke kort, velge dem og om man angrer så “backspace” for å ta vekk alle man har valgt..
+- Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. 
+- Døde spillere blir av og til værende på spillbrettet med oppdatert texture som viser at spilleren er død
+
 
 **Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige (spillbare).**
 
