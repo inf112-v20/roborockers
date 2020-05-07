@@ -90,8 +90,9 @@ Oppdatert MVP liste :
 
 
 **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).** 
-- Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. For det andre vil den døende spilleren dersom dyttet respawne til den siden for checkpointet den opprinnelig ble dyttet til. Det siste er at det kan føre til en index out of bounds exception, altså at den blir dyttet ut av brettet dersom checkpointet ligger nær kanten på brettet, og vil få en posisjon på en høyere eller lavere index i forhold til brettets gitte bredde og høyde. 
-- bruke 1-9 osv til å bruke kort, velge dem og om man angrer så “backspace” for å ta vekk alle man har valgt..
+- Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. 
+- Døde spillere blir av og til værende på spillbrettet med oppdatert texture som viser at spilleren er død
+
 
 **Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige (spillbare).**
 
