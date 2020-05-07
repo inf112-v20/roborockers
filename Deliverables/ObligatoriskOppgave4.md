@@ -106,7 +106,8 @@ Vi valgte istedenfor å lage mulitplayer over LAN og utvikle en AI å spille mot
 
 Vi har lagt inn noen JUnit tester for å kunne se om ulike funksjoner med spillet fungerer. Ikke alle ting er like enkelt å få testet med denne metoden, som for eksempel LibGdx og derfor har vi valgt å bruke manuelle tester. Dette går ut på at vi sjekker at dette fungerer med å gjøre dette i spillet. 
 
+
 Tekst til board klassen(legges som en markdown fil i testmappen):
-På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. 
+På denne klassen må vi ha noen manuelle tester siden mye av disse funksjonene inngår i LibGdx og ikke så enkelt lar seg teste med jUnit tester. Som sagt ligger dette ved navn Board.md i test mappen. Vi har valgt å ikke fjerne at man kan bevege seg med piltastene, slik at vi enklere kan teste at ting fungerer.
 
 
