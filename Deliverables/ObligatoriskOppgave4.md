@@ -15,7 +15,9 @@ Rollene i teamet har stort sett fungert bra siden sist innlevering. Vi føler at
 
 **Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?** 
 
-Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen. 
+Vi har hatt litt problemer med å få absolutt alle sammen på hvert møte siden folk har forskjellige fag og andre innleveringer i de fagene som også må jobbes med, men vi har omtrent alltid vært minst 3 på møtene og som oftest hvertfall 4. Da å jobbe med et kode prosjekt i en gruppe var nytt for oss tok vi valg ut fra hva vi tenkte kunne fungere best. Det har stort sett fungert greit. Vi var ikke så veldig flinke på det å kommunisere skikkelig i starten så det gikk litt tregt da, men vi har blitt mye bedre på det i etterkant og arbeidsflyten + valgene vi har tatt har blitt bedre av det igjen.
+
+Men for oss har en slags kanban med litt parprogrammering fungert bra for oss. Dette er nok fordi Kanban ikke har så mye regler og man kan styre det litt sånn som man selv vil. 
 
 
 **Gjør et retrospektiv hvor dere vurderer hvordan prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?** 
