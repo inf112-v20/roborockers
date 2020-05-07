@@ -103,6 +103,11 @@ Oppdatert MVP liste :
 
 Vi valgte istedenfor å lage mulitplayer over LAN og utvikle en AI å spille mot. Dette valget ble tatt litt sent i prossessen da vi oppdaget at dette var mye mer arbeid enn vi så for oss og ble da vanskelig ettersom vi ikke kunne treffes lengre. Vi hadde dette som et krav tidligere men er nå erstattet med at vi har utviklet en AI. 
 
+## Klassediagram  
+
+Du finner klassediagrammet vårt i mappen Deliverables -> [Roborockers_klassediagram_oblig4.png](https://github.com/inf112-v20/roborockers/blob/master/Deliverables/Roborockers_klassediagram_oblig4.png)
+
+
 
 ## Tester 
 
