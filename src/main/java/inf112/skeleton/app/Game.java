@@ -21,13 +21,7 @@ public class Game {
         this.currentPhase = 0;
     }
 
-    public void runGame(){
-        while(board.winner == null){
-            startGameRound();
-        }
-    }
-
-    public void startGameRound() {
+    public void prepareNewRound() {
         if (board.winner == null) {
             playDeck.shuffle();
             removeWithDeadPlayers();
@@ -54,11 +48,13 @@ public class Game {
                 playerQueue.get(nextPlayerToMove).doMove(board, i);
                 playerQueue.remove(nextPlayerToMove);
                 mcQueue.remove(nextPlayerToMove);
+                if(board.playerObjects.size() == 1){
+                    game.setScreen(new WinnerAnnouncementScreen(game, playerList.get(0)));
+                }
             }
             board.updateBoard();
         }
-
-    startGameRound();
+    prepareNewRound();
     }
 
     public void dealCards(){
@@ -85,7 +81,11 @@ public class Game {
             }
             i++;
         }
+        if(board.playerObjects.size() == 1){
+            game.setScreen(new WinnerAnnouncementScreen(game, board.playerObjects.get(0)));
+        }
     }
+
     public void cleanPlayersProgramCard(){
         for (GameActor ga : playerList){
             for (int i = 0; i < 9 - (9 - ga.getHealthPoints()); i++) {

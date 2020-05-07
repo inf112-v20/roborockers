@@ -184,10 +184,10 @@ public class Player implements GameActor {
             Vector2 position = dir.getPositionInDirection(xPosition,yPosition,dir.heading);
             GameActor playerToPush = board.playerAtPosition(position);
             if(playerToPush.attemptToMoveInDirection(board, nominalDirection)){
-                if(nominalDirection == Direction.NominalDirection.NORTH) yPosition += 1;
-                else if(nominalDirection == Direction.NominalDirection.EAST) xPosition += 1;
-                else if(nominalDirection == Direction.NominalDirection.SOUTH) yPosition -= 1;
-                else xPosition -= 1;
+                if(nominalDirection == Direction.NominalDirection.NORTH) setYPosition(getYPosition()+1);
+                else if(nominalDirection == Direction.NominalDirection.EAST) setXPosition(getXPosition()+1);
+                else if(nominalDirection == Direction.NominalDirection.SOUTH) setYPosition(getYPosition()-1);
+                else setXPosition(getXPosition()-1);
             }
             else{return false;}
             //push player if possible, update yPosition and return true
@@ -306,5 +306,8 @@ public class Player implements GameActor {
             if(programCard[i] == card) return i;
         }
         return null;
+    }
+    public void gainALife(){
+        remainingLives +=1;
     }
 }

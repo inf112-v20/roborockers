@@ -305,5 +305,9 @@ public class ComputerPlayer implements GameActor {
         string += powerdownStatus;
         return string;
     }
+
+    public void gainALife(){
+        remainingLives +=1;
+    }
 }
 

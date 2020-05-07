@@ -30,7 +30,7 @@ public class Laser {
 
             case 46:
                 direction = new Direction(Direction.NominalDirection.WEST);
-                this.damage = 2;
+                this.damage = 1;
                 break;
 
             case 87:
@@ -68,19 +68,16 @@ public class Laser {
             Wall wall = board.wallObjects[(int)hitPosition.x][(int)hitPosition.y];
             if(wall != null){
                 if(wall.blocksMovementTowards(direction.rotate180(direction.heading)) && i != 0){
-                    System.out.println("print1");
                     return null;
                 }
                 if(board.playerLayer.getCell((int)hitPosition.x, (int)hitPosition.y) != null){
                     return hitPosition;
                 }
                 if(wall.blocksMovementTowards(direction.heading)) {
-                    System.out.println("print2");
                     return null;
                 }
             }
             if(board.playerLayer.getCell((int)hitPosition.x, (int)hitPosition.y) != null){
-                System.out.println("print3");
                 return hitPosition;
             }
             hitPosition = direction.getPositionInDirection((int)hitPosition.x,(int)hitPosition.y,direction.heading);

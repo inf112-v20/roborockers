@@ -45,6 +45,8 @@ public class Board {
     /**
      * Constructor for creating and setting up a playing board
      * @param boardName  filename of the board to be started up
+     * @param numberOfPlayers to be placed on the board at the start
+     * @param game to pass on to gameloop and be allowed to switch screens when game is over
      */
     public Board(String boardName, int numberOfPlayers, RallyGame game) {
         this.game = game;
@@ -108,7 +110,7 @@ public class Board {
             playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
         }
         gameLoop = new Game(this, game, playerObjects);
-        gameLoop.startGameRound();
+        gameLoop.prepareNewRound();
     }
 
     /**
@@ -277,14 +279,21 @@ public class Board {
         }
     }
 
-
-
+    /**
+     * @param position
+     * @return boolean true or false if a position on the board contains a player
+     */
     public boolean positionHasPlayer(Vector2 position){
         for(GameActor player: playerObjects){
             if(player.getXPosition() == position.x && player.getYPosition() == position.y) return true;
         }
         return false;
     }
+
+    /**
+     * @param position
+     * @return The GameActor on a specific position
+     */
     public GameActor playerAtPosition(Vector2 position){
         for(GameActor player: playerObjects){
             if(player.getXPosition() == position.x && player.getYPosition() == position.y) return player;
@@ -292,6 +301,11 @@ public class Board {
         return null;
     }
 
+    /**
+     * @param oldPos
+     * @param newPos
+     * @return the direction/orientation from one position to the next
+     */
     public Direction.NominalDirection getDirectionToPosition(Vector2 oldPos, Vector2 newPos){
         if(oldPos.x > newPos.x) return Direction.NominalDirection.SOUTH;
         else if(oldPos.x < newPos.x) return Direction.NominalDirection.NORTH;
@@ -299,6 +313,11 @@ public class Board {
         else return Direction.NominalDirection.EAST;
     }
 
+    /**
+     * @param oldPos
+     * @param newPos
+     * @return
+     */
     public int distanceBetweenPositions(Vector2 oldPos, Vector2 newPos){
         int xValue = Math.abs((int)(oldPos.x - newPos.x));
         int yValue = Math.abs((int)(oldPos.y - newPos.y));
@@ -337,6 +356,12 @@ public class Board {
         //rotator
         for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
+            if(positionIsOutOfBounds(player.getXPosition(),player.getYPosition())){
+                playersAlreadyMoved.add(player);
+                player.gainALife();
+                player.loseALife();
+                continue;
+            }
             BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() <= 0){
                 boardObject.update(player);
@@ -346,6 +371,12 @@ public class Board {
         //push1
         for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
+            if(positionIsOutOfBounds(player.getXPosition(),player.getYPosition())){
+                playersAlreadyMoved.add(player);
+                player.gainALife();
+                player.loseALife();
+                continue;
+            }
             BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() == 1){
                 if(map.containsKey(boardObject.getPushingTo())){
@@ -366,6 +397,12 @@ public class Board {
         //push2
         for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
+            if(positionIsOutOfBounds(player.getXPosition(),player.getYPosition())){
+                playersAlreadyMoved.add(player);
+                player.gainALife();
+                player.loseALife();
+                continue;
+            }
             BoardObject boardObject = playerAdjuster[player.getXPosition()][player.getYPosition()];
             if (boardObject != null && boardObject.getDistance() == 2){
                 if(map.containsKey(boardObject.getPushingTo())){

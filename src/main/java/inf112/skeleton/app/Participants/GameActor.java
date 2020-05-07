@@ -42,4 +42,5 @@ public interface GameActor {
     String createPlayerStatus();
     void healPlayer(int healAmount);
     void clearHand ();
+    void gainALife();
 }

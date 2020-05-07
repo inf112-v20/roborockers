@@ -22,6 +22,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private SpriteBatch batch;
     private BitmapFont font = new BitmapFont();
     private Game gameloop;
+    private boolean debugModeEnabled;
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -32,6 +33,7 @@ public class GameScreen extends InputAdapter implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(board.getBoard(), (float) 1 / board.getTileSize());
         player = (Player)board.playerObjects.get(0);
         gameloop = board.gameLoop;
+        debugModeEnabled = false;
     }
 
     @Override
@@ -87,6 +89,7 @@ public class GameScreen extends InputAdapter implements Screen {
                 selectedStartPositionX += cardWidth;
             }
         }
+        if(debugModeEnabled) font.draw(batch, "Debug mode is enabled, press the right ctrl button to toggle off", 100, 600);
         batch.end();
     }
 
@@ -120,53 +123,79 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
-        System.out.println(player.healthPoints);
         if(board.playerObjects.get(0) instanceof Player && !((Player) board.playerObjects.get(0)).hasProgrammedRobot){
 
             switch (keyCode){
-                case Input.Keys.UP:
-                    direction.heading = Direction.NominalDirection.NORTH;
-                    player.attemptToMoveInDirection(board,direction.heading);
-                    board.updateBoard();
+                case Input.Keys.CONTROL_RIGHT:
+                    debugModeEnabled = !debugModeEnabled;
                     return true;
+
+                case Input.Keys.UP:
+                    if(debugModeEnabled){
+                        direction.heading = Direction.NominalDirection.NORTH;
+                        player.attemptToMoveInDirection(board,direction.heading);
+                        board.updateBoard();
+                        return true;
+                    } else return false;
+
 
                 case Input.Keys.DOWN:
-                    direction.heading = Direction.NominalDirection.SOUTH;
-                    player.attemptToMoveInDirection(board,direction.heading);
-                    board.updateBoard();
-                    return true;
+                    if(debugModeEnabled) {
+                        direction.heading = Direction.NominalDirection.SOUTH;
+                        player.attemptToMoveInDirection(board, direction.heading);
+                        board.updateBoard();
+                        return true;
+                    } else return false;
 
                 case Input.Keys.LEFT:
-                    direction.heading = Direction.NominalDirection.WEST;
-                    player.attemptToMoveInDirection(board,direction.heading);
-                    board.updateBoard();
-                    return true;
+                    if(debugModeEnabled){
+                        direction.heading = Direction.NominalDirection.WEST;
+                        player.attemptToMoveInDirection(board,direction.heading);
+                        board.updateBoard();
+                        return true;
+                    } else return false;
 
                 case Input.Keys.RIGHT:
-                    direction.heading = Direction.NominalDirection.EAST;
-                    player.attemptToMoveInDirection(board,direction.heading);
-                    board.updateBoard();
-                    return true;
+                    if(debugModeEnabled){
+                        direction.heading = Direction.NominalDirection.EAST;
+                        player.attemptToMoveInDirection(board,direction.heading);
+                        board.updateBoard();
+                        return true;
+                    } else return false;
 
                 case Input.Keys.G:
-                    player.rotateClockWise(1);
-                    return true;
+                    if(debugModeEnabled){
+                        player.rotateClockWise(1);
+                        return true;
+                    } else return false;
+
 
                 case Input.Keys.H:
-                    player.rotateClockWise(2);
-                    return true;
+                    if(debugModeEnabled){
+                        player.rotateClockWise(2);
+                        return true;
+                    } else return false;
+
 
                 case Input.Keys.J:
-                    player.rotateClockWise(3);
-                    return true;
+                    if(debugModeEnabled){
+                        player.rotateClockWise(3);
+                        return true;
+                    } else return false;
 
                 case Input.Keys.R:
-                    player.xPosition = (int)player.checkpoint.x;
-                    player.yPosition = (int)player.checkpoint.y;
-                    return true;
+                    if(debugModeEnabled){
+                        player.xPosition = (int)player.checkpoint.x;
+                        player.yPosition = (int)player.checkpoint.y;
+                        return true;
+                    } else return false;
+
 
                 case Input.Keys.U:
-                    board.updateBoard();
+                    if(debugModeEnabled){
+                        board.updateBoard();
+                    } else return false;
+
 
                 case Input.Keys.NUM_1:
                     return cardInput(1);
@@ -197,31 +226,35 @@ public class GameScreen extends InputAdapter implements Screen {
 
                 case Input.Keys.BACKSPACE:
                     //check math min for correct numbers
-                    for (int i = 0; i < Math.min(5, (10-(9-player.getHealthPoints()))); i++) {
+                    for (int i = 0; i < Math.min(5, (9-(9-player.getHealthPoints()))); i++) {
                         player.programCard[i] = null;
                     }
                     return true;
 
                 case Input.Keys.ENTER:
-                    int indexOfLastCardToProgram = Math.min(4, 9-(9-player.getHealthPoints()));
-                    if(player.programCard[indexOfLastCardToProgram] == null){
-                        //Did not input enough cards
-                        for (int i = 0; i < indexOfLastCardToProgram; i++) {
-                            player.programCard[i] = null;
+                    for (int i = 0; i < player.programCard.length; i++) {
+                        if (player.programCard[i] == null) {
+                            return false;
                         }
+                    }
+                    player.hasProgrammedRobot = true;
+                    board.gameLoop.gamePhases();
+                    player.hasProgrammedRobot = false;
+                    return true;
 
-                        return false;
+                case Input.Keys.P:
+                    if(player.hasProgrammedRobot == false){
+                        if(player.powerdownStatus == 0) player.powerdownStatus = 2;
+                        else if(player.powerdownStatus == 2) player.powerdownStatus = 0;
                     }
-                    else{
-                        player.hasProgrammedRobot = true;
-                        board.gameLoop.gamePhases();
-                        player.hasProgrammedRobot = false;
-                    //Start start up the game loop
-                    }
+                    return false;
 
                 default:
                     return false;
             }
+        }
+        else{
+            board.gameLoop.gamePhases();
         }
         return false;
     }
