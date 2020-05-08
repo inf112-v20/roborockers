@@ -24,9 +24,9 @@ public class Game {
     public void prepareNewRound() {
         if (board.winner == null) {
             playDeck.shuffle();
-            removeWithDeadPlayers();
+            removeDeadPlayers();
             cleanPlayersProgramCard();
-            dealCards();
+            dealCards(board);
         }
         else{
             game.setScreen(new WinnerAnnouncementScreen(game, board.winner));
@@ -57,20 +57,20 @@ public class Game {
     prepareNewRound();
     }
 
-    public void dealCards(){
+    public void dealCards(Board board){
         int topOfDeck = 0;
         for(GameActor ga : playerList){
             ga.clearHand();
             int cardsToBeDealt = 9 - (9 - ga.getHealthPoints());
             if(ga.getPowerDownStatus() != 1){
                 ArrayList<MoveCard> cardsToDeal = new ArrayList<MoveCard>(playDeck.listOfMoveCards.subList(topOfDeck, topOfDeck + cardsToBeDealt));
-                ga.receiveCards(cardsToDeal);
+                ga.receiveCards(cardsToDeal, board);
             }
             topOfDeck += cardsToBeDealt;
         }
     }
 
-    public void removeWithDeadPlayers(){
+    public void removeDeadPlayers(){
         int i = 0;
         while(i < playerList.size()){
             if(playerList.get(i).getRemainingLives() == 0){

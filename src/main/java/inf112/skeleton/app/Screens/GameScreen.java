@@ -58,10 +58,10 @@ public class GameScreen extends InputAdapter implements Screen {
         batch.begin();
 
         font.setColor(Color.BLACK);
-        Texture flaggImage = new Texture(Gdx.files.internal("flag.jpeg"));
-        batch.draw(flaggImage, 5, 650,20,20);
+        Texture flagImage = new Texture(Gdx.files.internal("flag.jpeg"));
+        batch.draw(flagImage, 2, 650,20,20);
         font.draw(batch, player.createPlayerStatus(), 10, 690);
-        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 25, 670);
+        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 20, 670);
         for(int i = 1; i < board.playerObjects.size(); i++){
             GameActor ga = board.playerObjects.get(i);
             font.draw(batch, ga.createPlayerStatus(), 490, 700 - (15 * i));
