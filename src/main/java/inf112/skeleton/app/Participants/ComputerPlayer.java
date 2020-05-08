@@ -46,12 +46,12 @@ public class ComputerPlayer extends GameActor {
     @Override
     public void programRobot(Board board) {
         {
-            int numberOfCardsToProgram = Math.min(hand.size(), 5);
-            Vector2 positionToReach = findPositionOfNextFlag(board);
             if(healthPoints < 4){
                 announcePowerdown();
             }
-
+            for (int i = 0; i < Math.min(hand.size(), 5); i++){
+                programCard[i] = hand.get(i);
+            }
         }
     }
 

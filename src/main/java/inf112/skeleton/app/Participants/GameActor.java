@@ -337,4 +337,13 @@ abstract public class GameActor {
         string += powerdownStatus;
         return string;
     }
+
+    public void powerDown(){
+        this.powerdownStatus = 1;
+    };
+
+    public void powerUp(){
+        this.powerdownStatus = 0;
+        this.fullHeal();
+    };
 }
