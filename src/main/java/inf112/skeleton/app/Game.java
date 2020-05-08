@@ -14,7 +14,6 @@ public class Game {
     private static Board board;
     public RallyGame game;
     public  int currentPhase;
-    private Screen gameScreen;
 
     public Game(Board board, RallyGame game, ArrayList<GameActor> playerList) {
         this.playerList = playerList;
@@ -25,20 +24,17 @@ public class Game {
     }
 
     public void prepareNewRound() {
-
         if (board.winner == null) {
             playDeck.shuffle();
             removeDeadPlayers();
             cleanPlayersProgramCard();
             dealCards(board);
-        }
-        else{
+        } else{
             game.setScreen(new WinnerAnnouncementScreen(game, board.winner));
         }
     }
 
     public boolean nextPhase(){
-
         ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
         ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
         for (GameActor ga : playerList) {
@@ -69,40 +65,6 @@ public class Game {
     }
 
     public void endOfTurn(){
-        for (GameActor ga : playerList) {
-            if(ga.getPowerDownStatus() == 2){
-                ga.powerDown();
-
-            } else if (ga.getPowerDownStatus() == 1){
-                ga.powerUp();
-            }
-        }
-        prepareNewRound();
-    }
-
-    public void gamePhases(){
-
-        for (int i = 0; i < 5; i++) {
-            ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
-            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
-            for (GameActor ga : playerList) {
-                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
-                    mcQueue.add(ga.getProgramCard()[i]);
-                    playerQueue.add(ga);
-                }
-            }
-            while(!mcQueue.isEmpty()){
-                int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                playerQueue.get(nextPlayerToMove).doMove(board, i);
-                playerQueue.remove(nextPlayerToMove);
-                mcQueue.remove(nextPlayerToMove);
-                if(playerList.size() == 1){
-                    game.setScreen(new WinnerAnnouncementScreen(game, playerList.get(0)));
-                }
-            }
-            board.updateBoard();
-
-        }
         for (GameActor ga : playerList) {
             if(ga.getPowerDownStatus() == 2){
                 ga.powerDown();
@@ -155,28 +117,5 @@ public class Game {
         }
     }
 
-    public boolean runGamePhase(){
-        if(currentPhase < 5){
-            ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
-            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
-            for (GameActor ga : playerList) {
-                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
-                    mcQueue.add(ga.getProgramCard()[currentPhase]);
-                    playerQueue.add(ga);
-                }
-            }
-            while(!mcQueue.isEmpty()){
-                int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                playerQueue.get(nextPlayerToMove).doMove(board, currentPhase);
-                playerQueue.remove(nextPlayerToMove);
-                mcQueue.remove(nextPlayerToMove);
-            }
-            board.updateBoard();
-            currentPhase += 1;
-            return false;
-        } else{
-            currentPhase = 0;
-            return true;
-       }
-    }
+
 }

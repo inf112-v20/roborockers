@@ -113,13 +113,7 @@ abstract public class GameActor {
      */
     abstract public void programRobot(Board board);
 
-    /**
-     * GameActor announces powerdown and its powerdown status is set to 2, to indicate that powerdown
-     * should be initiated upon the start of the second to first start of round.
-     */
-    public void announcePowerdown (){
-        powerdownStatus = 2;
-    }
+
 
     /**
      * GameActor heals to full HP
@@ -261,6 +255,7 @@ abstract public class GameActor {
         }
         else{
             remainingLives = 0;
+            healthPoints = 0;
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
             xPosition = (int)checkpoint.x;
             yPosition = (int)checkpoint.y;

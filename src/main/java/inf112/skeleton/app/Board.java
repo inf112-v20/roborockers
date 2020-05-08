@@ -353,7 +353,7 @@ public class Board {
             }
         }
 
-        //rotator
+        //rotator and mender
         for (GameActor player: playerObjects) {
             if(playersAlreadyMoved.contains(player)) continue;
             if(positionIsOutOfBounds(player.getXPosition(),player.getYPosition())){

@@ -73,19 +73,11 @@ public class ComputerPlayer extends GameActor {
         return string;
     }
 
-    public Vector2 findPositionOfNextFlag(Board board){
-        for(int x = 0; x < board.getBoardWidth(); x++){
-            for(int y = 0; y < board.getBoardHeight(); y++){
-                TiledMapTileLayer.Cell flag = board.flagLayer.getCell(x,y);
-                int flagID = -1;
-                if(flag != null){
-                    flagID = flag.getTile().getId();
-                }
-                if(flagID == board.checkpointFlags[numberOfFlagsVisited]){
-                    return new Vector2(x, y);
-                }
-            }
-        }
-        return null;
+    /**
+     * ComputerPlayer announces powerdown and its powerdown status is set to 2, to indicate that powerdown
+     * should be initiated upon the start of the second to first start of round.
+     */
+    private void announcePowerdown (){
+        powerdownStatus = 2;
     }
 }

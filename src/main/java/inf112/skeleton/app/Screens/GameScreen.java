@@ -15,7 +15,6 @@ import inf112.skeleton.app.*;
 import inf112.skeleton.app.Participants.GameActor;
 import inf112.skeleton.app.Participants.Player;
 
-import java.io.Console;
 import java.util.Random;
 
 public class GameScreen extends InputAdapter implements Screen {
@@ -52,7 +51,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void render(float v) {
-        this.Tick();
+        this.tick();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.setView(camera);
@@ -134,7 +133,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     }
 
-    public void Tick(){
+    public void tick(){
         if(turnStarted==true){
             try{
                 Thread.sleep(1000);
@@ -146,14 +145,13 @@ public class GameScreen extends InputAdapter implements Screen {
                 turnStarted=false;
             };
         }
-
     }
 
     @Override
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
-
-        if(board.playerObjects.get(0) == player && !turnStarted ){
+        if(player.remainingLives == 0) turnStarted = true;
+        if(board.playerObjects.get(0) == player && !turnStarted){
 
             switch (keyCode){
                 case Input.Keys.D:
