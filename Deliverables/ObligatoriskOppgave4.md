@@ -60,6 +60,7 @@ Krav for denne iterasjoen:
 * Ha forskjellige spillbrett - [#Issue 25](https://github.com/inf112-v20/roborockers/issues/25)
 * Kunne ha powerdown - [#Issue 33](https://github.com/inf112-v20/roborockers/issues/33)
 * Som spiller ønsker jeg å kunne velge kort og bevege meg med de. [#Issue 20](https://github.com/inf112-v20/roborockers/issues/20)
+* Som spiller ønsker jeg å se hva som foregår etter jeg har valgt og låse programkortene mine - [#Issue 35](https://github.com/inf112-v20/roborockers/issues/35)
 
 
 
