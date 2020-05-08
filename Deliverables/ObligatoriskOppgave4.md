@@ -34,7 +34,7 @@ Jo mer vi jobbet på spillet, jo mer kode ble det. Derfor fant vi også fort ut 
 **Legg ved skjermdump av project board ved innlevering. Sørg for at det er oppdatert med siste status ved innlevering.** 
 Slik ser project boardet vårt til slutt. Vi har fjernet oppgaver, som for eksempel å utvikle multiplayer, da det var noe vi har valgt underveis å ikke ha med. 
 
-![ProjectBoard](https://i.postimg.cc/Y9QbF54k/Skjermbilde-2020-05-08-kl-13-32-34.png)
+![ProjectBoard](https://i.postimg.cc/wvZPDCQj/Skjermbilde-2020-05-08-kl-14-16-56.png)
 
 
 **Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften?** 
