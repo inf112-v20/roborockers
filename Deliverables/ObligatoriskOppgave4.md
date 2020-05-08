@@ -108,7 +108,7 @@ Vi valgte istedenfor å lage mulitplayer over LAN og utvikle en AI å spille mot
 
 ## Klassediagram  
 
-Du finner klassediagrammet vårt i mappen Deliverables -> [Roborockers_klassediagram_oblig4.png](https://github.com/inf112-v20/roborockers/blob/master/Deliverables/Roborockers_klassediagram_oblig4.png)
+Du finner klassediagrammet vårt i mappen Deliverables -> [KlasseDiagramSisteInnlevering.png](https://github.com/inf112-v20/roborockers/blob/master/Deliverables/KlasseDiagramSisteInnlevering.png)
 
 
 
