@@ -97,9 +97,10 @@ Oppdatert MVP liste :
 
 **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).** 
 
-- Når en spiller dør og skal bli resatt til checkpointet sitt, så kan det for det første resultere i at den posisjonen allerede er opptatt og da vil de stå oppå hverandre. 
+- Når en spiller dør og skal bli resatt til checkpointet sitt, så vil to spillere kunne stå på samme posisjon, dersom checkpointet til spilleren allerede var opptatt. 
 - Døde spillere blir av og til værende på spillbrettet med oppdatert texture som viser at spilleren er død
 - Når en spiller har vunnet, får man opp WinnerAnnouncementScreen som signaliserer hvem som har vunnet. Knappen for å starte spillet igjen fungerer, men når man kommer inn på den opprinnelige MenuScreen fungerer det ikke å starte spillet på nytt. Vi tror dette kommer av at konstruktøren til MenuScreen tar inn en final, og at dette ikke kan gjøre flere ganger. 
+- Spillet kan avsluttes og annonsere feil vinner dersom flere spiller dør i siste fase. Da vil en spiller kunne dø før andre, og allikevel vinne. 
 
 
 **Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige (spillbare).**
