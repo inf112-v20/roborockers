@@ -63,9 +63,15 @@ public class GameScreen extends InputAdapter implements Screen {
             board.playerLayer.setCell(individual.getXPosition(), individual.getYPosition(), individual.getPlayerCell());
         }
         batch.begin();
-        if(player.powerdownStatus == 1){
-            font.draw(batch, "You have powered down, this turn you can do nothing, press enter to start the round", 100, 800);
+        if(player.powerdownStatus == 1 && player.remainingLives != 0){
+            font.draw(batch, "You have powered down, this turn you can do nothing, press enter to start the round", 100, 750);
         }
+        if (player.remainingLives == 0) {
+            font.draw(batch, "You have died, press any key to run next round", 100, 750);
+        }
+
+        batch.draw(player.playerTxRegion[0][0], 30, 590, 50, 50);
+
         font.setColor(Color.BLACK);
         Texture flagImage = new Texture(Gdx.files.internal("flag.jpeg"));
         batch.draw(flagImage, 2, 650,20,20);

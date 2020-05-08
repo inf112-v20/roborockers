@@ -107,7 +107,7 @@ public class Board {
         checkpointFlags = Arrays.copyOfRange(checkpointFlags, 0, counter);
         playerObjects.add(new Player((int)startingVectors[0].x, (int)startingVectors[0].y,"Your player", 3, 1, checkpointFlags.length));
         for(int i = 1; i < numberOfPlayers; i++){
-            playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+i, 3, i+1, checkpointFlags.length));
+            playerObjects.add(new ComputerPlayer((int)startingVectors[i].x, (int)startingVectors[i].y,"CPU#"+ (i +1), 3, i+1, checkpointFlags.length));
         }
         gameLoop = new Game(this, game, playerObjects);
         gameLoop.prepareNewRound();
