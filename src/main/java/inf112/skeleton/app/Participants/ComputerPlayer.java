@@ -2,8 +2,10 @@ package inf112.skeleton.app.Participants;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Board;
 import inf112.skeleton.app.Direction;
 import inf112.skeleton.app.Laser;
 import inf112.skeleton.app.MoveCard;
@@ -39,11 +41,10 @@ public class ComputerPlayer extends GameActor {
             return;
         }
         if(powerdownStatus == 2) powerdownStatus = 1;
-        programRobot();
     }
 
     @Override
-    public void programRobot() {
+    public void programRobot(Board board) {
         {
             if(healthPoints < 4){
                 announcePowerdown();
@@ -55,12 +56,12 @@ public class ComputerPlayer extends GameActor {
     }
 
     @Override
-    public void receiveCards(ArrayList<MoveCard> dealtCards){
+    public void receiveCards(ArrayList<MoveCard> dealtCards, Board board){
         hand.clear();
         for(int i = 0; i < 9 - (9-healthPoints); i++){
             hand.add(dealtCards.remove(dealtCards.size()-1));
         }
-        programRobot();
+        programRobot(board);
     }
     @Override
     public String createPlayerStatus(){
@@ -72,4 +73,11 @@ public class ComputerPlayer extends GameActor {
         return string;
     }
 
+    /**
+     * ComputerPlayer announces powerdown and its powerdown status is set to 2, to indicate that powerdown
+     * should be initiated upon the start of the second to first start of round.
+     */
+    private void announcePowerdown (){
+        powerdownStatus = 2;
+    }
 }

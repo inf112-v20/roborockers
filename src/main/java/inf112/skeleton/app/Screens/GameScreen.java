@@ -15,6 +15,8 @@ import inf112.skeleton.app.*;
 import inf112.skeleton.app.Participants.GameActor;
 import inf112.skeleton.app.Participants.Player;
 
+import java.util.Random;
+
 public class GameScreen extends InputAdapter implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
@@ -25,6 +27,9 @@ public class GameScreen extends InputAdapter implements Screen {
     private Game gameloop;
     private boolean debugModeEnabled;
     private Texture flaggImage;
+    Random random;
+    boolean turnStarted = false;
+
 
     public GameScreen(Board board) {
         batch = new SpriteBatch();
@@ -36,6 +41,7 @@ public class GameScreen extends InputAdapter implements Screen {
         player = (Player)board.playerObjects.get(0);
         gameloop = board.gameLoop;
         debugModeEnabled = false;
+        random = new Random();
     }
 
     @Override
@@ -45,6 +51,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void render(float v) {
+        this.tick();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.setView(camera);
@@ -56,18 +63,18 @@ public class GameScreen extends InputAdapter implements Screen {
             board.playerLayer.setCell(individual.getXPosition(), individual.getYPosition(), individual.getPlayerCell());
         }
         batch.begin();
-
+        if(player.powerdownStatus == 1){
+            font.draw(batch, "You have powered down, this turn you can do nothing, press enter to start the round", 100, 800);
+        }
         font.setColor(Color.BLACK);
-        Texture flaggImage = new Texture(Gdx.files.internal("flag.jpeg"));
-        batch.draw(flaggImage, 5, 650,20,20);
+        Texture flagImage = new Texture(Gdx.files.internal("flag.jpeg"));
+        batch.draw(flagImage, 2, 650,20,20);
         font.draw(batch, player.createPlayerStatus(), 10, 690);
-        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 25, 670);
+        font.draw(batch, "Go to flag: " + ((int)player.getNumberOfFlagsVisited()+1), 20, 670);
         for(int i = 1; i < board.playerObjects.size(); i++){
             GameActor ga = board.playerObjects.get(i);
             font.draw(batch, ga.createPlayerStatus(), 490, 700 - (15 * i));
         }
-
-
 
         int unselectedStartPositionX = 0;
         int selectedStartPositionX = 100;
@@ -126,10 +133,25 @@ public class GameScreen extends InputAdapter implements Screen {
 
     }
 
+    public void tick(){
+        if(turnStarted==true){
+            try{
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
+            if(board.gameLoop.nextPhase() == true){
+                player.hasProgrammedRobot = false;
+                turnStarted=false;
+            };
+        }
+    }
+
     @Override
     public boolean keyUp(int keyCode){
         Direction direction = new Direction();
-        if(board.playerObjects.get(0) instanceof Player && !((Player) board.playerObjects.get(0)).hasProgrammedRobot){
+        if(player.remainingLives == 0) turnStarted = true;
+        if(board.playerObjects.get(0) == player && !turnStarted){
 
             switch (keyCode){
                 case Input.Keys.D:
@@ -143,7 +165,6 @@ public class GameScreen extends InputAdapter implements Screen {
                         board.updateBoard();
                         return true;
                     } else return false;
-
 
                 case Input.Keys.DOWN:
                     if(debugModeEnabled) {
@@ -238,14 +259,19 @@ public class GameScreen extends InputAdapter implements Screen {
                     return true;
 
                 case Input.Keys.ENTER:
+                    if(player.powerdownStatus == 1){
+                        turnStarted = true;
+                        player.hasProgrammedRobot = true;
+                        return true;
+                    }
+
                     for (int i = 0; i < player.programCard.length; i++) {
                         if (player.programCard[i] == null) {
                             return false;
                         }
                     }
+                    turnStarted = true;
                     player.hasProgrammedRobot = true;
-                    board.gameLoop.gamePhases();
-                    player.hasProgrammedRobot = false;
                     return true;
 
                 case Input.Keys.P:
@@ -258,9 +284,6 @@ public class GameScreen extends InputAdapter implements Screen {
                 default:
                     return false;
             }
-        }
-        else{
-            board.gameLoop.gamePhases();
         }
         return false;
     }

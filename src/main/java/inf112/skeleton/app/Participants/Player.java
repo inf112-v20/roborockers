@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Board;
 import inf112.skeleton.app.Direction;
 import inf112.skeleton.app.Laser;
 import inf112.skeleton.app.MoveCard;
@@ -56,11 +57,11 @@ public class Player extends GameActor {
     }
 
     @Override
-    public void programRobot() {
+    public void programRobot(Board board) {
     }
 
     @Override
-    public void receiveCards(ArrayList<MoveCard> dealtCards){
+    public void receiveCards(ArrayList<MoveCard> dealtCards, Board board){
         hand.clear();
         for(int i = 0; i < 9 - (9-healthPoints); i++){
             hand.add(dealtCards.remove(dealtCards.size()-1));

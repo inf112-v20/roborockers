@@ -78,6 +78,12 @@ abstract public class GameActor {
 
     abstract public void startRound();
 
+    /**
+     * Prompts the GameActor to attempt the move corresponding to the MoveCard in the position of phaseNumber
+     * in their programCard
+     * @param board
+     * @param phaseNumber
+     */
     public void doMove(Board board, int phaseNumber){
         if(healthPoints > 0){
             MoveCard nextMove = programCard[phaseNumber];
@@ -94,30 +100,52 @@ abstract public class GameActor {
 
     }
 
+    /**
+     * Clears the players hand
+     */
     public void clearHand(){
         hand.clear();
     }
 
+    /**
+     * as is should only do anything int he ComputerPlayer class, as the Player
+     * should do this manually in the GameScreen class
+     */
+    abstract public void programRobot(Board board);
 
 
-    abstract public void programRobot();
 
-    public void announcePowerdown (){
-        powerdownStatus = 2;
-    }
-
+    /**
+     * GameActor heals to full HP
+     */
     public void fullHeal(){
         healthPoints = 9;
     }
 
-    abstract public void receiveCards(ArrayList<MoveCard> dealtCards);
+    /**
+     * Deals the correct amount of cards to each GameActor, separate functionality for Player and ComputerPlayer
+     * @param dealtCards
+     */
+    abstract public void receiveCards(ArrayList<MoveCard> dealtCards, Board board);
 
+    /**
+     * Recursive call to keep attempting to move forwards until either the number of steps have been met or something
+     * is preventing further movement
+     * @param board
+     * @param steps
+     */
     public void attemptToMoveForward(Board board, int steps){
         if(attemptToMoveInDirection(board, heading.heading) == false) return;
         //Recusively call to move as far as possible
         if(steps > 1) attemptToMoveForward(board, steps - 1);
     }
 
+    /**
+     * Recursive call to keep attempting to move backwards until either the number of steps have been met or something
+     * is preventing further movement
+     * @param board
+     * @param steps
+     */
     public void attemptToMoveBackward(Board board, int steps){
         if(attemptToMoveInDirection(board, heading.rotate180(heading.heading)) == false) return;
 
@@ -126,6 +154,12 @@ abstract public class GameActor {
         }
     }
 
+    /**
+     * Prompt the GameActor to attempt moving in a specific direction
+     * @param board
+     * @param nominalDirection
+     * @return true / false if GameActor moved successfully
+     */
     public boolean attemptToMoveInDirection(Board board, Direction.NominalDirection nominalDirection){
         if(board.willCollideWithWall(xPosition,yPosition,nominalDirection)) return false;
         if(board.willGoIntoHole(xPosition,yPosition,nominalDirection) || board.willGoOutOfTheMap(xPosition,yPosition,nominalDirection)){
@@ -156,6 +190,10 @@ abstract public class GameActor {
         return true;
     }
 
+    /**
+     * Rotates the GameActor clockwise 1-3 times
+     * @param numberOf90Degrees
+     */
     public void rotateClockWise(int numberOf90Degrees){
         if(numberOf90Degrees < 0 || numberOf90Degrees > 3){
             throw new IllegalArgumentException("This amount of clock wise rotations dont make sense game wise");
@@ -172,6 +210,10 @@ abstract public class GameActor {
         playerCell.setRotation(4 - rotateHelper());
     }
 
+    /**
+     * Helper function to allow players to rotate according to the 4 nominal directions
+     * @return int each corresponding to just one nominal direction
+     */
     public int rotateHelper(){
         if(heading.heading == Direction.NominalDirection.NORTH){
             return 0;
@@ -188,6 +230,10 @@ abstract public class GameActor {
 
     }
 
+    /**
+     * GameActor has taken damage
+     * @param damage
+     */
     public void takeDamage(int damage){
         if(healthPoints - damage <= 0){
             loseALife();
@@ -197,6 +243,9 @@ abstract public class GameActor {
         }
     }
 
+    /**
+     * Update GameActors information after losing a life
+     */
     public void loseALife(){
         if(remainingLives > 1){
             remainingLives -= 1;
@@ -206,12 +255,17 @@ abstract public class GameActor {
         }
         else{
             remainingLives = 0;
+            healthPoints = 0;
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
             xPosition = (int)checkpoint.x;
             yPosition = (int)checkpoint.y;
         }
     }
 
+    /**
+     * Updates the GameActor's on screen appearance indicating if the player is dead or not
+     * Currently this is rarely/not used as the dead players get reset or removed swiftly
+     */
     public void updateTxRegion(){
         if(healthPoints == 0){
             playerCell.setTile(new StaticTiledMapTile(playerTxRegion[0][1]));
@@ -221,14 +275,17 @@ abstract public class GameActor {
         }
     }
 
+    /**
+     * @return the GameActors name
+     */
     public String getName(){
         return name;
     }
 
     /**
-     * Updates the value of players laser to correspond with players current position and heading and returns laser
+     * Updates the value of GameActors laser to correspond with players current position and heading
+     * @return the Laser
      */
-
     public Laser getPlayerLaser(){
         Vector2 laserStart = heading.getPositionInDirection(xPosition,yPosition,heading.heading);
         playerLaser.position.x = laserStart.x;
@@ -237,21 +294,36 @@ abstract public class GameActor {
         return playerLaser;
     }
 
+    /**
+     * updated the checkpoint of the GameActor to its current position
+     */
     public void updateCheckpoint(){
         checkpoint.x = xPosition;
         checkpoint.y = yPosition;
     }
 
+    /**
+     * @param card
+     * @return the position of card in the programCard, null if it is not in the programCard
+     */
     public Integer positionOfSpecificMoveCardInProgramCard(MoveCard card){
         for (int i = 0; i < programCard.length; i++) {
             if(programCard[i] == card) return i;
         }
         return null;
     }
+
+    /**
+     * Add one remaining life to the players tally
+     */
     public void gainALife(){
         remainingLives +=1;
     }
 
+    /**
+     * Builds a string with the most important status information of the GameActor
+     * @return The string
+     */
     public String createPlayerStatus(){
         String string = "";
         string += getName() + ", Lives: ";
@@ -260,4 +332,13 @@ abstract public class GameActor {
         string += powerdownStatus;
         return string;
     }
+
+    public void powerDown(){
+        this.powerdownStatus = 1;
+    };
+
+    public void powerUp(){
+        this.powerdownStatus = 0;
+        this.fullHeal();
+    };
 }

@@ -1,6 +1,8 @@
 package inf112.skeleton.app;
 
+import com.badlogic.gdx.Screen;
 import inf112.skeleton.app.Participants.GameActor;
+import inf112.skeleton.app.Screens.GameScreen;
 import inf112.skeleton.app.Screens.WinnerAnnouncementScreen;
 
 import java.util.*;
@@ -24,58 +26,74 @@ public class Game {
     public void prepareNewRound() {
         if (board.winner == null) {
             playDeck.shuffle();
-            removeWithDeadPlayers();
+            removeDeadPlayers();
             cleanPlayersProgramCard();
-            dealCards();
-        }
-        else{
+            dealCards(board);
+        } else{
             game.setScreen(new WinnerAnnouncementScreen(game, board.winner));
         }
     }
 
-    public void gamePhases() {
-        for (int i = 0; i < 5; i++) {
-            ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
-            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
-            for (GameActor ga : playerList) {
-                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
-                    mcQueue.add(ga.getProgramCard()[i]);
-                    playerQueue.add(ga);
-                }
+    public boolean nextPhase(){
+        ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
+        ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
+        for (GameActor ga : playerList) {
+            if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
+                mcQueue.add(ga.getProgramCard()[currentPhase]);
+                playerQueue.add(ga);
             }
-            while(!mcQueue.isEmpty()){
-                int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                playerQueue.get(nextPlayerToMove).doMove(board, i);
-                playerQueue.remove(nextPlayerToMove);
-                mcQueue.remove(nextPlayerToMove);
-                if(board.playerObjects.size() == 1){
-                    game.setScreen(new WinnerAnnouncementScreen(game, playerList.get(0)));
-                }
-            }
-            board.updateBoard();
         }
-    prepareNewRound();
+        while(!mcQueue.isEmpty()){
+            int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
+            playerQueue.get(nextPlayerToMove).doMove(board, currentPhase);
+            playerQueue.remove(nextPlayerToMove);
+            mcQueue.remove(nextPlayerToMove);
+            if(playerList.size() == 1){
+                game.setScreen(new WinnerAnnouncementScreen(game, playerList.get(0)));
+            }
+        }
+        board.updateBoard();
+
+        if(this.currentPhase == 4){
+            this.currentPhase = 0;
+            this.endOfTurn();
+            return true;
+        } else {
+            this.currentPhase += 1;
+            return false;
+        }
     }
 
-    public void dealCards(){
+    public void endOfTurn(){
+        for (GameActor ga : playerList) {
+            if(ga.getPowerDownStatus() == 2){
+                ga.powerDown();
+
+            } else if (ga.getPowerDownStatus() == 1){
+                ga.powerUp();
+            }
+        }
+        prepareNewRound();
+    }
+
+    public void dealCards(Board board){
         int topOfDeck = 0;
         for(GameActor ga : playerList){
             ga.clearHand();
             int cardsToBeDealt = 9 - (9 - ga.getHealthPoints());
             if(ga.getPowerDownStatus() != 1){
                 ArrayList<MoveCard> cardsToDeal = new ArrayList<MoveCard>(playDeck.listOfMoveCards.subList(topOfDeck, topOfDeck + cardsToBeDealt));
-                ga.receiveCards(cardsToDeal);
+                ga.receiveCards(cardsToDeal, board);
             }
             topOfDeck += cardsToBeDealt;
         }
     }
 
-    public void removeWithDeadPlayers(){
+    public void removeDeadPlayers(){
         int i = 0;
         while(i < playerList.size()){
             if(playerList.get(i).getRemainingLives() == 0){
                 GameActor ga = playerList.get(i);
-                board.playerObjects.remove(ga);
                 playerList.remove(ga);
                 board.playerLayer.setCell(ga.getXPosition(), ga.getYPosition(), null);
             }
@@ -99,28 +117,5 @@ public class Game {
         }
     }
 
-    public boolean runGamePhase(){
-        if(currentPhase < 5){
-            ArrayList<MoveCard> mcQueue = new ArrayList<MoveCard>();
-            ArrayList<GameActor> playerQueue = new ArrayList<GameActor>();
-            for (GameActor ga : playerList) {
-                if(ga.getHealthPoints() > 0 && ga.getPowerDownStatus() != 1) {
-                    mcQueue.add(ga.getProgramCard()[currentPhase]);
-                    playerQueue.add(ga);
-                }
-            }
-            while(!mcQueue.isEmpty()){
-                int nextPlayerToMove = mcQueue.indexOf(Collections.max(mcQueue));
-                playerQueue.get(nextPlayerToMove).doMove(board, currentPhase);
-                playerQueue.remove(nextPlayerToMove);
-                mcQueue.remove(nextPlayerToMove);
-            }
-            board.updateBoard();
-            currentPhase += 1;
-            return false;
-        } else{
-            currentPhase = 0;
-            return true;
-       }
-    }
+
 }
